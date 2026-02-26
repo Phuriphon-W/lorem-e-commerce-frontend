@@ -34,17 +34,17 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
-            className={
-              clsx(
-                "flex h-16 items-center justify-center gap-2 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:py-2 md:px-3",
-                {
-                  "bg-sky-100 text-blue-600": pathname === link.href,
-                }
-              )
-            }
+            className="group flex h-16 items-center justify-center gap-2 p-3 text-sm font-medium 
+            hover:text-yellow-600 md:flex-none md:justify-start md:py-2 md:px-3"
           >
             <FontAwesomeIcon icon={LinkIcon} className="w-6" />
-            <p className="hidden md:block">{link.name}</p>
+            <div className="relative hidden md:block">
+              {link.name}
+              <span 
+                className="absolute left-[50%] -bottom-1 h-[2px] w-0 bg-yellow-600 translate-x-[-50%] 
+                duration-300 group-hover:w-full"
+              />
+            </div>
           </Link>
         );
       })}

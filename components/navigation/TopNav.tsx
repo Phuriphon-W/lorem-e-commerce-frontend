@@ -32,9 +32,16 @@ export default function TopNav() {
           // 'use server';
           // await signOut();
         }}>
-          <button className="flex h-16 cursor-pointer items-center gap-2 px-2 hover:text-red-500 hover:bg-red-100">
+          <button className="group flex h-16 cursor-pointer items-center gap-2 px-2 transition-colors hover:text-red-500">
+            {/* Icon */}
             <FontAwesomeIcon icon={faArrowRightFromBracket} />
-            <div className="hidden md:block">Sign Out</div>
+
+            <div className="hidden md:block relative">
+              Sign Out
+
+              {/* The Underline */}
+              <span className="absolute left-[50%] -bottom-1 h-[2px] w-0 bg-red-500 translate-x-[-50%] duration-300 group-hover:w-full"/>
+            </div>
           </button>
         </form>
 
