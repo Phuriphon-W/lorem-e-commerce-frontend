@@ -17,7 +17,7 @@ export default async function Page() {
         height={1220}
       />
 
-      <div className='border-black border-[1px] mb-10' />
+      <div className='border-black border mb-10' />
 
       {/* Home Advertise Image */}
       <div className="flex justify-center mb-9">
@@ -31,7 +31,7 @@ export default async function Page() {
 
       {/* Product Category */}
       <div className='flex justify-center'>
-        <div className='flex flex-row max-w-[1220px] justify-between gap-4'>
+        <div className='flex flex-row max-w-305 justify-between gap-4'>
           <div>
             <Link href={'/lorem/category/apparel'} prefetch={true}>
               <Image 
@@ -59,7 +59,7 @@ export default async function Page() {
 
       {/* Home Page Product Preview */}
       <div className='flex justify-center mt-9'>
-        <div className="grid grid-cols-3 gap-5 w-[1220px] justify-between">
+        <div className="grid grid-cols-3 gap-5 w-305 justify-between">
           {/* {products.map((product) => (
               <ProductCard key={product.id} product={product} />
           ),)} */}

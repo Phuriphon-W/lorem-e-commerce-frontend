@@ -41,7 +41,7 @@ export default function NavLinks() {
             <div className="relative hidden md:block">
               {link.name}
               <span 
-                className="absolute left-[50%] -bottom-1 h-[2px] w-0 bg-yellow-600 translate-x-[-50%] 
+                className="absolute left-[50%] -bottom-1 h-0.5 w-0 bg-yellow-600 translate-x-[-50%] 
                 duration-300 group-hover:w-full"
               />
             </div>

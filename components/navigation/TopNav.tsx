@@ -40,7 +40,7 @@ export default function TopNav() {
               Sign Out
 
               {/* The Underline */}
-              <span className="absolute left-[50%] -bottom-1 h-[2px] w-0 bg-red-500 translate-x-[-50%] duration-300 group-hover:w-full"/>
+              <span className="absolute left-[50%] -bottom-1 h-0.5 w-0 bg-red-500 translate-x-[-50%] duration-300 group-hover:w-full"/>
             </div>
           </button>
         </form>
