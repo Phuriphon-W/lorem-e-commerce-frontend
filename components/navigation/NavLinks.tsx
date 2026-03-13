@@ -16,11 +16,11 @@ import clsx from 'clsx';
 
 // Map of links to display in the side navigation.
 const links = [
-  { name: 'Home', href: '/lorem', icon: faHouse },
-  { name: 'Products', href: '/lorem/products', icon: faStore },
-  { name: 'Apparels', href: '/lorem/category/apparel', icon: faShirt},
-  { name: 'Accessories', href: '/lorem/category/accessory', icon: faGem},
-  { name: 'Cart', href: '/lorem/cart', icon: faCartShopping },
+  { name: 'Home', href: '/', icon: faHouse },
+  { name: 'Products', href: '/products', icon: faStore },
+  { name: 'Apparels', href: '/category/apparel', icon: faShirt},
+  { name: 'Accessories', href: '/category/accessory', icon: faGem},
+  { name: 'Cart', href: '/cart', icon: faCartShopping },
 ];
 
 export default function NavLinks() {
