@@ -1,4 +1,4 @@
-import { decryptJwt } from "@/utils/jwt";
+import { decryptJwt } from "@/shared/utils/jwt";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { publicRoutes } from "./shared/publicRouteList";

@@ -1,0 +1,37 @@
+'use server'
+
+import { AuthRequest } from "@/shared/types/auth";
+import axios from "axios";
+import { AUTH_BASE_URL } from "@/shared/constants/auth";
+import { cookies } from "next/headers";
+import { parseAndSetCookies } from "@/shared/utils/cookies";
+
+export const signin = async ({ email, password }: AuthRequest) => {
+  try {
+    const options = {
+      url: `${AUTH_BASE_URL}/signin`,
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+      data: {
+        email,
+        password,
+      },
+    };
+
+    const response = await axios.request(options);
+
+    const setCookieHeader = response.headers['set-cookie']
+    if (setCookieHeader) {
+      const cookieStore = await cookies()
+      parseAndSetCookies(cookieStore, setCookieHeader);   
+    }
+
+    return {
+      id: response.data.id,
+      username: response.data.username,
+    };
+  } catch (err) {
+    throw err;
+  }
+};
