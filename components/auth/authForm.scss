@@ -3,3 +3,16 @@
 .ant-card-head-title {
     font-size: 20px;
 }
+
+.ant-btn {
+    background-color: #20233b;
+    color: white;
+    border: none;
+}
+
+.ant-btn:hover {
+    background-color: #474c6e !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 2px 2px 2px #bcbcbc !important;
+}

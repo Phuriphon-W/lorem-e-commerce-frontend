@@ -1,7 +1,19 @@
+import ProductCard from "@/components/products/ProductCard";
+import { Product } from "@/shared/types/product";
+
 export default function ProductPage() {
+    const mockProduct: Product = {
+        id: "mock_id",
+        name: "mock_product",
+        description: "mock_description",
+        price: 20,
+        available: 10,
+        imageUrl: "mock_url"
+    }
+
     return (
         <div>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam consequatur error pariatur facere id ab libero? Sed itaque nulla praesentium assumenda natus quos, temporibus ipsam tenetur, ab voluptatum consequatur commodi.
+            <ProductCard product={mockProduct}/>
         </div>
     )
 }
