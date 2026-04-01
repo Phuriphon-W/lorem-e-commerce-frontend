@@ -31,7 +31,7 @@ export default function RootLayout({
         <TopNav />
         <main className="flex flex-col bg-amber-50 items-center w-full overflow-y-auto h-screen"
         >
-          <div className="w-full bg-white h-full overflow-y-auto">
+          <div className="w-[90%] bg-white h-full overflow-y-auto">
             {children}
           </div>
         </main>
