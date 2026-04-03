@@ -10,18 +10,18 @@ export const signin = async ({
   email,
   password,
 }: AuthRequest): Promise<AuthResponse> => {
-  try {
-    const options = {
-      url: `${AUTH_BASE_URL}/signin`,
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-      data: {
-        email,
-        password,
-      },
-    };
+  const options = {
+    url: `${AUTH_BASE_URL}/signin`,
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
+    data: {
+      email,
+      password,
+    },
+  };
 
+  try {
     const response = await axios.request(options);
 
     const setCookieHeader = response.headers["set-cookie"];
@@ -44,21 +44,21 @@ export const signup = async ({
   password,
   firstName,
   lastName,
-  username
+  username,
 }: AuthRequest): Promise<AuthResponse> => {
+  const options = {
+    url: `${AUTH_BASE_URL}/register`,
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      email,
+      password,
+      firstName,
+      lastName,
+      username,
+    },
+  };
   try {
-    const options = {
-      url: `${AUTH_BASE_URL}/register`,
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        email,
-        password,
-        firstName,
-        lastName,
-        username,
-      },
-    };
     const response = await axios.request(options);
 
     const setCookieHeader = response.headers["set-cookie"];
@@ -71,6 +71,30 @@ export const signup = async ({
       id: response.data.id,
       username: response.data.username,
     };
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const signout = async () => {
+  console.log("sign out called!")
+  const options = {
+    url: `${AUTH_BASE_URL}/signout`,
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
+  };
+
+  try {
+    const res = await axios.request(options);
+    
+    const setCookieHeader = res.headers["set-cookie"];
+    if (setCookieHeader) {
+      const cookieStore = await cookies();
+      parseAndSetCookies(cookieStore, setCookieHeader);
+    }
+    
+    return;
   } catch (err) {
     throw err;
   }
