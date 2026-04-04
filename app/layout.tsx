@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Neuton } from "next/font/google";
 import "./globals.css";
 
 import TopNav from "@/components/navigation/TopNav";
@@ -13,6 +13,12 @@ export const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const neuton = Neuton({
+  weight: ['200', '400', '700', '800'],
+  subsets: ['latin'],
+  display: 'swap'
+})
 
 export const metadata: Metadata = {
   title: "Lorem",
@@ -31,7 +37,7 @@ export default function RootLayout({
         <TopNav />
         <main className="flex flex-col bg-amber-50 items-center w-full overflow-y-auto h-screen"
         >
-          <div className="w-[90%] bg-white h-full overflow-y-auto">
+          <div className="w-[90%] bg-white h-full">
             {children}
           </div>
         </main>
