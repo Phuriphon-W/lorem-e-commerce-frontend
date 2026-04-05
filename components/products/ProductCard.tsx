@@ -1,6 +1,6 @@
 'use client'
 
-import { Product } from "@/shared/types/product";
+import { Product } from "@/shared/interfaces/product";
 import { Typography } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

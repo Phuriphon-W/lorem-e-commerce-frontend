@@ -1,14 +1,4 @@
-import { Category } from "./category"
-
-export interface Product {
-    id: string,
-    name: string,
-    description: string,
-    price: number,
-    available: number,
-    image_url: string,
-    category: Category,
-}
+import { Product } from "../interfaces/product"
 
 export type GetProductsRequest = {
     pageNumber?: number,

@@ -7,6 +7,7 @@ import { downloadStaticFile } from "@/apis/file";
 import { getProducts } from "@/apis/product";
 import { neuton } from "./layout";
 import AnimatedSections from "@/components/home/AnimatedSections";
+import Carousel from "@/components/slide/ImageCarousel";
 
 export default async function Page() {
   const [heroUrl, apparelUrl, accessoryUrl] = await Promise.all([
@@ -14,7 +15,20 @@ export default async function Page() {
     downloadStaticFile({ key: "static/home-apparel.jpg" }),
     downloadStaticFile({ key: "static/home-accessory.jpg" }),
   ]);
+
   const latestProducts = await getProducts({ pageSize: 9, pageNumber: 1 });
+
+  const apparelSlides = await Promise.all([
+    downloadStaticFile({ key: "static/apparelSlide1.jpg" }),
+    downloadStaticFile({ key: "static/apparelSlide2.jpg" }),
+    downloadStaticFile({ key: "static/apparelSlide3.jpg" }),
+  ])
+
+  const accessorySlides = await Promise.all([
+    downloadStaticFile({ key: "static/accessorySlide1.jpg" }),
+    downloadStaticFile({ key: "static/accessorySlide2.jpg" }),
+    downloadStaticFile({ key: "static/accessorySlide3.jpg" }),
+  ])
 
   return (
     <main className="bg-white">
@@ -60,49 +74,28 @@ export default async function Page() {
           ))}
         </div>
       </div>
-
+      
       {/* Product Category */}
-      <div className="flex justify-center mb-16">
-        <div className="flex flex-row max-w-305 justify-between gap-4">
-          <div>
-            <Link href={"/lorem/category/apparel"} prefetch={true}>
-              <Image
-                src="/home/apparel.png"
-                alt="slider image 1"
-                width={610}
-                height={610}
-                className="hover:cursor-pointer hover:opacity-65 transition-opacity duration-300"
-                preview={false}
-              />
-            </Link>
+      <h1 className="text-2xl font-bold text-center mb-7">
+        Check out our catalog
+      </h1>
+      <div className="grid grid-cols-2 gap-x-4 px-10">
+        <Link href={'/products/apparel'}>
+          <Carousel elements={apparelSlides}/>
+          <div className="text-center mt-3 font-bold text-xl">
+            Apparels
           </div>
-          <div>
-            <Link href={"/lorem/category/accessory"} prefetch={true}>
-              <Image
-                src="/home/accessories_edited.png"
-                alt="slider image 1"
-                width={610}
-                height={610}
-                className="hover:cursor-pointer hover:opacity-65 transition-opacity duration-300"
-                preview={false}
-              />
-            </Link>
+        </Link>
+        <Link href={'/products/accessory'}>
+          <Carousel elements={accessorySlides}/>
+          <div className="text-center mt-3 font-bold text-xl">
+            Accessories
           </div>
-        </div>
+        </Link>
       </div>
 
-      {/* Home Page Product Preview */}
-      <div className="flex justify-center mt-9 mb-16">
-        <div className="grid grid-cols-3 gap-5 w-305 justify-between">
-          {/* {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-          ),)} */}
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum
-          voluptate laboriosam voluptatibus placeat molestias neque facilis
-          temporibus quos praesentium! Corrupti molestiae dolorem autem eligendi
-          quia molestias quae non quos qui.
-        </div>
-      </div>
+      {/* Footer */}
+      
     </main>
   );
 }
