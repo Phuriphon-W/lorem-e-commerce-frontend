@@ -92,10 +92,7 @@ export default async function Page() {
             Accessories
           </div>
         </Link>
-      </div>
-
-      {/* Footer */}
-      
+      </div>      
     </main>
   );
 }
