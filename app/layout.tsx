@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Neuton } from "next/font/google";
 import "./globals.css";
 
 import TopNav from "@/components/navigation/TopNav";
+import Footer from "@/components/auth/Footer";
 
 export const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +13,12 @@ export const geistSans = Geist({
 export const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+export const neuton = Neuton({
+  weight: ["200", "400", "700", "800"],
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,13 +33,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col 
-      h-screen items-center`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col 
+      h-screen items-center`}
+      >
         <TopNav />
-        <main className="flex flex-col bg-amber-50 items-center w-full overflow-y-auto h-screen"
-        >
-          <div className="w-[90%] bg-white h-full overflow-y-auto">
-            {children}
+        <main className="bg-amber-50 items-center w-full overflow-y-auto h-screen">
+          <div className="flex flex-col items-center">
+            <div className="w-[90%] bg-white h-full">{children}</div>
+            <Footer />
           </div>
         </main>
       </body>

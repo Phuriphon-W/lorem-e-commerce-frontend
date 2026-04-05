@@ -1,72 +1,98 @@
-import { lusitana } from '@/ui/font'
-import Image from 'next/image';
-import Link from 'next/link';
-// import ProductCard from '@/app/ui/products/card';
-// import { getProductByName } from '@/app/lib/data';
-import { DEFAULT_PRODUCT_NAMES } from '@/utils/defaultProductLanding';
+"use server";
+
+import { Image } from "antd";
+import ProductCard from "@/components/products/ProductCard";
+import Link from "next/link";
+import { downloadStaticFile } from "@/apis/file";
+import { getProducts } from "@/apis/product";
+import { neuton } from "./layout";
+import AnimatedSections from "@/components/home/AnimatedSections";
+import Carousel from "@/components/slide/ImageCarousel";
 
 export default async function Page() {
-  //const products = await Promise.all(DEFAULT_PRODUCT_NAMES.map(name => getProductByName(name)));
+  const [heroUrl, apparelUrl, accessoryUrl] = await Promise.all([
+    downloadStaticFile({ key: "static/hero.jpg" }),
+    downloadStaticFile({ key: "static/home-apparel.jpg" }),
+    downloadStaticFile({ key: "static/home-accessory.jpg" }),
+  ]);
+
+  const latestProducts = await getProducts({ pageSize: 9, pageNumber: 1 });
+
+  const apparelSlides = await Promise.all([
+    downloadStaticFile({ key: "static/apparelSlide1.jpg" }),
+    downloadStaticFile({ key: "static/apparelSlide2.jpg" }),
+    downloadStaticFile({ key: "static/apparelSlide3.jpg" }),
+  ])
+
+  const accessorySlides = await Promise.all([
+    downloadStaticFile({ key: "static/accessorySlide1.jpg" }),
+    downloadStaticFile({ key: "static/accessorySlide2.jpg" }),
+    downloadStaticFile({ key: "static/accessorySlide3.jpg" }),
+  ])
 
   return (
-    <main>
-      <Image
-        src='/home/hero.png'
-        alt='hero image'
-        width={1220}
-        height={1220}
-      />
+    <main className="bg-white">
+      {/* Hero Image */}
+      <div className="relative ">
+        <Image
+          src={heroUrl.downloadUrl}
+          alt="hero image"
+          width="100%"
+          height="100%"
+          preview={false}
+        />
 
-      <div className='border-black border mb-10' />
-
-      {/* Home Advertise Image */}
-      <div className="flex justify-center mb-9">
-          <Image 
-              src='/home/Slides_1.png' 
-              alt='slider image 1'
-              width={1220}
-              height={1220}
-          />
-      </div>
-
-      {/* Product Category */}
-      <div className='flex justify-center'>
-        <div className='flex flex-row max-w-305 justify-between gap-4'>
-          <div>
-            <Link href={'/lorem/category/apparel'} prefetch={true}>
-              <Image 
-                  src='/home/apparel.png' 
-                  alt='slider image 1'
-                  width={610}
-                  height={610}
-                  className='hover:cursor-pointer hover:opacity-65 transition-opacity duration-300'
-              />
-            </Link>
+        {/* Centered text */}
+        <div
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+          text-white ${neuton.className}`}
+        >
+          <div className="text-[104px] font-extralight text-center leading-none">
+            Lorem
           </div>
-          <div>
-            <Link href={'/lorem/category/accessory'} prefetch={true}>
-              <Image 
-                  src='/home/accessories_edited.png' 
-                  alt='slider image 1'
-                  width={610}
-                  height={610}
-                  className='hover:cursor-pointer hover:opacity-65 transition-opacity duration-300'
-              />
-            </Link>
+          <div className="text-[42px] font-light text-center">
+            Define your style
           </div>
         </div>
       </div>
 
-      {/* Home Page Product Preview */}
-      <div className='flex justify-center mt-9'>
-        <div className="grid grid-cols-3 gap-5 w-305 justify-between">
-          {/* {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-          ),)} */}
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum voluptate laboriosam voluptatibus placeat molestias neque facilis temporibus quos praesentium! Corrupti molestiae dolorem autem eligendi quia molestias quae non quos qui.
+      <AnimatedSections
+        accessoryUrl={accessoryUrl.downloadUrl}
+        apparelUrl={apparelUrl.downloadUrl}
+      />
+
+      {/* Latest Product */}
+      <div className="mb-16 w-full flex flex-col items-center">
+        <div className="text-2xl font-bold text-center">
+          Our Latest Products
+        </div>
+
+        {/* Product Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-5 mt-8 w-[75%] md:w-[90%]">
+          {latestProducts.products.map((product) => (
+            <ProductCard product={product} key={product.id}/>
+          ))}
         </div>
       </div>
       
+      {/* Product Category */}
+      <h1 className="text-2xl font-bold text-center mb-7">
+        Check out our catalog
+      </h1>
+      <div className="grid grid-cols-2 gap-x-4 px-10">
+        <Link href={'/products/apparel'}>
+          <Carousel elements={apparelSlides}/>
+          <div className="text-center mt-3 font-bold text-xl">
+            Apparels
+          </div>
+        </Link>
+        <Link href={'/products/accessory'}>
+          <Carousel elements={accessorySlides}/>
+          <div className="text-center mt-3 font-bold text-xl">
+            Accessories
+          </div>
+        </Link>
+      </div>      
     </main>
   );
 }

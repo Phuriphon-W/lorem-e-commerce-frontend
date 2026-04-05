@@ -77,7 +77,6 @@ export const signup = async ({
 };
 
 export const signout = async () => {
-  console.log("sign out called!")
   const options = {
     url: `${AUTH_BASE_URL}/signout`,
     method: "post",

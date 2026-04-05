@@ -1,8 +1,11 @@
-export interface Product {
-    id: string,
-    name: string,
-    description: string,
-    price: number,
-    available: number,
-    imageUrl: string,
+import { Product } from "../interfaces/product"
+
+export type GetProductsRequest = {
+    pageNumber?: number,
+    pageSize?: number,
+}
+
+export type GetProductsResponse = {
+    products: Product[],
+    total: number,
 }
