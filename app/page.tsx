@@ -8,15 +8,18 @@ import { getProducts } from "@/apis/product";
 import { neuton } from "./layout";
 import AnimatedSections from "@/components/home/AnimatedSections";
 import Carousel from "@/components/slide/ImageCarousel";
+import { getServerCookies } from "@/shared/utils/cookies";
 
 export default async function Page() {
+  const cookieString = await getServerCookies();
+
   const [heroUrl, apparelUrl, accessoryUrl] = await Promise.all([
     downloadStaticFile({ key: "static/hero.jpg" }),
     downloadStaticFile({ key: "static/home-apparel.jpg" }),
     downloadStaticFile({ key: "static/home-accessory.jpg" }),
   ]);
 
-  const latestProducts = await getProducts({ pageSize: 9, pageNumber: 1 });
+  const latestProducts = await getProducts({ pageSize: 9, pageNumber: 1 }, cookieString);
 
   const apparelSlides = await Promise.all([
     downloadStaticFile({ key: "static/apparelSlide1.jpg" }),

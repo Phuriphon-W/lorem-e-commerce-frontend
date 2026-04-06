@@ -1,23 +1,16 @@
-import ProductCard from "@/components/products/ProductCard";
-import { Product } from "@/shared/interfaces/product";
+'use server'
 
-export default function ProductPage() {
-    const mockProduct: Product = {
-        id: "mock_id",
-        name: "mock_product",
-        description: "mock_description",
-        price: 20,
-        available: 10,
-        image_url: "mock_url",
-        category: {
-            id: "mock_cat_id",
-            name: "mock_vat_name"
-        }
-    }
+import { getProducts } from "@/apis/product"
+import ProductCardContainer from "@/components/global/ProductCardContainer"
+import { getServerCookies } from "@/shared/utils/cookies"
 
+export default async function ProductPage() {
+    const cookieString = await getServerCookies();
+    const initialProducts = await getProducts({ pageNumber:1, pageSize: 12 }, cookieString);
+    
     return (
-        <div>
-            <ProductCard product={mockProduct}/>
+        <div className="flex flex-col items-center">
+            <ProductCardContainer columns={3} initialProducts={initialProducts.products}/>
         </div>
     )
 }

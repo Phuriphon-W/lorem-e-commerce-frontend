@@ -34,15 +34,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col 
-      h-screen items-center`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col h-screen overflow-hidden`}
       >
-        <TopNav />
-        <main className="bg-amber-50 items-center w-full overflow-y-auto h-screen">
-          <div className="flex flex-col items-center">
-            <div className="w-[90%] bg-white h-full">{children}</div>
+        <div className="shrink-0 w-full z-10">
+          <TopNav />
+        </div>
+
+        <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
+          
+          <div className="w-[90%] bg-white grow flex flex-col">
+            {children}
+          </div>
+
+          <div className="w-full shrink-0">
             <Footer />
           </div>
+          
         </main>
       </body>
     </html>
