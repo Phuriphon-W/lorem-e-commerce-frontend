@@ -3,15 +3,19 @@ import {
   GetProductsRequest,
   GetProductsResponse,
 } from "@/shared/types/product";
-import { cookies } from "next/headers";
 import axios from "axios";
 
-export const getProducts = async ({
-  pageSize,
-  pageNumber,
-}: GetProductsRequest): Promise<GetProductsResponse> => {
-  const cookieStore = await cookies();
-  const authToken = cookieStore.get("authToken")?.value;
+export const getProducts = async (
+  { pageSize, pageNumber, category, search, orderBy }: GetProductsRequest,
+  cookieString?: string,
+): Promise<GetProductsResponse> => {
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+
+  if (cookieString) {
+    headers.Cookie = cookieString;
+  }
 
   const options = {
     method: "GET",
@@ -19,11 +23,12 @@ export const getProducts = async ({
     params: {
       pageNumber: pageNumber,
       pageSize: pageSize,
+      category: category,
+      search: search,
+      orderBy: orderBy,
     },
-    headers: {
-      Accept: "application/json, application/problem+json",
-      Cookie: authToken ? `authToken=${authToken}` : "",
-    },
+    headers: headers,
+    withCredentials: true,
   };
 
   try {
@@ -35,6 +40,11 @@ export const getProducts = async ({
     };
   } catch (err) {
     if (axios.isAxiosError(err)) {
+      const status = err.response?.status;
+      if (status === 401 || status === 403) {
+        return { products: [], total: 0 };
+      }
+
       console.error("Axios error:", err.response?.data || err.message);
       return { products: [], total: 0 };
     }

@@ -1,25 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Neuton } from "next/font/google";
 import "./globals.css";
 
 import TopNav from "@/components/navigation/TopNav";
 import Footer from "@/components/auth/Footer";
-
-export const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-export const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const neuton = Neuton({
-  weight: ["200", "400", "700", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
+import { geistMono, geistSans } from "@/shared/fonts/font";
+import { ConfigProvider } from "antd";
+import { MAIN_THEME } from "@/shared/colors";
 
 export const metadata: Metadata = {
   title: "Lorem",
@@ -34,13 +20,26 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col 
-      h-screen items-center`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col h-screen overflow-hidden`}
       >
-        <TopNav />
-        <main className="bg-amber-50 items-center w-full overflow-y-auto h-screen">
-          <div className="flex flex-col items-center">
-            <div className="w-[90%] bg-white h-full">{children}</div>
+        <div className="shrink-0 w-full z-10">
+          <TopNav />
+        </div>
+
+        <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
+          <div className="w-[90%] bg-white grow flex flex-col">
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: MAIN_THEME.primary,
+                },
+              }}
+            >
+              {children}
+            </ConfigProvider>
+          </div>
+
+          <div className="w-full shrink-0">
             <Footer />
           </div>
         </main>

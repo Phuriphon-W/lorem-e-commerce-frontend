@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 export function parseAndSetCookies(cookieStore: any, header: string[]) {
   header.forEach(cookieStr => {
     const parts = cookieStr.split(';').map(p => p.trim());
@@ -19,4 +21,11 @@ export function parseAndSetCookies(cookieStore: any, header: string[]) {
 
     cookieStore.set(name, value, config);
   });
+}
+
+export async function getServerCookies() {
+  const cookieStore = await cookies();
+  const authCookie = cookieStore.get("authToken")
+  const cookieString = authCookie ? `${authCookie.name}=${authCookie.value}` : undefined;
+  return cookieString;
 }
