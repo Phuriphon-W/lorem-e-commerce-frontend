@@ -5,41 +5,36 @@ import { OrderBy } from "@/shared/enums/orderBy";
 import { Input, Select } from "antd";
 
 type SearchBarProps = {
-  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
-  setCategory: React.Dispatch<React.SetStateAction<Category>>;
-  setOrderBy: React.Dispatch<React.SetStateAction<OrderBy>>;
+  currentSearch: string;
+  currentCategory: Category;
+  currentOrderBy: OrderBy;
+  onSearchChange: (value: string) => void;
+  onCategoryChange: (value: string) => void;
+  onOrderByChange: (value: string) => void;
 };
 
-export default function SearchBar({ 
-  setSearchKeyword,
-  setCategory,
-  setOrderBy,
+export default function SearchBar({
+  currentSearch,
+  currentCategory,
+  currentOrderBy,
+  onSearchChange,
+  onCategoryChange,
+  onOrderByChange,
 }: SearchBarProps) {
-  const onSearch = (value: any) => {
-    setSearchKeyword(value);
-  };
-
-  const onCategoryChange = (value: any) => {
-    setCategory(value);
-  }
-
-  const onOrderByChange = (value: any) => {
-    setOrderBy(value);
-  }
-
   return (
-    <div className="w-[90%] flex gap-2">
+    <div className="w-[90%] flex flex-col md:flex-row gap-2">
       {/* Keyword Search */}
       <Input.Search
-        size="large"
         placeholder="Enter Product Name"
-        onSearch={onSearch}
+        defaultValue={currentSearch}
+        onSearch={onSearchChange}
+        allowClear
       />
 
       {/* Category Filter */}
-      <Select 
-        placeholder="Choose a Category"
-        style={{ width: "15%" }}
+      <Select
+        value={currentCategory} // Tie the displayed value to the URL state
+        className="w-full md:w-[15%]"
         options={[
           { value: "", label: "All Products" },
           { value: Category.Apparel, label: "Apparels" },
@@ -49,12 +44,12 @@ export default function SearchBar({
       />
 
       {/* Order By Filter */}
-      <Select 
-        placeholder="Order By"
-        style={{ width: "18%" }}
+      <Select
+        value={currentOrderBy} // Tie the displayed value to the URL state
+        className="w-full md:w-[18%]"
         options={[
-          { value: OrderBy.DateAsc, label: "Oldest First" },
           { value: OrderBy.DateDsc, label: "Newest Arrivals" },
+          { value: OrderBy.DateAsc, label: "Oldest First" },
           { value: OrderBy.NameAsc, label: "Name: A to Z" },
           { value: OrderBy.NameDsc, label: "Name: Z to A" },
           { value: OrderBy.PriceAsc, label: "Price: Low to High" },
