@@ -1,25 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Neuton } from "next/font/google";
 import "./globals.css";
 
 import TopNav from "@/components/navigation/TopNav";
 import Footer from "@/components/auth/Footer";
-
-export const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-export const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const neuton = Neuton({
-  weight: ["200", "400", "700", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
+import { geistMono, geistSans } from "@/shared/fonts/font";
+import { ConfigProvider } from "antd";
+import { MAIN_THEME } from "@/shared/colors";
 
 export const metadata: Metadata = {
   title: "Lorem",
@@ -41,15 +27,21 @@ export default function RootLayout({
         </div>
 
         <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
-          
           <div className="w-[90%] bg-white grow flex flex-col">
-            {children}
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: MAIN_THEME.primary,
+                },
+              }}
+            >
+              {children}
+            </ConfigProvider>
           </div>
 
           <div className="w-full shrink-0">
             <Footer />
           </div>
-          
         </main>
       </body>
     </html>

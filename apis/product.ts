@@ -37,6 +37,11 @@ export const getProducts = async (
     };
   } catch (err) {
     if (axios.isAxiosError(err)) {
+      const status = err.response?.status;
+      if (status === 401 || status === 403) {
+        return { products: [], total: 0 };
+      }
+
       console.error("Axios error:", err.response?.data || err.message);
       return { products: [], total: 0 };
     }

@@ -1,4 +1,4 @@
-import { geistSans, geistMono } from "../layout";
+import { geistSans, geistMono } from "@/shared/fonts/font";
 
 export default function AuthLayout({
   children,

@@ -5,7 +5,7 @@ import ProductCard from "@/components/products/ProductCard";
 import Link from "next/link";
 import { downloadStaticFile } from "@/apis/file";
 import { getProducts } from "@/apis/product";
-import { neuton } from "./layout";
+import { neuton } from "@/shared/fonts/font";
 import AnimatedSections from "@/components/home/AnimatedSections";
 import Carousel from "@/components/slide/ImageCarousel";
 import { getServerCookies } from "@/shared/utils/cookies";

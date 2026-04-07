@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --text-active-primary: oklch(68.1% 0.162 75.834);
+  --text-active-shadow: oklch(92.268% 0.0359 83.759);
 }
 
 /* @theme inline {
@@ -33,3 +35,13 @@ html {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
 }
+
+/* Pagination Item */
+.ant-pagination-item-active {
+  border-color: var(--text-active-primary) !important;
+}
+
+.ant-pagination-item-active a {
+  color: var(--text-active-primary) !important;
+}
+/*  */
