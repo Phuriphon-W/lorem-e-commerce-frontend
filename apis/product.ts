@@ -6,7 +6,7 @@ import {
 import axios from "axios";
 
 export const getProducts = async (
-  { pageSize, pageNumber }: GetProductsRequest,
+  { pageSize, pageNumber, category, search, orderBy }: GetProductsRequest,
   cookieString?: string,
 ): Promise<GetProductsResponse> => {
   const headers: Record<string, string> = {
@@ -23,6 +23,9 @@ export const getProducts = async (
     params: {
       pageNumber: pageNumber,
       pageSize: pageSize,
+      category: category,
+      search: search,
+      orderBy: orderBy,
     },
     headers: headers,
     withCredentials: true,

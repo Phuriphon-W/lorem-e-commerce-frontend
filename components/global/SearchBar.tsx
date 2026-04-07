@@ -1,13 +1,21 @@
 "use client";
 
 import { Input } from "antd";
-import { ConfigProvider } from "antd";
-import { MAIN_THEME } from "@/shared/colors";
 
-export default function SearchBar() {
+type SearchBarProps = {
+  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>
+}
+
+export default function SearchBar({
+  setSearchKeyword,
+}: SearchBarProps) {
+  const onSearch = (value: any) => {
+    setSearchKeyword(value)
+  }
+
   return (
     <div className="w-[90%]">
-        <Input.Search size="large" placeholder="Enter Product Name"/>
+        <Input.Search size="large" placeholder="Enter Product Name" onSearch={onSearch}/>
     </div>
   );
 }
