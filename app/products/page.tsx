@@ -10,10 +10,10 @@ import {
   GetProductsRequest,
 } from "@/shared/types/product";
 import { Pagination } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react"; // Added Suspense
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
-export default function ProductPage() {
+function ProductContent() {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
@@ -34,7 +34,7 @@ export default function ProductPage() {
       params.set(key, String(value));
       if (key === "category") params.set("page", "1");
     } else {
-      params.delete(key); // Clean up the URL if the value is empty
+      params.delete(key); 
     }
 
     router.push(`${pathName}?${params.toString()}`);
@@ -68,7 +68,7 @@ export default function ProductPage() {
   }, [searchKeyword, category, orderBy, page]);
 
   return (
-    <div className="flex flex-col items-center py-10">
+    <div className="flex flex-col items-center py-10 w-full">
       <h1 className="mb-4 font-medium text-[40px]">Our Products</h1>
       <SearchBar
         currentSearch={searchKeyword}
@@ -79,7 +79,21 @@ export default function ProductPage() {
         onOrderByChange={(val) => updateURL("orderBy", val)}
       />
       <ProductCardContainer columns={3} products={products.products} />
-      <Pagination total={products.total} pageSize={12} current={page} onChange={(val) => updateURL("page", val)} showQuickJumper />
+      <Pagination 
+        total={products.total} 
+        pageSize={12} 
+        current={page} 
+        onChange={(val) => updateURL("page", val)} 
+        showQuickJumper 
+      />
     </div>
+  );
+}
+
+export default function ProductPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center py-20 text-xl">Loading products...</div>}>
+      <ProductContent />
+    </Suspense>
   );
 }
