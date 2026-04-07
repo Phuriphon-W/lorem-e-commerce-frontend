@@ -29,12 +29,16 @@ export default function ProductPage() {
     }
     
     fetchProducts({ pageNumber: page, pageSize: 12, category, search: searchKeyword, orderBy })
-  }, [searchKeyword])
+  }, [searchKeyword, category, orderBy])
 
   return (
     <div className="flex flex-col items-center py-10">
       <h1 className="mb-4 font-medium text-[40px]">Our Products</h1>
-        <SearchBar setSearchKeyword={setSearchKeyword}/>
+        <SearchBar 
+          setSearchKeyword={setSearchKeyword}
+          setCategory={setCategory}
+          setOrderBy={setOrderBy}
+        />
         <ProductCardContainer
           columns={3}
           products={products.products}
