@@ -92,7 +92,7 @@ function ProductContent() {
 
 export default function ProductPage() {
   return (
-    <Suspense fallback={<div className="flex justify-center py-20 text-xl">Loading products...</div>}>
+    <Suspense fallback={<div className="flex justify-center py-20 text-xl"></div>}>
       <ProductContent />
     </Suspense>
   );
