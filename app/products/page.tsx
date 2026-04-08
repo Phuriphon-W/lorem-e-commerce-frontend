@@ -10,8 +10,9 @@ import {
   GetProductsRequest,
 } from "@/shared/types/product";
 import { Pagination } from "antd";
-import { useEffect, useState, Suspense } from "react"; // Added Suspense
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { PAGE_SIZE } from "@/shared/constants";
 
 function ProductContent() {
   const router = useRouter();
@@ -60,7 +61,7 @@ function ProductContent() {
 
     fetchProducts({
       pageNumber: page,
-      pageSize: 12,
+      pageSize: PAGE_SIZE,
       category,
       search: searchKeyword,
       orderBy,
@@ -81,7 +82,7 @@ function ProductContent() {
       <ProductCardContainer columns={3} products={products.products} />
       <Pagination 
         total={products.total} 
-        pageSize={12} 
+        pageSize={PAGE_SIZE} 
         current={page} 
         onChange={(val) => updateURL("page", val)} 
         showQuickJumper 

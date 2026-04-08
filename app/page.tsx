@@ -83,13 +83,13 @@ export default async function Page() {
         Check out our catalog
       </h1>
       <div className="grid grid-cols-2 gap-x-4 px-10">
-        <Link href={'/products/apparel'}>
+        <Link href={'/apparel'}>
           <Carousel elements={apparelSlides}/>
           <div className="text-center mt-3 font-bold text-xl">
             Apparels
           </div>
         </Link>
-        <Link href={'/products/accessory'}>
+        <Link href={'/accessory'}>
           <Carousel elements={accessorySlides}/>
           <div className="text-center mt-3 font-bold text-xl">
             Accessories
