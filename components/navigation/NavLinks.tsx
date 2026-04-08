@@ -18,8 +18,8 @@ import clsx from 'clsx';
 const links = [
   { name: 'Home', href: '/', icon: faHouse },
   { name: 'Products', href: '/products', icon: faStore },
-  { name: 'Apparels', href: '/category/apparel', icon: faShirt},
-  { name: 'Accessories', href: '/category/accessory', icon: faGem},
+  { name: 'Apparels', href: '/apparel', icon: faShirt},
+  { name: 'Accessories', href: '/accessory', icon: faGem},
   { name: 'Cart', href: '/cart', icon: faCartShopping },
 ];
 
