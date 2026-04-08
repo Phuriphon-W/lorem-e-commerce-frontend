@@ -10,10 +10,11 @@ import {
   GetProductsRequest,
 } from "@/shared/types/product";
 import { Pagination } from "antd";
-import { useEffect, useState, Suspense } from "react"; // Added Suspense
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { PAGE_SIZE } from "@/shared/constants";
 
-function ProductContent() {
+function AccessoryContent() {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
@@ -25,7 +26,7 @@ function ProductContent() {
 
   const searchKeyword = searchParams.get("search") || "";
   const page = Number(searchParams.get("page")) || 1;
-  const category = (searchParams.get("category") as Category) || Category.Empty;
+  const category = Category.Accessory;
   const orderBy = (searchParams.get("orderBy") as OrderBy) || OrderBy.DateDsc;
 
   const updateURL = (key: string, value: string | number) => {
@@ -60,16 +61,16 @@ function ProductContent() {
 
     fetchProducts({
       pageNumber: page,
-      pageSize: 12,
+      pageSize: PAGE_SIZE,
       category,
       search: searchKeyword,
       orderBy,
     });
-  }, [searchKeyword, category, orderBy, page]);
+  }, [searchKeyword, orderBy, page]);
 
   return (
     <div className="flex flex-col items-center py-10 w-full">
-      <h1 className="mb-4 font-medium text-[40px]">Our Products</h1>
+      <h1 className="mb-4 font-medium text-[40px]">Accessories</h1>
       <SearchBar
         currentSearch={searchKeyword}
         currentCategory={category}
@@ -77,11 +78,12 @@ function ProductContent() {
         onSearchChange={(val) => updateURL("search", val)}
         onCategoryChange={(val) => {updateURL("category", val)}}
         onOrderByChange={(val) => updateURL("orderBy", val)}
+        categorySelect={false}
       />
       <ProductCardContainer columns={3} products={products.products} />
       <Pagination 
         total={products.total} 
-        pageSize={12} 
+        pageSize={PAGE_SIZE} 
         current={page} 
         onChange={(val) => updateURL("page", val)} 
         showQuickJumper 
@@ -93,7 +95,7 @@ function ProductContent() {
 export default function ProductPage() {
   return (
     <Suspense fallback={<div className="flex justify-center py-20 text-xl"></div>}>
-      <ProductContent />
+      <AccessoryContent />
     </Suspense>
   );
 }
