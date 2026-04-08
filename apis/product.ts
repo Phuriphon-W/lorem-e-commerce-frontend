@@ -1,7 +1,9 @@
 import { serverAddr } from "@/shared/constants";
+import { Product } from "@/shared/interfaces/product";
 import {
   GetProductsRequest,
   GetProductsResponse,
+  GetProductByIdRequest,
 } from "@/shared/types/product";
 import axios from "axios";
 
@@ -39,23 +41,33 @@ export const getProducts = async (
       total: response.data.total,
     };
   } catch (err) {
-    if (axios.isAxiosError(err)) {
-      const status = err.response?.status;
-      if (status === 401 || status === 403) {
-        return { products: [], total: 0 };
-      }
+    throw err
+  }
+};
 
-      console.error("Axios error:", err.response?.data || err.message);
-      return { products: [], total: 0 };
-    }
+export const getProductById = async (
+  { id }: GetProductByIdRequest,
+  cookieString?: string,
+): Promise<Product> => {
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  }
 
-    // standard JavaScript Error
-    if (err instanceof Error) {
-      console.error("Standard error:", err.message);
-      return { products: [], total: 0 };
-    }
+  if (cookieString) {
+    headers.Cookie = cookieString;
+  }
 
-    console.error("An unknown error occurred:", err);
-    return { products: [], total: 0 };
+  const options = {
+    method: "GET",
+    url: `${serverAddr}/api/product/${id}`,
+    headers: headers,
+    withCredentials: true,
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response.data;
+  } catch (err) {
+    throw err;
   }
 };

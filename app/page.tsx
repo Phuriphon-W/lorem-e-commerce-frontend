@@ -1,5 +1,3 @@
-"use server";
-
 import { Image } from "antd";
 import ProductCard from "@/components/products/ProductCard";
 import Link from "next/link";
@@ -34,7 +32,7 @@ export default async function Page() {
   ])
 
   return (
-    <main className="bg-white">
+    <main className="bg-white rounded-b-2xl">
       {/* Hero Image */}
       <div className="relative ">
         <Image
@@ -82,7 +80,7 @@ export default async function Page() {
       <h1 className="text-2xl font-bold text-center mb-7">
         Check out our catalog
       </h1>
-      <div className="grid grid-cols-2 gap-x-4 px-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-10 mb-10 round">
         <Link href={'/apparel'}>
           <Carousel elements={apparelSlides}/>
           <div className="text-center mt-3 font-bold text-xl">

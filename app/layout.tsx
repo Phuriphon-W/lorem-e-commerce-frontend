@@ -27,7 +27,7 @@ export default function RootLayout({
         </div>
 
         <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
-          <div className="w-[90%] bg-white grow flex flex-col">
+          <div className="w-[80%] bg-white grow flex flex-col rounded-2xl">
             <ConfigProvider
               theme={{
                 token: {
@@ -39,7 +39,7 @@ export default function RootLayout({
             </ConfigProvider>
           </div>
 
-          <div className="w-full shrink-0">
+          <div className="w-full shrink-0 mt-8">
             <Footer />
           </div>
         </main>
