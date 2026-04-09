@@ -9,6 +9,7 @@ import { MAIN_THEME } from "@/shared/colors";
 import { AuthProvider } from "@/shared/hooks/useAuthContext";
 import { cookies } from "next/headers";
 import { decryptJwt } from "@/shared/utils/jwt";
+import PageWrapper from "@/components/global/PageWrapper";
 
 export const metadata: Metadata = {
   title: "Lorem",
@@ -33,7 +34,7 @@ export default async function RootLayout({
         </div>
 
         <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
-          <div className="w-[80%] bg-white grow flex flex-col rounded-2xl">
+          <PageWrapper>
             <ConfigProvider
               theme={{
                 token: {
@@ -45,7 +46,7 @@ export default async function RootLayout({
               {children}
             </AuthProvider>
             </ConfigProvider>
-          </div>
+          </PageWrapper>
 
           <div className="w-full shrink-0 mt-8">
             <Footer />
