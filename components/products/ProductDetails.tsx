@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import { Product } from "@/shared/interfaces/product";
@@ -7,6 +7,9 @@ import { Typography, Button, message } from "antd";
 import Image from "next/image";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { InputNumber } from "antd";
+import { addCartItem } from "@/apis/cart";
+import { useAuthContext } from "@/shared/hooks/useAuthContext";
+import axios from "axios";
 
 const { Title, Text } = Typography;
 
@@ -17,20 +20,39 @@ type ProductDetailsProps = {
 export default function ProductDetails({ product }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
+  const { userId } = useAuthContext();
 
   const handleAddToCart = async () => {
+    if (!userId) return;
     setIsAdding(true);
-    try {
-      const response = await fetch('/api/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: product.id, quantity: quantity }),
-      });
 
-      if (!response.ok) throw new Error('Failed to add item');
-      message.success(`Added ${quantity} ${product.name} to your cart!`);
+    try {
+      const response = await addCartItem({
+        userId,
+        productId: product.id,
+        quantity,
+      });
+      message.success(`Added ${quantity} items to your cart!`);
     } catch (error) {
-      message.error("Failed to add product to cart. Please try again.");
+      if (axios.isAxiosError(error)) {
+        const serverMessage = error.response?.data?.detail;
+
+        if (serverMessage) {
+          message.error({
+            content: serverMessage,
+            style: {
+              maxWidth: "350px", 
+              marginLeft: "auto",
+              marginRight: "auto",
+            },
+          });
+        } else {
+          // Fallback if the server crashed and didn't send our formatted JSON
+          message.error("Failed to add product to cart. Please try again.");
+        }
+      } else {
+        message.error("An unexpected error occurred.");
+      }
     } finally {
       setIsAdding(false);
     }
@@ -38,7 +60,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   return (
     <div className="w-full min-h-[calc(100vh-100px)] flex flex-col md:flex-row p-6 md:p-10 gap-8 lg:gap-16 bg-white rounded-2xl shadow-sm border border-gray-100">
-      
       {/* Image Section */}
       <div className="relative w-full md:w-1/2 shrink-0 aspect-square bg-gray-50 rounded-xl overflow-hidden shadow-inner">
         <Image
@@ -52,11 +73,12 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
       {/* Text Section */}
       <div className="flex flex-col w-full flex-1 h-full justify-between">
-        
         {/* Top Info */}
         <div className="flex flex-col gap-4">
-          <Title level={2} className="mb-0!">{product.name}</Title>
-          
+          <Title level={2} className="mb-0!">
+            {product.name}
+          </Title>
+
           <Text className="text-xl! md:text-2xl! font-bold">
             ${product.price.toFixed(2)}
           </Text>
@@ -64,7 +86,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           {/* Specs List */}
           <div className="flex flex-col mt-4">
             <ItemDetail label="Category" details={product.category.name} />
-            <ItemDetail label="Available" details={`${product.available} in stock`} />
+            <ItemDetail
+              label="Available"
+              details={`${product.available} in stock`}
+            />
             <div className="mt-4 text-gray-600 leading-relaxed">
               {product.description}
             </div>
@@ -73,7 +98,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
         {/* Bottom Actions (Quantity & Cart) */}
         <div className="mt-8 flex flex-col gap-6 pt-6 border-t border-gray-100 w-full">
-          
           {/* Quantity Selector */}
           <div className="flex items-center gap-4">
             <span className="font-semibold text-gray-700">Quantity:</span>
@@ -88,18 +112,17 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           </div>
 
           {/* Add to Cart Button */}
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             size="large"
             icon={<ShoppingCartOutlined />}
             loading={isAdding}
             onClick={handleAddToCart}
-            className="w-full h-12 text-lg font-semibold border-none shadow-md" 
+            className="w-full h-12 text-lg font-semibold border-none shadow-md"
           >
             Add to Cart
           </Button>
         </div>
-
       </div>
     </div>
   );
