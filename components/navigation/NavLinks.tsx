@@ -12,20 +12,17 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
-import clsx from 'clsx';
 
 // Map of links to display in the side navigation.
 const links = [
   { name: 'Home', href: '/', icon: faHouse },
-  { name: 'Products', href: '/products', icon: faStore },
+  { name: 'Products', href: '/product', icon: faStore },
   { name: 'Apparels', href: '/apparel', icon: faShirt},
   { name: 'Accessories', href: '/accessory', icon: faGem},
   { name: 'Cart', href: '/cart', icon: faCartShopping },
 ];
 
 export default function NavLinks() {
-  const pathname = usePathname()
-
   return (
     <>
       {links.map((link) => {

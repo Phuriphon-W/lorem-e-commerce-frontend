@@ -13,3 +13,7 @@ export type GetProductsResponse = {
     products: Product[],
     total: number,
 }
+
+export type GetProductByIdRequest = {
+    id: string,
+}

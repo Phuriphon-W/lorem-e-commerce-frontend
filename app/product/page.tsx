@@ -66,6 +66,7 @@ function ProductContent() {
       search: searchKeyword,
       orderBy,
     });
+
   }, [searchKeyword, category, orderBy, page]);
 
   return (
