@@ -55,7 +55,7 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
     try {
       await apiAction(values);
       message.success({ content: `${formName} Successfully`, duration: 2 });
-      router.push("/");
+      router.push("/", { scroll: true });
     } catch (err) {
       message.error({
         content: (err as any)?.detail
