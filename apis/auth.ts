@@ -1,10 +1,6 @@
-"use server";
-
 import { AuthRequest, AuthResponse } from "@/shared/types/auth";
 import axios from "axios";
 import { AUTH_BASE_URL } from "@/shared/constants/auth";
-import { cookies } from "next/headers";
-import { parseAndSetCookies } from "@/shared/utils/cookies";
 
 export const signin = async ({
   email,
@@ -23,12 +19,6 @@ export const signin = async ({
 
   try {
     const response = await axios.request(options);
-
-    const setCookieHeader = response.headers["set-cookie"];
-    if (setCookieHeader) {
-      const cookieStore = await cookies();
-      parseAndSetCookies(cookieStore, setCookieHeader);
-    }
 
     return {
       id: response.data.id,
@@ -61,12 +51,6 @@ export const signup = async ({
   try {
     const response = await axios.request(options);
 
-    const setCookieHeader = response.headers["set-cookie"];
-    if (setCookieHeader) {
-      const cookieStore = await cookies();
-      parseAndSetCookies(cookieStore, setCookieHeader);
-    }
-
     return {
       id: response.data.id,
       username: response.data.username,
@@ -86,12 +70,6 @@ export const signout = async () => {
 
   try {
     const res = await axios.request(options);
-    
-    const setCookieHeader = res.headers["set-cookie"];
-    if (setCookieHeader) {
-      const cookieStore = await cookies();
-      parseAndSetCookies(cookieStore, setCookieHeader);
-    }
     
     return;
   } catch (err) {

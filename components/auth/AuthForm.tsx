@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { downloadStaticFile } from "@/apis/file";
+import axios from "axios";
 
 type AuthFormProps = {
   formName: "Sign In" | "Sign Up";
@@ -55,11 +56,16 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
       await apiAction(values);
       message.success({ content: `${formName} Successfully`, duration: 2 });
       router.push("/", { scroll: true });
+      router.refresh();
     } catch (err) {
+      let errorMessage = "Something Went Wrong";
+
+      if (axios.isAxiosError(err) && err.response) {
+        errorMessage = err.response.data.detail;
+      }
+
       message.error({
-        content: (err as any)?.detail
-          ? (err as any)?.detail
-          : "Something Went Wrong",
+        content: errorMessage,
         duration: 2,
       });
     }
