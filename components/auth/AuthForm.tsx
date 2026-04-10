@@ -11,7 +11,6 @@ import {
   Skeleton,
 } from "antd";
 import { useRouter } from "next/navigation";
-import "./authForm.scss";
 import { useEffect, useState } from "react";
 import { downloadStaticFile } from "@/apis/file";
 
