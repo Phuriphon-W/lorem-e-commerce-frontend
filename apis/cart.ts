@@ -114,7 +114,7 @@ export const deleteCartItems = async (
 
   const options = {
     method: "POST",
-    url: `${serverAddr}/api/user/${userId}/cart`,
+    url: `${serverAddr}/api/user/${userId}/cart/remove-items`,
     data: {
       productIds: productIds,
     },

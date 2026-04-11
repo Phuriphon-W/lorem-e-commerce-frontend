@@ -8,4 +8,5 @@ export interface CartItem {
   image_url: string;
   category: Category;
   quantity: number;
+  available: number;
 }

@@ -10,6 +10,7 @@ import { InputNumber } from "antd";
 import { addCartItem } from "@/apis/cart";
 import { useAuthContext } from "@/shared/hooks/useAuthContext";
 import axios from "axios";
+import { formatNumber } from "@/shared/utils/number";
 
 const { Title, Text } = Typography;
 
@@ -80,7 +81,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           </Title>
 
           <Text className="text-xl! md:text-2xl! font-bold">
-            ${product.price.toFixed(2)}
+            ${formatNumber(product.price)}
           </Text>
 
           {/* Specs List */}
