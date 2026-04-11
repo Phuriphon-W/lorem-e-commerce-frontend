@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { formatNumber } from "@/shared/utils/number";
 import { editCartItem, deleteCartItems } from "@/apis/cart";
+import CartItemCard from "./CartItem";
 import "./CartTable.scss"
 import axios from "axios";
 
@@ -62,6 +63,9 @@ export default function CartTable({
       title: "Items",
       dataIndex: "name",
       key: "name",
+      render: (_, record) => (
+        <CartItemCard itemName={record.name} itemImageUrl={record.image_url}/>
+      )
     },
     {
       title: "Unit Price",
@@ -118,6 +122,7 @@ export default function CartTable({
         columns={columns}
         dataSource={cartItems}
         rowKey={"productId"}
+        pagination={false}
         summary={(pageData) => {
           let totalAmount = 0;
 
