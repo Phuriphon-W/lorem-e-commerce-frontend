@@ -1,10 +1,11 @@
 "use client";
 
-import { getCartByUserId } from "@/apis/cart";
+import { getCartByUserId, deleteCartItems } from "@/apis/cart";
+import { createOrder } from "@/apis/order";
 import CartTable from "@/components/cart/CartTable";
 import { useAuthContext } from "@/shared/hooks/useAuthContext";
+import { OrderItemRequest } from "@/shared/types/order";
 import { CartItem } from "@/shared/interfaces/cart";
-import { deleteCartItems } from "@/apis/cart";
 import { useEffect, useState, useCallback } from "react";
 import { message, Button } from "antd";
 import axios from "axios";
@@ -32,20 +33,59 @@ export default function CartPage() {
   const emptyCart = async () => {
     if (!userId) return;
     if (cartItems.length === 0) {
-      message.error("The cart is already empty")
+      message.error("The cart is already empty");
       return;
     }
 
-    const itemIds = cartItems.map((item) => item.productId)
+    const itemIds = cartItems.map((item) => item.productId);
 
     try {
       await deleteCartItems({ userId, productIds: itemIds });
       await fetchCart();
-      message.success("All items removed from cart")
+      message.success("All items removed from cart");
     } catch (err) {
-      message.error("Failed to remove items from cart")
+      message.error("Failed to remove items from cart");
     }
-  }
+  };
+
+  const checkOut = async () => {
+    if (!userId) return;
+    if (cartItems.length === 0) {
+      message.error("Your cart is empty");
+      return;
+    }
+
+    const orderItemDetails = cartItems.map(
+      (item): OrderItemRequest => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      }),
+    );
+
+    try {
+      // Create Order
+      const response = await createOrder({ userId, items: orderItemDetails })
+
+      // Clear cart
+      const itemIds = cartItems.map((item) => item.productId);
+      await deleteCartItems({ userId, productIds: itemIds });
+
+      // Re fetch cart
+      await fetchCart();
+
+      message.success("Order created successfully");
+
+      // TODO: add redirected to order page
+
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        message.error({
+          content: err.response?.data.detail || "Failed to load cart",
+          duration: 2,
+        });
+      }
+    }
+  };
 
   // Initial Load
   useEffect(() => {
@@ -72,7 +112,7 @@ export default function CartPage() {
           </Button>
         </div>
         <div className="md:w-[20%] w-full">
-          <Button style={{ width: "100%" }}>Checkout</Button>
+          <Button style={{ width: "100%" }} onClick={() => checkOut()}>Checkout</Button>
         </div>
       </div>
     </div>
