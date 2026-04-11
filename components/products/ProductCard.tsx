@@ -1,6 +1,7 @@
 'use client'
 
 import { Product } from "@/shared/interfaces/product";
+import { formatNumber } from "@/shared/utils/number";
 import { Typography } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -36,7 +37,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     {product.name}
                 </Typography.Title>
                 <Typography.Text strong={true}>
-                    {`$${(product.price.toFixed(2))}`}
+                    {`$${formatNumber(product.price)}`}
                 </Typography.Text>
             </div>
         </div>

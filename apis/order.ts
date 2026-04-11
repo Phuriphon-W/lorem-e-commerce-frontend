@@ -1,17 +1,48 @@
 import { serverAddr } from "@/shared/constants";
 import axios from "axios";
 import {
-  GetCartResponse,
-  AddCartItemRequest,
-  EditCartItemRequest,
-  DeleteCartItemsRequest,
-  CartSuccessResponse,
-} from "@/shared/types/cart";
+  CreateOrderRequest,
+  CreateOrderResponse,
+  GetUserOrdersRequest,
+  GetOrdersResponse,
+  GetOrderByIdResponse,
+  UpdateOrderStatusRequest,
+  UpdateOrderStatusResponse,
+} from "@/shared/types/order";
 
-export const getCartByUserId = async (
-  userId: string,
+export const createOrder = async (
+  data: CreateOrderRequest,
   cookieString?: string,
-): Promise<GetCartResponse> => {
+): Promise<CreateOrderResponse> => {
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  if (cookieString) {
+    headers.Cookie = cookieString;
+  }
+
+  const options = {
+    method: "POST",
+    url: `${serverAddr}/api/order`,
+    data: data,
+    headers: headers,
+    withCredentials: true,
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getUserOrders = async (
+  { userId, pageNumber = 1, pageSize = 20 }: GetUserOrdersRequest,
+  cookieString?: string,
+): Promise<GetOrdersResponse> => {
   const headers: Record<string, string> = {
     Accept: "application/json",
   };
@@ -22,38 +53,10 @@ export const getCartByUserId = async (
 
   const options = {
     method: "GET",
-    url: `${serverAddr}/api/user/${userId}/cart`,
-    headers: headers,
-    withCredentials: true,
-  };
-
-  try {
-    const response = await axios.request(options);
-    return response.data;
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const addCartItem = async (
-  { userId, productId, quantity = 1 }: AddCartItemRequest,
-  cookieString?: string,
-): Promise<{ cartItemId: string }> => {
-  const headers: Record<string, string> = {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  };
-
-  if (cookieString) {
-    headers.Cookie = cookieString;
-  }
-
-  const options = {
-    method: "POST",
-    url: `${serverAddr}/api/user/${userId}/cart`,
-    data: {
-      productId: productId,
-      quantity: quantity,
+    url: `${serverAddr}/api/user/${userId}/orders`,
+    params: {
+      pageNumber,
+      pageSize,
     },
     headers: headers,
     withCredentials: true,
@@ -67,13 +70,12 @@ export const addCartItem = async (
   }
 };
 
-export const editCartItem = async (
-  { userId, productId, quantity }: EditCartItemRequest,
+export const getOrderById = async (
+  orderId: string,
   cookieString?: string,
-): Promise<CartSuccessResponse> => {
+): Promise<GetOrderByIdResponse> => {
   const headers: Record<string, string> = {
     Accept: "application/json",
-    "Content-Type": "application/json",
   };
 
   if (cookieString) {
@@ -81,12 +83,8 @@ export const editCartItem = async (
   }
 
   const options = {
-    method: "PUT",
-    url: `${serverAddr}/api/user/${userId}/cart`,
-    data: {
-      productId: productId,
-      quantity: quantity,
-    },
+    method: "GET",
+    url: `${serverAddr}/api/order/${orderId}`,
     headers: headers,
     withCredentials: true,
   };
@@ -99,10 +97,10 @@ export const editCartItem = async (
   }
 };
 
-export const deleteCartItems = async (
-  { userId, productIds }: DeleteCartItemsRequest,
+export const updateOrderStatus = async (
+  { orderId, status }: UpdateOrderStatusRequest,
   cookieString?: string,
-): Promise<CartSuccessResponse> => {
+): Promise<UpdateOrderStatusResponse> => {
   const headers: Record<string, string> = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -113,10 +111,10 @@ export const deleteCartItems = async (
   }
 
   const options = {
-    method: "POST",
-    url: `${serverAddr}/api/user/${userId}/cart/remove-items`,
+    method: "PATCH",
+    url: `${serverAddr}/api/order/${orderId}/status`,
     data: {
-      productIds: productIds,
+      status: status,
     },
     headers: headers,
     withCredentials: true,

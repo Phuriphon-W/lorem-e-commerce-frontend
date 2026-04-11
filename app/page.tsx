@@ -1,4 +1,4 @@
-import { Image } from "antd";
+import Image from "next/image";
 import ProductCard from "@/components/products/ProductCard";
 import Link from "next/link";
 import { downloadStaticFile } from "@/apis/file";
@@ -34,13 +34,11 @@ export default async function Page() {
   return (
     <main className="bg-white rounded-b-2xl">
       {/* Hero Image */}
-      <div className="relative ">
+      <div className="relative min-h-screen">
         <Image
           src={heroUrl.downloadUrl}
           alt="hero image"
-          width="100%"
-          height="100%"
-          preview={false}
+          fill
         />
 
         {/* Centered text */}
