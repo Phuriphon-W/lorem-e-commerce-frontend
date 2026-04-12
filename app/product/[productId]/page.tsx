@@ -17,7 +17,6 @@ export default async function ProductItemPage({
   const productId = (await params).productId;
 
   const product = await getProductById({ id: productId }, cookieString);
-  console.log(product.category.name);
 
   return (
     <>
@@ -45,7 +44,7 @@ export default async function ProductItemPage({
               },
               {
                 title: (
-                  <Link href="/product">
+                  <Link href={`/${product.category.name === "Apparel" ? "apparel" : "accessory"}`}>
                     <FontAwesomeIcon
                       icon={
                         product.category.name === "Apparel" ? faShirt : faGem
