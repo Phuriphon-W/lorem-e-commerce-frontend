@@ -1,5 +1,6 @@
 'use client'
 
+import { animationUnderline } from '@/shared/types/styles';
 import { 
     faHouse, 
     faGem 
@@ -37,8 +38,7 @@ export default function NavLinks() {
             <div className="relative hidden md:block">
               {link.name}
               <span 
-                className="absolute left-[50%] -bottom-1 h-0.5 w-0 bg-yellow-600 translate-x-[-50%] 
-                duration-300 group-hover:w-full"
+                className={`${animationUnderline("bg-yellow-600")}`}
               />
             </div>
           </Link>

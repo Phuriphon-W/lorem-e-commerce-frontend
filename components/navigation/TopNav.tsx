@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter } from "next/navigation";
 import { publicRoutes } from "@/shared/publicRouteList";
 import { message } from "antd";
+import MenuDropdown from "./MenuDropdown";
 
 export default function TopNav() {
   const pathName = usePathname();
@@ -36,24 +37,7 @@ export default function TopNav() {
             </div>
 
             {/* Sign Out button */}
-            <form
-              action={async () => {
-                await signout();
-                message.success("Sign Out Successfully")
-                router.push('/signin')
-              }}
-            >
-              <button className="group flex h-16 cursor-pointer items-center gap-2 px-2 transition-colors hover:text-red-500">
-                {/* Icon */}
-                <FontAwesomeIcon icon={faArrowRightFromBracket} />
-
-                <div className="hidden md:block relative">
-                  Sign Out
-                  {/* The Underline */}
-                  <span className="absolute left-[50%] -bottom-1 h-0.5 w-0 bg-red-500 translate-x-[-50%] duration-300 group-hover:w-full" />
-                </div>
-              </button>
-            </form>
+            <MenuDropdown />
           </div>
         </div>
       )}
