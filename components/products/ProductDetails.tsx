@@ -60,7 +60,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-100px)] flex flex-col md:flex-row p-6 md:p-10 gap-8 lg:gap-16 bg-white rounded-2xl">
+    <>
       {/* Image Section */}
       <div className="relative w-full md:w-1/2 shrink-0 aspect-square bg-gray-50 rounded-xl overflow-hidden shadow-inner">
         <Image
@@ -125,6 +125,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 }

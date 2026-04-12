@@ -2,7 +2,7 @@
 
 export const COLORS = {
     "main-primary": "#d08700",
-    "main-secondary": "#fef9c2",
+    "main-secondary": "#ffff",
     "dark-primary": "#20233b",
     "dark-secondary": "#474c6e",
     "white": "#ffffff",
@@ -10,7 +10,7 @@ export const COLORS = {
 
 export const MAIN_THEME = {
   primary: COLORS["main-primary"],
-  primaryHover: COLORS["main-primary"],
+  primaryHover: COLORS["main-secondary"],
 } 
 
 export const DARK_THEME = {
