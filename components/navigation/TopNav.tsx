@@ -6,7 +6,7 @@ import { signout } from "@/apis/auth";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons/faArrowRightFromBracket";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter } from "next/navigation";
-import { publicRoutes } from "@/shared/publicRouteList";
+import { publicRoutes } from "@/shared/routeList";
 import { message } from "antd";
 import MenuDropdown from "./MenuDropdown";
 

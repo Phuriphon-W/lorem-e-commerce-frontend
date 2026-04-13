@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname } from "next/navigation";
-import { publicRoutes } from "@/shared/publicRouteList";
+import { publicRoutes } from "@/shared/routeList";
 
 export default function Footer() {
   const socialMediaIcons = [faFacebook, faInstagram, faXTwitter, faYoutube];

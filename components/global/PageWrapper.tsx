@@ -1,18 +1,18 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { publicRoutes } from "@/shared/publicRouteList";
+import { publicRoutes, fullWidthRoutes } from "@/shared/routeList";
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isFullWidth = fullWidthRoutes.includes(pathname)
   
   const isPublicRoute = publicRoutes.includes(pathname);
   const borderProperies = isPublicRoute ? "border-none shadow-none" : "shadow-sm border border-gray-100"
 
   // HOME PAGE LAYOUT
   // Full width, no margin top, touches the navbar
-  if (isHome) {
+  if (isFullWidth) {
     return (
       <div className="w-full bg-white grow flex flex-col">
         {children}
