@@ -70,7 +70,7 @@ function ApparelContent() {
 
   return (
     <div className="flex flex-col items-center py-10 w-full">
-      <h1 className="mb-4 font-medium text-[40px]">Apparels</h1>
+      <h1 className="mb-4 font-medium text-[30px] md:text-[40px]">Apparels</h1>
       <SearchBar
         currentSearch={searchKeyword}
         currentCategory={category}

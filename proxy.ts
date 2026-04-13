@@ -1,7 +1,7 @@
 import { decryptJwt } from "@/shared/utils/jwt";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { publicRoutes } from "./shared/publicRouteList";
+import { publicRoutes } from "./shared/routeList";
 
 export default async function proxy(request: NextRequest) {
     const path = request.nextUrl.pathname
