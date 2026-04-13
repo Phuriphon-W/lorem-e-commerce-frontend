@@ -23,7 +23,7 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
   // ALL OTHER PAGES LAYOUT
   // 80% width, margin-top of 8, rounded corners
   return (
-    <div className={`w-[80%] bg-white grow flex flex-col rounded-2xl mt-8 ${borderProperies}`}>
+    <div className={`w-full md:w-[80%] bg-white grow flex flex-col rounded-none md:rounded-2xl mt-8 ${borderProperies}`}>
       {children}
     </div>
   );

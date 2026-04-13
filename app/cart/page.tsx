@@ -2,17 +2,21 @@
 
 import { getCartByUserId, deleteCartItems } from "@/apis/cart";
 import { createOrder } from "@/apis/order";
-import CartTable from "@/components/cart/CartTable";
+import CartTable from "@/components/cart/table/CartTable";
 import { useAuthContext } from "@/shared/hooks/useAuthContext";
 import { OrderItemRequest } from "@/shared/types/order";
 import { CartItem } from "@/shared/interfaces/cart";
 import { useEffect, useState, useCallback } from "react";
 import { message, Button } from "antd";
 import axios from "axios";
+import useMediaQuery from "@/shared/hooks/useMediaQuery";
+import CartMobile from "@/components/cart/CartMobile";
+import NoData from "@/components/global/NoData";
 
 export default function CartPage() {
   const { userId } = useAuthContext();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const fetchCart = useCallback(async () => {
     if (!userId) return;
@@ -64,7 +68,7 @@ export default function CartPage() {
 
     try {
       // Create Order
-      const response = await createOrder({ userId, items: orderItemDetails })
+      const response = await createOrder({ userId, items: orderItemDetails });
 
       // Clear cart
       const itemIds = cartItems.map((item) => item.productId);
@@ -76,7 +80,6 @@ export default function CartPage() {
       message.success("Order created successfully");
 
       // TODO: add redirected to order page
-
     } catch (err) {
       if (axios.isAxiosError(err)) {
         message.error({
@@ -95,26 +98,52 @@ export default function CartPage() {
   return (
     <div className="flex flex-col items-center py-10 w-full gap-4">
       {/* Title */}
-      <h1 className="font-medium text-[40px]">Your Cart</h1>
+      <h1 className="font-medium text-[30px] md:text-[40px]">Your Cart</h1>
+
+      {/* Empty Cart */}
+      {
+        cartItems.length <= 0 && (
+          <NoData text="Cart"/>
+        )
+      }
 
       {/* Cart Items Table */}
-      <CartTable
-        cartItems={cartItems}
-        userId={userId ?? ""}
-        onRefresh={fetchCart}
-      />
+      {!isMobile && cartItems.length > 0 && (
+        <CartTable
+          cartItems={cartItems}
+          userId={userId ?? ""}
+          onRefresh={fetchCart}
+        />
+      )}
+
+      {/* Cart Items Mobile */}
+      {isMobile && cartItems.length > 0 && (
+        <CartMobile
+          cartItems={cartItems}
+          userId={userId ?? ""}
+          onRefresh={fetchCart}
+        />
+      )}
 
       {/* Buttons */}
-      <div className="flex flex-row justify-between md:justify-end md:gap-4 w-[90%] px-4">
-        <div className="md:w-[20%] w-full">
-          <Button danger style={{ width: "100%" }} onClick={() => emptyCart()}>
-            Empty Cart
-          </Button>
+      {cartItems.length > 0 && (
+        <div className="flex flex-row justify-between md:justify-end gap-4 w-[90%] px-4 ">
+          <div className="md:w-[20%] w-full">
+            <Button
+              danger
+              style={{ width: "100%" }}
+              onClick={() => emptyCart()}
+            >
+              Empty Cart
+            </Button>
+          </div>
+          <div className="md:w-[20%] w-full">
+            <Button style={{ width: "100%" }} onClick={() => checkOut()}>
+              Checkout
+            </Button>
+          </div>
         </div>
-        <div className="md:w-[20%] w-full">
-          <Button style={{ width: "100%" }} onClick={() => checkOut()}>Checkout</Button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

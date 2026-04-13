@@ -19,7 +19,7 @@ export default function TopNav() {
     <>
       {showNav && (
         <div className="shadow-md w-full z-0">
-          <div className="flex justify-between items-center h-16 px-5">
+          <div className="flex justify-between items-center h-[74px] md:h-16 px-5">
             {/*  Logo  */}
             <div>
               <Link
