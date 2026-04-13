@@ -3,13 +3,13 @@
 import { AuthRequest, AuthResponse } from "@/shared/types/auth";
 import {
   Button,
-  Image,
   Form,
   Input,
   message,
   Typography,
   Skeleton,
 } from "antd";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { downloadStaticFile } from "@/apis/file";
@@ -79,27 +79,25 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
   };
 
   return (
-    <div className="flex bg-white rounded-md md:w-[65%] w-full h-144.5">
+    <div className="flex flex-col md:flex-row bg-white rounded-md w-full md:w-[65%] h-144.5">
       {/* Image */}
-      <div className="flex items-center justify-center w-1/2 h-full">
+      <div className="relative flex items-center justify-center w-full md:w-[45%]">
         {!imageLoading && (
           <Image
-            height="100%"
-            width="100%"
+            fill
             alt="Auth-Form-Image"
-            src={imageUrl}
+            src={imageUrl ?? ""}
             style={{
               borderTopLeftRadius: "6px",
               borderBottomLeftRadius: "6px",
             }}
-            preview={false}
           />
         )}
         {imageLoading && <Skeleton.Image active={imageLoading} />}
       </div>
 
       {/* Form */}
-      <div className="rounded-r-md p-4 w-1/2 flex flex-col justify-center">
+      <div className="rounded-r-md p-4 w-full md:w-[55%] flex flex-col justify-center grow">
         <Typography.Title level={3} className="text-center">
           {formName}
         </Typography.Title>
