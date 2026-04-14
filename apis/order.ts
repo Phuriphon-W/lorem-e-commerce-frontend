@@ -1,4 +1,4 @@
-import { serverAddr } from "@/shared/constants";
+import { PAGE_SIZE, serverAddr } from "@/shared/constants";
 import axios from "axios";
 import {
   CreateOrderRequest,
@@ -9,6 +9,7 @@ import {
   UpdateOrderStatusRequest,
   UpdateOrderStatusResponse,
 } from "@/shared/types/order";
+import { OrderBy } from "@/shared/enums/orderBy";
 
 export const createOrder = async (
   data: CreateOrderRequest,
@@ -40,7 +41,7 @@ export const createOrder = async (
 };
 
 export const getUserOrders = async (
-  { userId, pageNumber = 1, pageSize = 20 }: GetUserOrdersRequest,
+  { userId, pageNumber = 1, pageSize = PAGE_SIZE, status = "", orderBy = OrderBy.DateAsc }: GetUserOrdersRequest,
   cookieString?: string,
 ): Promise<GetOrdersResponse> => {
   const headers: Record<string, string> = {
@@ -57,6 +58,8 @@ export const getUserOrders = async (
     params: {
       pageNumber,
       pageSize,
+      status,
+      orderBy
     },
     headers: headers,
     withCredentials: true,

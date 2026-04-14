@@ -1,7 +1,8 @@
+import { OrderBy } from "../enums/orderBy";
 import { Product } from "../interfaces/product";
+import { OrderStatus } from "../enums/order";
 
 // Base Types
-export type OrderStatus = "pending" | "paid" | "shipping" | "completed";
 
 export interface OrderItemResponse {
   id: string;
@@ -42,6 +43,8 @@ export interface GetUserOrdersRequest {
   userId: string;
   pageNumber?: number;
   pageSize?: number;
+  status?: OrderStatus | "";
+  orderBy?: OrderBy;
 }
 
 export interface GetOrdersResponse {
