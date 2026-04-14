@@ -1,1 +1,2 @@
 export const animationUnderline = (bgColorClass = 'bg-red-500') => `absolute left-[50%] -bottom-1 h-0.5 w-0 ${bgColorClass} translate-x-[-50%] duration-300 group-hover:w-full`
+export const hoverUpAnimation = "hover:-translate-y-1 hover:cursor-pointer duration-100"
