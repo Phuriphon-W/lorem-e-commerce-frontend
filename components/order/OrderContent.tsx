@@ -1,7 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Spin, Pagination, message, Typography, Modal, Tag } from "antd";
+import {
+  Spin,
+  Pagination,
+  message,
+  Typography,
+  Modal,
+  Tag,
+  Button,
+} from "antd";
 import { getUserOrders } from "@/apis/order";
 import { OrderResponse } from "@/shared/types/order";
 import { PAGE_SIZE } from "@/shared/constants";
@@ -14,6 +22,10 @@ import { OrderStatus } from "@/shared/enums/order";
 import { formatNumber } from "@/shared/utils/number";
 import { OrderBy } from "@/shared/enums/orderBy";
 import { hoverUpAnimation } from "@/shared/types/styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import { checkoutOrder } from "@/apis/payment";
+import axios from "axios";
 
 const { Title, Text } = Typography;
 
@@ -85,6 +97,20 @@ export default function OrderContent() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleCheckout = async (orderId: string, userId: string) => {
+    try {
+      const { checkoutUrl } = await checkoutOrder({ orderId, userId });
+      router.push(checkoutUrl);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        message.error({
+          content: err.response?.data.detail || "Failed to checkout order",
+          duration: 2,
+        });
+      }
+    }
   };
 
   const tags = [
@@ -231,7 +257,9 @@ export default function OrderContent() {
                           src={item.product.image_url}
                           alt={item.product.name}
                           fill
+                          priority
                           className="object-cover"
+                          sizes="(max-width: 768px) 50px, 100px"
                         />
                       ) : (
                         <Text type="secondary" className="text-xs">
@@ -263,6 +291,19 @@ export default function OrderContent() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Checkout Button (Only visible for pending) */}
+        {selectedOrder?.orderStatus == OrderStatus.PENDING && (
+          <div className="text-end border-t border-gray-100 pt-4">
+            <Button
+              className="gap-x-0!"
+              onClick={() => handleCheckout(selectedOrder.id, userId ?? "")}
+            >
+              <FontAwesomeIcon icon={faDollarSign} />
+              Checkout
+            </Button>
           </div>
         )}
       </Modal>
