@@ -12,9 +12,11 @@ import axios from "axios";
 import useMediaQuery from "@/shared/hooks/useMediaQuery";
 import CartMobile from "@/components/cart/CartMobile";
 import NoData from "@/components/global/NoData";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const { userId } = useAuthContext();
+  const router = useRouter();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -77,9 +79,8 @@ export default function CartPage() {
       // Re fetch cart
       await fetchCart();
 
-      message.success("Order created successfully");
-
-      // TODO: add redirected to order page
+      message.success(`Order created successfully. Your order ID is ${response.id}`);
+      router.push('/order')
     } catch (err) {
       if (axios.isAxiosError(err)) {
         message.error({
