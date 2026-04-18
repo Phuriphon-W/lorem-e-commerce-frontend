@@ -21,6 +21,9 @@ export default function OrderCard({ order, onClick }: OrderCardProps) {
       case "completed":
         return "purple";
       case "pending":
+        return "gold";
+      case "failed":
+        return "red";
       default:
         return "gold";
     }

@@ -57,6 +57,7 @@ export default function OrderContent() {
   // Orders State
   const [orders, setOrders] = useState<OrderResponse[]>([]);
   const [totalOrders, setTotalOrders] = useState(0);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,7 +88,7 @@ export default function OrderContent() {
     };
 
     fetchOrders();
-  }, [userId, page, status, orderBy]);
+  }, [userId, page, status, orderBy, refreshTrigger]);
 
   // Modal Handlers
   const handleOpenModal = (order: OrderResponse) => {
@@ -109,6 +110,8 @@ export default function OrderContent() {
           content: err.response?.data.detail || "Failed to checkout order",
           duration: 2,
         });
+
+        setRefreshTrigger(prev => prev + 1)
       }
     }
   };
@@ -118,6 +121,7 @@ export default function OrderContent() {
     { color: "green", message: "Paid" },
     { color: "blue", message: "Shipping" },
     { color: "purple", message: "Completed" },
+    { color: "red", message: "Failed" },
   ];
 
   const order = [
