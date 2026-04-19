@@ -33,7 +33,7 @@ function ProductContent() {
     const params = new URLSearchParams(searchParams.toString());
     if (value) {
       params.set(key, String(value));
-      if (key === "category") params.set("page", "1");
+      if (key === "category" || key === "search") params.set("page", "1");
     } else {
       params.delete(key); 
     }
