@@ -10,6 +10,7 @@ import { AuthProvider } from "@/shared/hooks/useAuthContext";
 import { cookies } from "next/headers";
 import { decryptJwt } from "@/shared/utils/jwt";
 import PageWrapper from "@/components/global/PageWrapper";
+import SocketListener from "@/components/global/SocketListener";
 
 export const metadata: Metadata = {
   title: "Lorem",
@@ -29,6 +30,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col h-screen overflow-hidden`}
       >
+        <SocketListener />
         <div className="shrink-0 w-full z-10">
           <TopNav />
         </div>

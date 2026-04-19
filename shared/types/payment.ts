@@ -20,3 +20,8 @@ export interface GetPaymentsByUserIdResponse {
   payments: PaymentDto[];
   total: number;
 }
+
+
+export type VerifySessionResponse = {
+  valid: boolean;
+}

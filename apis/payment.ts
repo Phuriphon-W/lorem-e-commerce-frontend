@@ -3,6 +3,7 @@ import {
   OrderCheckoutRequest,
   OrderCheckoutResponse,
   GetPaymentsByUserIdResponse,
+  VerifySessionResponse,
 } from "@/shared/types/payment";
 import axios from "axios";
 
@@ -58,3 +59,24 @@ export const getUserPayments = async (
     throw err;
   }
 };
+
+export const verifyPaymentSession = async (session_id: string): Promise<VerifySessionResponse> => {
+  const options = {
+    method: "GET",
+    url: `${serverAddr}/api/payment`,
+    params: {
+      sessionId: session_id
+    },
+    headers: {
+      Accept: 'application/json',
+    },
+    withCredentials: true,
+  }
+
+  try {
+    const response = await axios.request(options);
+    return { valid: response.data.valid };
+  } catch (err) {
+    throw err;
+  }
+}
