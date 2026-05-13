@@ -32,7 +32,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
 
             {/* Text Section */}
-            <div className="h-1/4 p-4 bg-white rounded-b-lg">
+            <div className="h-1/4 p-4 bg-white rounded-b-lg mb-4 md:mb-0">
                 <Typography.Title level={5}>
                     {product.name}
                 </Typography.Title>
