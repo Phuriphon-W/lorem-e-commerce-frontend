@@ -10,8 +10,19 @@ const nextConfig: NextConfig = {
         port: "8333",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "lorem-e-commerce-575490177692-ap-southeast-1-an.s3.ap-southeast-1.amazonaws.com",
+        port: "",
+        pathname: "/static/**"
+      },
+      {
+        protocol: "https",
+        hostname: "lorem-e-commerce-575490177692-ap-southeast-1-an.s3.ap-southeast-1.amazonaws.com",
+        port: "",
+        pathname: "/product-images/**"
+      },
     ],
-    dangerouslyAllowLocalIP: true,
   },
 };
 

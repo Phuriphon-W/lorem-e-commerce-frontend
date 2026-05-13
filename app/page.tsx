@@ -45,7 +45,7 @@ export default async function Page() {
           alt="hero image mobile"
           fill
           className="md:hidden object-cover"
-          priority // Pro-tip: Always prioritize hero images so they load instantly
+          priority
         />
 
         {/* DESKTOP IMAGE: Hidden by default, shows on 'md' (768px) and up */}
