@@ -51,9 +51,10 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
     fetchBannerImage();
   }, []);
 
-  const handleOnFinish = async (values: AuthRequest) => {
+  const handleOnFinish = async (values: AuthRequest & { confirmPassword?: string }) => {
     try {
-      await apiAction(values);
+      const { confirmPassword, ...submitValues } = values;
+      await apiAction(submitValues);
       message.success({ content: `${formName} Successfully`, duration: 2 });
       router.push("/", { scroll: true });
       router.refresh();
@@ -109,20 +110,24 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
         >
           {formName === "Sign Up" && (
             <>
-              <Form.Item
-                label="First Name"
-                name="firstName"
-                rules={[{ required: true }]}
-              >
-                <Input placeholder="Enter your first name" />
-              </Form.Item>
-              <Form.Item
-                label="Last Name"
-                name="lastName"
-                rules={[{ required: true }]}
-              >
-                <Input placeholder="Enter your last name" />
-              </Form.Item>
+              <div className="flex gap-x-2">
+                <Form.Item
+                  className="w-1/2"
+                  label="First Name"
+                  name="firstName"
+                  rules={[{ required: true }]}
+                >
+                  <Input placeholder="First name" />
+                </Form.Item>
+                <Form.Item
+                  className="w-1/2"
+                  label="Last Name"
+                  name="lastName"
+                  rules={[{ required: true }]}
+                >
+                  <Input placeholder="Last name" />
+                </Form.Item>
+              </div>
               <Form.Item
                 label="Username"
                 name="username"
@@ -156,6 +161,27 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
           >
             <Input.Password placeholder="Enter your password" />
           </Form.Item>
+
+          {formName === "Sign Up" && (
+            <Form.Item
+              label="Confirm Password"
+              name="confirmPassword"
+              dependencies={['password']}
+              rules={[
+                { required: true, message: "Please confirm your password" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error("The passwords that you entered do not match!"));
+                  },
+                }),
+              ]}
+            >
+              <Input.Password placeholder="Confirm your password" />
+            </Form.Item>
+          )}
 
           {/* Button */}
           <div className="flex justify-end">
