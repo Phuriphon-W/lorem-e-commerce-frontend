@@ -2,6 +2,7 @@
 
 import { getCartByUserId, deleteCartItems } from "@/apis/cart";
 import { createOrder } from "@/apis/order";
+import { getProfile } from "@/apis/user";
 import CartTable from "@/components/cart/table/CartTable";
 import { useAuthContext } from "@/shared/hooks/useAuthContext";
 import { OrderItemRequest } from "@/shared/types/order";
@@ -58,6 +59,23 @@ export default function CartPage() {
     if (!userId) return;
     if (cartItems.length === 0) {
       message.error("Your cart is empty");
+      return;
+    }
+
+    try {
+      console.log("Before calling getProfile")
+      const profile = await getProfile();
+      const addr = profile.address;
+      console.log("Address:", addr)
+      
+      const isInvalidField = (val: string | undefined | null) => !val || val === "null";
+      
+      if (!addr || isInvalidField(addr.houseNumber) || isInvalidField(addr.district) || isInvalidField(addr.subDistrict) || isInvalidField(addr.province) || isInvalidField(addr.zip)) {
+        message.warning("Please add your address details in your profile before checking out.");
+        return;
+      }
+    } catch {
+      message.error("Failed to verify user profile.");
       return;
     }
 
