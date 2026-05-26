@@ -3,6 +3,7 @@
 import { signup } from "@/apis/auth";
 import AuthForm from "@/components/auth/AuthForm";
 import { Typography } from "antd";
+import "./page.css";
 
 export default function SignUpPage() {
   return (

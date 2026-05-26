@@ -76,3 +76,35 @@ export const signout = async () => {
     throw err;
   }
 };
+
+export const forgotPassword = async (email: string): Promise<{ message: string }> => {
+  const options = {
+    url: `${AUTH_BASE_URL}/forgot-password`,
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    data: { email },
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const resetPassword = async (token: string, password: string): Promise<{ message: string }> => {
+  const options = {
+    url: `${AUTH_BASE_URL}/reset-password`,
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    data: { token, password },
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

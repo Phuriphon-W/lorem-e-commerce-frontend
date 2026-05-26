@@ -63,10 +63,8 @@ export default function CartPage() {
     }
 
     try {
-      console.log("Before calling getProfile")
       const profile = await getProfile();
       const addr = profile.address;
-      console.log("Address:", addr)
       
       const isInvalidField = (val: string | undefined | null) => !val || val === "null";
       
