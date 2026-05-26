@@ -112,7 +112,7 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
             <>
               <div className="flex gap-x-2">
                 <Form.Item
-                  className="w-1/2"
+                  className="w-1/2 ant-form-item-signup"
                   label="First Name"
                   name="firstName"
                   rules={[{ required: true }]}
@@ -120,7 +120,7 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
                   <Input placeholder="First name" />
                 </Form.Item>
                 <Form.Item
-                  className="w-1/2"
+                  className="w-1/2 ant-form-item-signup"
                   label="Last Name"
                   name="lastName"
                   rules={[{ required: true }]}
@@ -138,6 +138,7 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
                     message: "Username cannot exceed 20 characters",
                   },
                 ]}
+                className="ant-form-item-signup"
               >
                 <Input placeholder="Enter your username" />
               </Form.Item>
@@ -148,6 +149,7 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
             label="E-mail Address"
             name="email"
             rules={[{ required: true, type: "email" }]}
+            className="ant-form-item-signup"
           >
             <Input placeholder="Enter your e-mail" />
           </Form.Item>
@@ -158,6 +160,7 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
               { required: true },
               { min: 6, message: "Password must be at least 6 characters" },
             ]}
+            className={`${formName === "Sign Up" ? "ant-form-item-signup" : ""}`}
           >
             <Input.Password placeholder="Enter your password" />
           </Form.Item>
@@ -197,7 +200,9 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
               </Typography.Link>
             ) : (
               <div className="flex justify-between">
-                <Typography.Link>Forgot password?</Typography.Link>
+                <Typography.Link onClick={() => router.push("/forgot-password")}>
+                  Forgot password?
+                </Typography.Link>
                 <Typography.Link onClick={() => router.push("/signup")}>
                   Create new account
                 </Typography.Link>
