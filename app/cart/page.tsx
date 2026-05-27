@@ -51,7 +51,7 @@ export default function CartPage() {
       await fetchCart();
       message.success("All items removed from cart");
     } catch (err) {
-      message.error("Failed to remove items from cart");
+      message.error("Failed to remove items from cart:");
     }
   };
 

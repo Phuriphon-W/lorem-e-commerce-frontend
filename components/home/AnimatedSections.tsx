@@ -31,6 +31,7 @@ export default function AnimatedSections({
             width={500}
             height={500} 
             className="w-full md:rounded-r-lg object-cover" 
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
         <div className="w-full md:w-1/2 px-[15px] md:pr-2">
@@ -63,6 +64,7 @@ export default function AnimatedSections({
             width={500}
             height={500} 
             className="w-full md:rounded-l-lg object-cover" 
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
       </motion.div>

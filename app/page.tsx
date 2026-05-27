@@ -1,7 +1,6 @@
 import Image from "next/image";
 import ProductCard from "@/components/products/ProductCard";
 import Link from "next/link";
-import { downloadStaticFile } from "@/apis/file";
 import { getProducts } from "@/apis/product";
 import { neuton } from "@/shared/fonts/font";
 import AnimatedSections from "@/components/home/AnimatedSections";
@@ -11,29 +10,13 @@ import { getServerCookies } from "@/shared/utils/cookies";
 export default async function Page() {
   const cookieString = await getServerCookies();
 
-  const [heroUrl, heroSmUrl, apparelUrl, accessoryUrl] = await Promise.all([
-    downloadStaticFile({ key: "static/hero.jpg" }),
-    downloadStaticFile({ key: "static/hero-sm.jpg" }),
-    downloadStaticFile({ key: "static/home-apparel.jpg" }),
-    downloadStaticFile({ key: "static/home-accessory.jpg" }),
-  ]);
-
   const latestProducts = await getProducts(
     { pageSize: 9, pageNumber: 1 },
     cookieString,
   );
 
-  const apparelSlides = await Promise.all([
-    downloadStaticFile({ key: "static/apparelSlide1.jpg" }),
-    downloadStaticFile({ key: "static/apparelSlide2.jpg" }),
-    downloadStaticFile({ key: "static/apparelSlide3.jpg" }),
-  ]);
-
-  const accessorySlides = await Promise.all([
-    downloadStaticFile({ key: "static/accessorySlide1.jpg" }),
-    downloadStaticFile({ key: "static/accessorySlide2.jpg" }),
-    downloadStaticFile({ key: "static/accessorySlide3.jpg" }),
-  ]);
+  const apparelSlides = ['/static/apparelSlide1.jpg', '/static/apparelSlide2.jpg', '/static/apparelSlide3.jpg']
+  const accessorySlides = ['/static/accessorySlide1.jpg', '/static/accessorySlide2.jpg', '/static/accessorySlide3.jpg']
 
   return (
     <main className="bg-white rounded-b-2xl">
@@ -41,20 +24,22 @@ export default async function Page() {
       <div className="relative h-[420px] md:min-h-screen ">
         {/* MOBILE IMAGE: Shows by default, hides on 'md' (768px) and up */}
         <Image
-          src={heroSmUrl.downloadUrl}
+          src="/static/hero-sm.jpg"
           alt="hero image mobile"
           fill
           className="md:hidden object-cover"
           priority
+          sizes="100vw"
         />
 
         {/* DESKTOP IMAGE: Hidden by default, shows on 'md' (768px) and up */}
         <Image
-          src={heroUrl.downloadUrl}
+          src="/static/hero.jpg"
           alt="hero image desktop"
           fill
           className="hidden md:block object-cover"
           priority
+          sizes="100vw"
         />
 
         {/* Centered text */}
@@ -72,8 +57,8 @@ export default async function Page() {
       </div>
 
       <AnimatedSections
-        accessoryUrl={accessoryUrl.downloadUrl}
-        apparelUrl={apparelUrl.downloadUrl}
+        accessoryUrl="/static/home-accessory.jpg"
+        apparelUrl="/static/home-apparel.jpg"
       />
 
       {/* Latest Product */}

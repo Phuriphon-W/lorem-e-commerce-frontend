@@ -66,7 +66,7 @@ function ApparelContent() {
       search: searchKeyword,
       orderBy,
     });
-  }, [searchKeyword, orderBy, page]);
+  }, [category, searchKeyword, orderBy, page]);
 
   return (
     <div className="flex flex-col items-center py-10 w-full">

@@ -27,9 +27,10 @@ export default function Carousel({ elements }: CarouselProps) {
                         >
                             <Image 
                                 alt={`slide-${index}`}
-                                src={element.downloadUrl}
+                                src={element}
                                 fill
                                 className="object-cover"
+                                sizes="(max-width: 768px) 100vw, 50vw"
                             />
                         </div>
                     ))
