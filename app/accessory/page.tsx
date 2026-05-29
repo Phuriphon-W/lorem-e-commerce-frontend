@@ -66,7 +66,7 @@ function AccessoryContent() {
       search: searchKeyword,
       orderBy,
     });
-  }, [searchKeyword, orderBy, page]);
+  }, [searchKeyword, orderBy, page, category]);
 
   return (
     <div className="flex flex-col items-center py-10 w-full">

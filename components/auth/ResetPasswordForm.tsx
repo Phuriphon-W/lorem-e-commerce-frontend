@@ -4,7 +4,6 @@ import { Button, Form, Input, message, Typography, Skeleton } from "antd";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
-import { downloadStaticFile } from "@/apis/file";
 import { resetPassword } from "@/apis/auth";
 import axios from "axios";
 
@@ -14,8 +13,6 @@ function ResetPasswordFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const [imageUrl, setImageUrl] = useState<string | undefined>(cachedImageUrl);
-  const [imageLoading, setImageLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!token) {
@@ -23,30 +20,6 @@ function ResetPasswordFormContent() {
       router.push("/signin");
     }
   }, [token, router]);
-
-  useEffect(() => {
-    if (cachedImageUrl) {
-      setImageLoading(false);
-      return;
-    }
-
-    const fetchBannerImage = async () => {
-      try {
-        setImageLoading(true);
-        const response = await downloadStaticFile({
-          key: "static/auth-banner.jpg",
-        });
-        cachedImageUrl = response.downloadUrl;
-        setImageUrl(response.downloadUrl);
-      } catch (err) {
-        console.error("Failed to fetch auth image:", err);
-      } finally {
-        setImageLoading(false);
-      }
-    };
-
-    fetchBannerImage();
-  }, []);
 
   const handleOnFinish = async (values: any) => {
     if (!token) return;
@@ -78,20 +51,19 @@ function ResetPasswordFormContent() {
     <div className="flex flex-col md:flex-row bg-white rounded-md w-full md:w-[65%] h-144.5">
       {/* Image */}
       <div className="relative flex items-center justify-center w-full md:w-[45%] h-64 md:h-auto">
-        {!imageLoading && (
           <Image
             fill
             alt="Auth-Form-Image"
-            src={imageUrl ?? ""}
+            src="/static/auth-banner.jpg"
             style={{
               borderTopLeftRadius: "6px",
               borderBottomLeftRadius: "6px",
               objectFit: "cover"
             }}
+            sizes="(max-width: 768px) 100vw, 50vw"
             priority
           />
-        )}
-        {imageLoading && <Skeleton.Image active={imageLoading} />}
+        )
       </div>
 
       {/* Form */}

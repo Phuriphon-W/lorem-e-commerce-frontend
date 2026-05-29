@@ -69,7 +69,7 @@ export const signout = async () => {
   };
 
   try {
-    const res = await axios.request(options);
+    await axios.request(options);
     
     return;
   } catch (err) {

@@ -58,7 +58,12 @@ export default function CartItemCard({
     <div className="flex md:flex-row gap-4 w-full">
       {/* Image Section */}
       <div className="relative w-1/3 aspect-square rounded-2xl overflow-hidden">
-        <Image src={item.image_url} alt={`${item.name}-image`} fill />
+        <Image 
+          src={item.image_url} 
+          alt={`${item.name}-image`} 
+          fill 
+          sizes="(max-width: 768px) 33vw, 20vw" 
+        />
       </div>
 
       {/* Text Section */}

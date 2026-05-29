@@ -7,12 +7,9 @@ import {
   Input,
   message,
   Typography,
-  Skeleton,
 } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { downloadStaticFile } from "@/apis/file";
 import axios from "axios";
 
 type AuthFormProps = {
@@ -20,36 +17,8 @@ type AuthFormProps = {
   apiAction: (values: AuthRequest) => Promise<AuthResponse>;
 };
 
-let cachedImageUrl: string | undefined = undefined;
-
 export default function AuthForm({ formName, apiAction }: AuthFormProps) {
   const router = useRouter();
-  const [imageUrl, setImageUrl] = useState<string | undefined>(cachedImageUrl);
-  const [imageLoading, setImageLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (cachedImageUrl) {
-      setImageLoading(false);
-      return;
-    }
-
-    const fetchBannerImage = async () => {
-      try {
-        setImageLoading(true);
-        const response = await downloadStaticFile({
-          key: "static/auth-banner.jpg",
-        });
-        cachedImageUrl = response.downloadUrl;
-        setImageUrl(response.downloadUrl);
-      } catch (err) {
-        console.error("Failed to fetch auth image:", err);
-      } finally {
-        setImageLoading(false);
-      }
-    };
-
-    fetchBannerImage();
-  }, []);
 
   const handleOnFinish = async (values: AuthRequest & { confirmPassword?: string }) => {
     try {
@@ -83,18 +52,17 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
     <div className="flex flex-col md:flex-row bg-white rounded-md w-full md:w-[65%] h-144.5">
       {/* Image */}
       <div className="relative flex items-center justify-center w-full md:w-[45%]">
-        {!imageLoading && (
           <Image
             fill
             alt="Auth-Form-Image"
-            src={imageUrl ?? ""}
+            src={"/static/auth-banner.jpg"}
             style={{
               borderTopLeftRadius: "6px",
               borderBottomLeftRadius: "6px",
             }}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority
           />
-        )}
-        {imageLoading && <Skeleton.Image active={imageLoading} />}
       </div>
 
       {/* Form */}

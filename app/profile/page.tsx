@@ -1,6 +1,5 @@
 import SideBar from "@/components/navigation/SideBar";
 import ProfileContent from "@/components/profile/ProfileContent";
-import useMediaQuery from "@/shared/hooks/useMediaQuery";
 
 export default function ProfilePage() {
   return (
