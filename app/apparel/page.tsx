@@ -33,9 +33,12 @@ function ApparelContent() {
     const params = new URLSearchParams(searchParams.toString());
     if (value) {
       params.set(key, String(value));
-      if (key === "category") params.set("page", "1");
     } else {
       params.delete(key); 
+    }
+
+    if (key === "category" || key === "search" || key === "orderBy") {
+      params.set("page", "1");
     }
 
     router.push(`${pathName}?${params.toString()}`);
