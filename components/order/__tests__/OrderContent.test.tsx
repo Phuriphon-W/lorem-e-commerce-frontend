@@ -37,6 +37,14 @@ vi.mock("@/shared/hooks/useAuthContext", () => ({
   useAuthContext: () => ({ userId: "user-123" }),
 }));
 
+// Mock WebSocket Context
+let mockExpiredOrderIds: string[] = [];
+vi.mock("@/shared/hooks/useWebSocketContext", () => ({
+  useWebSocketContext: () => ({
+    get expiredOrderIds() { return mockExpiredOrderIds; }
+  }),
+}));
+
 // Mock APIs
 vi.mock("@/apis/order", () => ({
   getUserOrders: vi.fn(),
@@ -119,6 +127,7 @@ describe("OrderContent", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockSearchParams = new URLSearchParams();
+    mockExpiredOrderIds = [];
     mockedGetUserOrders.mockResolvedValue(mockOrdersResponse);
   });
 
@@ -154,7 +163,8 @@ describe("OrderContent", () => {
     expect(screen.getByText("completed")).toBeInTheDocument();
   });
 
-  it("updates URL when clicking status filter tags", async () => {
+  it("updates URL and resets page to 1 when clicking status filter tags", async () => {
+    mockSearchParams = new URLSearchParams("page=2");
     const user = userEvent.setup();
     render(<OrderContent />);
 
@@ -168,7 +178,7 @@ describe("OrderContent", () => {
     expect(paidFilterTag).toBeDefined();
     await user.click(paidFilterTag!);
 
-    expect(mockPush).toHaveBeenCalledWith("/order?status=paid&page=1");
+    expect(mockPush).toHaveBeenCalledWith("/order?page=1&status=paid");
   });
 
   it("updates URL when clicking orderBy sorting tags", async () => {
@@ -279,6 +289,26 @@ describe("OrderContent", () => {
       expect(message.error).toHaveBeenCalledWith(
         expect.objectContaining({ content: "Insufficient funds" })
       );
+    });
+  });
+
+  it("updates order status to failed when order expires via WebSocket", async () => {
+    const { rerender } = render(<OrderContent />);
+
+    await waitFor(() => {
+      expect(screen.getByText("pending")).toBeInTheDocument();
+    });
+
+    // Simulate websocket context change
+    mockExpiredOrderIds = ["first-order-uuid"];
+    rerender(<OrderContent />);
+
+    await waitFor(() => {
+      // The pending order should change to failed
+      expect(screen.getByText("failed")).toBeInTheDocument();
+      // The original completed order remains completed
+      expect(screen.getByText("completed")).toBeInTheDocument();
+      expect(screen.queryByText("pending")).not.toBeInTheDocument();
     });
   });
 });
