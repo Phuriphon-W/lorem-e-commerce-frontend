@@ -58,3 +58,21 @@ export const getUserPayments = async (
     throw err;
   }
 };
+
+export const verifySession = async (sessionId: string): Promise<{ valid: boolean }> => {
+  const options = {
+    method: "GET",
+    url: `${serverAddr}/api/payment/verify`,
+    params: {
+      sessionId,
+    },
+    withCredentials: true,
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

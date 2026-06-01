@@ -10,6 +10,7 @@ import { AuthProvider } from "@/shared/hooks/useAuthContext";
 import { cookies } from "next/headers";
 import { decryptJwt } from "@/shared/utils/jwt";
 import PageWrapper from "@/components/global/PageWrapper";
+import { WebSocketProvider } from "@/shared/hooks/useWebSocketContext";
 
 export const metadata: Metadata = {
   title: "Lorem",
@@ -43,7 +44,9 @@ export default async function RootLayout({
               }}
             >
             <AuthProvider userId={authToken?.id === null ? "" : authToken?.id as string}>
-              {children}
+              <WebSocketProvider userId={authToken?.id === null ? "" : authToken?.id as string}>
+                {children}
+              </WebSocketProvider>
             </AuthProvider>
             </ConfigProvider>
           </PageWrapper>

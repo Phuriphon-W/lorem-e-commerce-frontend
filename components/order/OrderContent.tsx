@@ -16,6 +16,7 @@ import { PAGE_SIZE } from "@/shared/constants";
 import OrderCard from "./OrderCard";
 import Image from "next/image";
 import { useAuthContext } from "@/shared/hooks/useAuthContext";
+import { useWebSocketContext } from "@/shared/hooks/useWebSocketContext";
 import NoData from "../global/NoData";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { OrderStatus } from "@/shared/enums/order";
@@ -89,6 +90,23 @@ export default function OrderContent() {
 
     fetchOrders();
   }, [userId, page, status, orderBy, refreshTrigger]);
+
+  const { expiredOrderIds } = useWebSocketContext();
+
+  useEffect(() => {
+    if (expiredOrderIds.length > 0) {
+      setOrders((prev) =>
+        prev.map((o) =>
+          expiredOrderIds.includes(o.id) && o.orderStatus === OrderStatus.PENDING
+            ? { ...o, orderStatus: OrderStatus.FAILED }
+            : o
+        )
+      );
+      if (selectedOrder && expiredOrderIds.includes(selectedOrder.id)) {
+        setSelectedOrder((prev) => prev ? { ...prev, orderStatus: OrderStatus.FAILED } : prev);
+      }
+    }
+  }, [expiredOrderIds]);
 
   // Modal Handlers
   const handleOpenModal = (order: OrderResponse) => {
