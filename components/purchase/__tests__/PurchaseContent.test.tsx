@@ -45,8 +45,8 @@ vi.mock("@/apis/order", () => ({
 }));
 
 // Mock Antd Modal to avoid JSDOM transition/animation bugs
-vi.mock("antd", async (importOriginal) => {
-  const original = await importOriginal<typeof import("antd")>();
+vi.mock("antd", async (importOriginal: any) => {
+  const original = await importOriginal() as typeof import("antd");
   return {
     ...original,
     Modal: ({ children, open, onCancel, title }: any) => {

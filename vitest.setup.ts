@@ -16,7 +16,7 @@ vi.mock('next/navigation', () => ({
 // Prevent window.matchMedia errors in testing (often needed for Ant Design)
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query: string) => ({
     matches: false,
     media: query,
     onchange: null,

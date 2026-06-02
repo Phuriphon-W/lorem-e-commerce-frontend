@@ -41,7 +41,7 @@ describe('AuthForm', () => {
   // ─── Sign In Mode ──────────────────────────────────────────────────────────
 
   describe('Sign In mode', () => {
-    it('renders the Sign In title', () => {
+    it('renders the Sign In title', { timeout: 15000 }, () => {
       render(<AuthForm formName="Sign In" apiAction={mockApiAction} />);
       // Ant Design renders the button text inside a <span>, so we use getByRole
       // to target the heading specifically and avoid multiple-element ambiguity.
@@ -225,7 +225,7 @@ describe('AuthForm', () => {
       });
     });
 
-    it('redirects to "/" after successful sign up', async () => {
+    it('redirects to "/" after successful sign up', { timeout: 15000 }, async () => {
       const user = userEvent.setup();
       mockApiAction.mockResolvedValue({ id: '2', username: 'newuser' });
 

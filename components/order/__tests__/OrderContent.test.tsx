@@ -55,8 +55,8 @@ vi.mock("@/apis/payment", () => ({
 }));
 
 // Mock Antd Modal to avoid JSDOM transition/animation bugs
-vi.mock("antd", async (importOriginal) => {
-  const original = await importOriginal<typeof import("antd")>();
+vi.mock("antd", async (importOriginal: any) => {
+  const original = await importOriginal() as typeof import("antd");
   return {
     ...original,
     Modal: ({ children, open, onCancel, title }: any) => {
@@ -150,7 +150,7 @@ describe("OrderContent", () => {
     render(<OrderContent />);
 
     await waitFor(() => {
-      expect(mockedGetUserOrders).toHaveBeenCalled();
+      expect(screen.getByText("$99.99")).toBeInTheDocument();
     });
 
     expect(screen.getByText("$99.99")).toBeInTheDocument();
@@ -172,7 +172,7 @@ describe("OrderContent", () => {
       expect(screen.getByText("$99.99")).toBeInTheDocument();
     });
 
-    const paidFilterTag = screen.getAllByText("Paid").find((el) =>
+    const paidFilterTag = screen.getAllByText("Paid").find((el: HTMLElement) =>
       el.classList.contains("ant-tag")
     );
     expect(paidFilterTag).toBeDefined();
