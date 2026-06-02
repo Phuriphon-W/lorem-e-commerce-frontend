@@ -11,7 +11,6 @@ import { message } from 'antd';
 // Mock next/image
 vi.mock('next/image', () => ({
   default: (props: Record<string, unknown>) => {
-    // eslint-disable-next-line @next/next/no-img-element
     return React.createElement('img', { alt: props.alt as string, src: props.src as string });
   },
 }));

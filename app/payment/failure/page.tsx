@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { verifySession } from "@/apis/payment";
-import { Button, Result, Spin, message } from "antd";
+import { Button, Result, Spin } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 
 function FailureContent() {
@@ -38,7 +38,7 @@ function FailureContent() {
             });
           }, 1000);
         }
-      } catch (err) {
+      } catch (err: any) {
         // If error verifying, assume failure and proceed
         setLoading(false);
       }

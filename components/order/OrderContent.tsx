@@ -81,7 +81,7 @@ export default function OrderContent() {
         });
         setOrders(response.orders);
         setTotalOrders(response.total);
-      } catch (error) {
+      } catch (error: any) {
         message.error("Failed to load orders.");
       } finally {
         setLoading(false);
@@ -106,7 +106,7 @@ export default function OrderContent() {
         setSelectedOrder((prev) => prev ? { ...prev, orderStatus: OrderStatus.FAILED } : prev);
       }
     }
-  }, [expiredOrderIds]);
+  }, [expiredOrderIds, selectedOrder]);
 
   // Modal Handlers
   const handleOpenModal = (order: OrderResponse) => {

@@ -78,7 +78,7 @@ export default function PurchaseContent() {
         );
         setPurchases(response.payments || []);
         setTotalPurchases(response.total || 0);
-      } catch (error) {
+      } catch (error: any) {
         message.error("Failed to load purchase history.");
         setPurchases([]);
       } finally {
@@ -96,7 +96,7 @@ export default function PurchaseContent() {
     try {
       const order = await getOrderById(purchase.orderId);
       setOrderDetails(order);
-    } catch (error) {
+    } catch (error: any) {
       message.error("Failed to load invoice details.");
     } finally {
       setLoadingOrder(false);

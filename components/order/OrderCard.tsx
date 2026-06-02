@@ -24,6 +24,7 @@ export default function OrderCard({ order, onClick }: OrderCardProps) {
         return diff > 0 ? diff : 0;
       };
 
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTimeLeft(calculateTimeLeft());
 
       const timer = setInterval(() => {

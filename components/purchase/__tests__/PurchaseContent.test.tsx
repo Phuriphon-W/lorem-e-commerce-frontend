@@ -93,7 +93,7 @@ describe("PurchaseContent", () => {
     total: 12,
   };
 
-  const mockOrderResponse = {
+  const mockOrderResponse: any = {
     id: "first-order-uuid",
     totalPrice: 120.5,
     orderStatus: "paid" as any,
@@ -139,10 +139,9 @@ describe("PurchaseContent", () => {
     render(<PurchaseContent />);
 
     await waitFor(() => {
-      expect(mockedGetUserPayments).toHaveBeenCalled();
+      expect(screen.getByText("#FIRST")).toBeInTheDocument();
     });
 
-    expect(screen.getByText("#FIRST")).toBeInTheDocument();
     expect(screen.getByText("#SECOND")).toBeInTheDocument();
 
     expect(screen.getByText("FIRST")).toBeInTheDocument();

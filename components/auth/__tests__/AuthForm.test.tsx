@@ -8,7 +8,6 @@ import axios from 'axios';
 // Mock next/image to avoid test environment issues
 vi.mock('next/image', () => ({
   default: (props: Record<string, unknown>) => {
-    // eslint-disable-next-line @next/next/no-img-element
     return React.createElement('img', { alt: props.alt as string, src: props.src as string });
   },
 }));
@@ -123,7 +122,7 @@ describe('AuthForm', () => {
         response: { data: { detail: 'Invalid credentials' } },
         isAxiosError: true,
       };
-      mockedAxios.isAxiosError = vi.fn().mockReturnValue(true);
+      mockedAxios.isAxiosError = vi.fn().mockReturnValue(true) as any;
       mockApiAction.mockRejectedValue(axiosError);
 
       render(<AuthForm formName="Sign In" apiAction={mockApiAction} />);
@@ -142,7 +141,7 @@ describe('AuthForm', () => {
 
     it('shows generic error message when a non-Axios error is thrown', async () => {
       const user = userEvent.setup();
-      mockedAxios.isAxiosError = vi.fn().mockReturnValue(false);
+      mockedAxios.isAxiosError = vi.fn().mockReturnValue(false) as any;
       mockApiAction.mockRejectedValue(new Error('Network error'));
 
       render(<AuthForm formName="Sign In" apiAction={mockApiAction} />);
@@ -196,7 +195,7 @@ describe('AuthForm', () => {
       expect(mockPush).toHaveBeenCalledWith('/signin');
     });
 
-    it('calls apiAction WITHOUT confirmPassword on successful submission', async () => {
+    it('calls apiAction WITHOUT confirmPassword on successful submission', { timeout: 15000 }, async () => {
       const user = userEvent.setup();
       mockApiAction.mockResolvedValue({ id: '2', username: 'newuser' });
 

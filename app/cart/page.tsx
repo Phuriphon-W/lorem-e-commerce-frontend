@@ -27,7 +27,7 @@ export default function CartPage() {
     try {
       const cart = await getCartByUserId(userId);
       setCartItems(cart.cartItems);
-    } catch (err) {
+    } catch (err: any) {
       if (axios.isAxiosError(err)) {
         message.error({
           content: err.response?.data.detail || "Failed to load cart",
@@ -50,7 +50,7 @@ export default function CartPage() {
       await deleteCartItems({ userId, productIds: itemIds });
       await fetchCart();
       message.success("All items removed from cart");
-    } catch (err) {
+    } catch (err: any) {
       message.error("Failed to remove items from cart:");
     }
   };
@@ -72,7 +72,7 @@ export default function CartPage() {
         message.warning("Please add your address details in your profile before checking out.");
         return;
       }
-    } catch {
+    } catch (err: any) {
       message.error("Failed to verify user profile.");
       return;
     }
@@ -97,7 +97,7 @@ export default function CartPage() {
 
       message.success(`Order created successfully. Your order ID is ${response.id}`);
       router.push('/order')
-    } catch (err) {
+    } catch (err: any) {
       if (axios.isAxiosError(err)) {
         message.error({
           content: err.response?.data.detail || "Failed to load cart",
@@ -109,6 +109,7 @@ export default function CartPage() {
 
   // Initial Load
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCart();
   }, [fetchCart]);
 

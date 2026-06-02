@@ -20,7 +20,7 @@ vi.spyOn(message, "error");
 vi.spyOn(message, "success");
 
 describe("ProfileContent", () => {
-  const mockUserProfile = {
+  const mockUserProfile: any = {
     username: "testuser",
     email: "test@example.com",
     firstName: "John",
@@ -36,7 +36,7 @@ describe("ProfileContent", () => {
     },
   };
 
-  const mockNullUserProfile = {
+  const mockNullUserProfile: any = {
     username: "nulluser",
     email: "null@example.com",
     firstName: "Jane",

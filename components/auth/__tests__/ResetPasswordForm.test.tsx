@@ -81,7 +81,7 @@ describe('ResetPasswordForm', () => {
 
     describe('success state', () => {
       it('calls resetPassword API with token and new password', async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         mockedResetPassword.mockResolvedValue({ message: 'Password reset' });
 
         renderWithSuspense(<ResetPasswordForm />);
@@ -100,7 +100,7 @@ describe('ResetPasswordForm', () => {
       });
 
       it('redirects to /signin after successful password reset', async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         mockedResetPassword.mockResolvedValue({ message: 'Password reset' });
 
         renderWithSuspense(<ResetPasswordForm />);
@@ -123,12 +123,12 @@ describe('ResetPasswordForm', () => {
 
     describe('error state', () => {
       it('does NOT redirect when resetPassword throws an Axios error', async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         const axiosError = {
           response: { data: { detail: 'Token expired', message: '' } },
           isAxiosError: true,
         };
-        mockedAxios.isAxiosError = vi.fn().mockReturnValue(true);
+        mockedAxios.isAxiosError = vi.fn().mockReturnValue(true) as any;
         mockedResetPassword.mockRejectedValue(axiosError);
 
         renderWithSuspense(<ResetPasswordForm />);
@@ -148,8 +148,8 @@ describe('ResetPasswordForm', () => {
       });
 
       it('does NOT redirect when resetPassword throws a generic error', async () => {
-        const user = userEvent.setup();
-        mockedAxios.isAxiosError = vi.fn().mockReturnValue(false);
+        const user = userEvent.setup({ delay: null });
+        mockedAxios.isAxiosError = vi.fn().mockReturnValue(false) as any;
         mockedResetPassword.mockRejectedValue(new Error('Network failure'));
 
         renderWithSuspense(<ResetPasswordForm />);
@@ -169,12 +169,12 @@ describe('ResetPasswordForm', () => {
       });
 
       it('uses fallback "message" field if "detail" is absent in error response', async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         const axiosError = {
           response: { data: { message: 'Invalid token', detail: undefined } },
           isAxiosError: true,
         };
-        mockedAxios.isAxiosError = vi.fn().mockReturnValue(true);
+        mockedAxios.isAxiosError = vi.fn().mockReturnValue(true) as any;
         mockedResetPassword.mockRejectedValue(axiosError);
 
         renderWithSuspense(<ResetPasswordForm />);
@@ -197,7 +197,7 @@ describe('ResetPasswordForm', () => {
 
     describe('confirm password validation', () => {
       it('does NOT call resetPassword when passwords do not match', async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         renderWithSuspense(<ResetPasswordForm />);
 
         await waitFor(() => {

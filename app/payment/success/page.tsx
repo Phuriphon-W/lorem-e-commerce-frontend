@@ -39,7 +39,7 @@ function SuccessContent() {
             });
           }, 1000);
         }
-      } catch (err) {
+      } catch (err: any) {
         message.error("Error verifying session.");
         router.push("/order");
       }

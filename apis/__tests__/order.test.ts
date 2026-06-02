@@ -2,7 +2,6 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import axios from 'axios';
 import { createOrder, getUserOrders, getOrderById, updateOrderStatus } from '../order';
 import { serverAddr } from '@/shared/constants';
-import { OrderBy } from '@/shared/enums/orderBy';
 
 vi.mock('axios');
 const mockedAxios = vi.mocked(axios, true);

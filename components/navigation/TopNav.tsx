@@ -2,23 +2,21 @@
 
 import Link from "next/link";
 import NavLinks from "./NavLinks";
-import { signout } from "@/apis/auth";
-import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons/faArrowRightFromBracket";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { usePathname, useRouter } from "next/navigation";
+
+import { usePathname } from "next/navigation";
 import { publicRoutes } from "@/shared/routeList";
-import { message } from "antd";
+
 import MenuDropdown from "./MenuDropdown";
 
 export default function TopNav() {
   const pathName = usePathname();
   const showNav = !publicRoutes.includes(pathName);
-  const router = useRouter();
+  
 
   return (
     <>
       {showNav && (
-        <div className="shadow-md w-full z-0">
+        <div className="shadow-md w-full sticky top-0 z-50 bg-white">
           <div className="flex justify-between items-center h-[74px] md:h-16 px-5">
             {/*  Logo  */}
             <div>

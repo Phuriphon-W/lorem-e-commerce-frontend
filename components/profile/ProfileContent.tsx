@@ -38,7 +38,7 @@ export default function ProfileContent() {
             zip: cleanNulls(data.address?.zip),
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         message.error("Failed to load profile data.");
       } finally {
         setLoading(false);
@@ -67,7 +67,7 @@ export default function ProfileContent() {
 
       await updateProfile(payload);
       message.success("Profile updated successfully!");
-    } catch (error) {
+    } catch (error: any) {
       message.error("Failed to update profile.");
     } finally {
       setSaving(false);

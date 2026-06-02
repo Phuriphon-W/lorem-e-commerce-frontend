@@ -1,13 +1,11 @@
 "use client";
 
-import { Button, Form, Input, message, Typography, Skeleton } from "antd";
+import { Button, Form, Input, message, Typography } from "antd";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, Suspense } from "react";
 import { resetPassword } from "@/apis/auth";
 import axios from "axios";
-
-let cachedImageUrl: string | undefined = undefined;
 
 function ResetPasswordFormContent() {
   const router = useRouter();
@@ -24,7 +22,7 @@ function ResetPasswordFormContent() {
   const handleOnFinish = async (values: any) => {
     if (!token) return;
     try {
-      const res = await resetPassword(token, values.password);
+      await resetPassword(token, values.password);
       message.success({ content: "Password has been changed successfully", duration: 3 });
       router.push("/signin");
     } catch (err) {

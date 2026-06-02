@@ -80,7 +80,7 @@ vi.spyOn(message, "error");
 vi.spyOn(message, "success");
 
 describe("OrderContent", () => {
-  const mockOrdersResponse = {
+  const mockOrdersResponse: any = {
     orders: [
       {
         id: "first-order-uuid",

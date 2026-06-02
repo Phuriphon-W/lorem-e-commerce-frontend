@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import { forgotPassword } from "@/apis/auth";
 import axios from "axios";
 
-let cachedImageUrl: string | undefined = undefined;
-
 export default function ForgotPasswordForm() {
   const router = useRouter();
 

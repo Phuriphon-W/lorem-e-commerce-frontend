@@ -108,7 +108,7 @@ describe('ForgotPasswordForm', () => {
         response: { data: { detail: 'User not found', message: '' } },
         isAxiosError: true,
       };
-      mockedAxios.isAxiosError = vi.fn().mockReturnValue(true);
+      mockedAxios.isAxiosError = vi.fn().mockReturnValue(true) as any;
       mockedForgotPassword.mockRejectedValue(axiosError);
 
       render(<ForgotPasswordForm />);
@@ -124,7 +124,7 @@ describe('ForgotPasswordForm', () => {
 
     it('does NOT redirect when forgotPassword throws a generic error', async () => {
       const user = userEvent.setup();
-      mockedAxios.isAxiosError = vi.fn().mockReturnValue(false);
+      mockedAxios.isAxiosError = vi.fn().mockReturnValue(false) as any;
       mockedForgotPassword.mockRejectedValue(new Error('Network failure'));
 
       render(<ForgotPasswordForm />);
@@ -144,7 +144,7 @@ describe('ForgotPasswordForm', () => {
         response: { data: { message: 'Bad request', detail: undefined } },
         isAxiosError: true,
       };
-      mockedAxios.isAxiosError = vi.fn().mockReturnValue(true);
+      mockedAxios.isAxiosError = vi.fn().mockReturnValue(true) as any;
       mockedForgotPassword.mockRejectedValue(axiosError);
 
       render(<ForgotPasswordForm />);
