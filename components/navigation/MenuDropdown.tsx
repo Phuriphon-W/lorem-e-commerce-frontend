@@ -126,6 +126,7 @@ export default function MenuDropdown() {
     });
 
     return generatedItems;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile]); // <-- Only rebuild this array if isMobile changes
 
   return (

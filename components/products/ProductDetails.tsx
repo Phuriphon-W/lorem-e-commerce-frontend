@@ -28,7 +28,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     setIsAdding(true);
 
     try {
-      const response = await addCartItem({
+      await addCartItem({
         userId,
         productId: product.id,
         quantity,

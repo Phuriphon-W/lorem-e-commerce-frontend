@@ -7,7 +7,7 @@ export async function decryptJwt(jwtToken: string | undefined) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(jwtToken, secret);
     return payload;
-  } catch (err) {
+  } catch {
     return null;
   }
 }

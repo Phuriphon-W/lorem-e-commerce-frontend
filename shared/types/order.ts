@@ -17,6 +17,7 @@ export interface OrderResponse {
   userId: string;
   totalPrice: number;
   orderStatus: OrderStatus;
+  stripeSessionExpiresAt?: number;
   orderItems: OrderItemResponse[];
   createdAt: string;
 }

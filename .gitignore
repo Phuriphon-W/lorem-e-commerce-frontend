@@ -40,4 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# specs document
 /specs/**
+
+# test reports
+/playwright-report/**
+/test-results/**
+eslint_output.json
