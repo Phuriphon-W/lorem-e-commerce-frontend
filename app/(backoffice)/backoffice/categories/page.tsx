@@ -57,6 +57,7 @@ export default function CategoriesPage() {
       okText: "Delete",
       okType: "danger",
       cancelText: "Cancel",
+      centered: true,
       onOk: async () => {
         try {
           await deleteCategory(id);
@@ -130,7 +131,7 @@ export default function CategoriesPage() {
         </Button>
       </div>
 
-      <Card bordered={false} className="shadow-sm shadow-gray-100/50">
+      <Card className="shadow-sm shadow-gray-100/50">
         <Table
           columns={columns}
           dataSource={categories}
@@ -138,6 +139,7 @@ export default function CategoriesPage() {
           loading={loading}
           pagination={false}
           className="border border-gray-50 rounded-lg overflow-hidden"
+          scroll={{ x: true }}
         />
       </Card>
 
@@ -149,7 +151,7 @@ export default function CategoriesPage() {
           setEditingCategory(null);
         }}
         footer={null}
-        destroyOnClose
+        destroyOnHidden
         className="rounded-xl overflow-hidden"
       >
         <Form form={form} layout="vertical" onFinish={handleCreateOrEdit} className="mt-4">

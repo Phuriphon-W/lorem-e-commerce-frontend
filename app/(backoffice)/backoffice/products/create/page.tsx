@@ -1,9 +1,23 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Form, Input, InputNumber, Select, Button, Card, Typography, message, Upload } from "antd";
+import {
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Button,
+  Card,
+  Typography,
+  message,
+  Upload,
+} from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faUpload, faSave } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faUpload,
+  faSave,
+} from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { Category } from "@/shared/types/category";
 import { createProduct, getAllCategories } from "@/apis/admin";
@@ -67,7 +81,9 @@ export default function CreateProductPage() {
       <div className="flex items-center gap-3">
         <Button
           type="text"
-          icon={<FontAwesomeIcon icon={faArrowLeft} className="text-gray-600" />}
+          icon={
+            <FontAwesomeIcon icon={faArrowLeft} className="text-gray-600" />
+          }
           onClick={() => router.push("/backoffice/products")}
           className="hover:bg-gray-100 rounded-lg"
         />
@@ -75,7 +91,9 @@ export default function CreateProductPage() {
           <Title level={2} className="!m-0 text-gray-800 font-bold">
             Create Product
           </Title>
-          <div className="text-gray-400 text-sm mt-1">Add a new item to your online shop</div>
+          <div className="text-gray-400 text-sm mt-1">
+            Add a new item to your online shop
+          </div>
         </div>
       </div>
 
@@ -95,7 +113,10 @@ export default function CreateProductPage() {
               { min: 1, message: "Name cannot be empty" },
             ]}
           >
-            <Input placeholder="e.g. Vintage Denim Jacket" className="h-10 rounded-lg" />
+            <Input
+              placeholder="e.g. Vintage Denim Jacket"
+              className="h-10 rounded-lg"
+            />
           </Form.Item>
 
           <Form.Item
@@ -116,10 +137,17 @@ export default function CreateProductPage() {
               name="price"
               rules={[
                 { required: true, message: "Please input product price!" },
-                { type: "number", min: 0.01, message: "Price must be greater than 0!" },
+                {
+                  type: "number",
+                  min: 0.01,
+                  message: "Price must be greater than 0!",
+                },
               ]}
             >
-              <InputNumber className="w-full h-10 rounded-lg flex items-center" placeholder="19.99" />
+              <InputNumber
+                className="w-full h-10 rounded-lg flex items-center"
+                placeholder="19.99"
+              />
             </Form.Item>
 
             <Form.Item
@@ -127,14 +155,25 @@ export default function CreateProductPage() {
               name="available"
               rules={[
                 { required: true, message: "Please input product stock!" },
-                { type: "number", min: 0, message: "Stock cannot be negative!" },
+                {
+                  type: "number",
+                  min: 0,
+                  message: "Stock cannot be negative!",
+                },
               ]}
             >
-              <InputNumber className="w-full h-10 rounded-lg flex items-center" placeholder="50" />
+              <InputNumber
+                className="w-full h-10 rounded-lg flex items-center"
+                placeholder="50"
+              />
             </Form.Item>
           </div>
 
-          <Form.Item label="Description" name="description">
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[{ required: true, message: "Please input product description!" }]}
+          >
             <TextArea
               rows={4}
               placeholder="Describe the product details, materials, fit..."
@@ -145,8 +184,13 @@ export default function CreateProductPage() {
           </Form.Item>
 
           <div className="border border-dashed border-gray-200 rounded-lg p-6 bg-gray-50 flex flex-col items-center justify-center space-y-2">
-            <FontAwesomeIcon icon={faUpload} className="text-gray-400 text-2xl" />
-            <span className="text-gray-500 text-sm font-medium">Upload Product Image</span>
+            <FontAwesomeIcon
+              icon={faUpload}
+              className="text-gray-400 text-2xl"
+            />
+            <span className="text-gray-500 text-sm font-medium">
+              Upload Product Image
+            </span>
             <input
               type="file"
               accept="image/*"
@@ -155,7 +199,8 @@ export default function CreateProductPage() {
             />
             {imageFile && (
               <div className="text-xs text-amber-600 font-semibold mt-1">
-                Selected: {imageFile.name} ({Math.round(imageFile.size / 1024)} KB)
+                Selected: {imageFile.name} ({Math.round(imageFile.size / 1024)}{" "}
+                KB)
               </div>
             )}
           </div>
