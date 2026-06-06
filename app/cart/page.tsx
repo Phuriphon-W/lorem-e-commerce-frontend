@@ -143,6 +143,13 @@ export default function CartPage() {
         />
       )}
 
+      {/* Warning message */}
+      {cartItems.length > 0 && cartItems.some(item => !item.name || item.available === undefined || item.available < item.quantity) && (
+        <div className="w-[90%] px-4 py-3 bg-red-50 border border-red-100 text-red-700 rounded-xl text-sm font-medium">
+          Please resolve all stock and availability issues in your cart before checking out.
+        </div>
+      )}
+
       {/* Buttons */}
       {cartItems.length > 0 && (
         <div className="flex flex-row justify-between md:justify-end gap-4 w-[90%] px-4 ">
@@ -156,7 +163,11 @@ export default function CartPage() {
             </Button>
           </div>
           <div className="md:w-[20%] w-full">
-            <Button style={{ width: "100%" }} onClick={() => checkOut()}>
+            <Button 
+              style={{ width: "100%" }} 
+              onClick={() => checkOut()}
+              disabled={cartItems.some(item => !item.name || item.available === undefined || item.available < item.quantity)}
+            >
               Checkout
             </Button>
           </div>

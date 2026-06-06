@@ -82,13 +82,21 @@ export default function CartTable({
       align: "center",
       width: "180px",
       render: (val, record) => (
-        <InputNumber
-          mode="spinner"
-          defaultValue={val}
-          min={1}
-          max={record.available}
-          onChange={(newVal) => onQuantityChange(record.productId, newVal)}
-        />
+        <div className="flex flex-col items-center">
+          <InputNumber
+            mode="spinner"
+            defaultValue={val}
+            min={1}
+            max={record.available || 1}
+            disabled={!record.name}
+            onChange={(newVal) => onQuantityChange(record.productId, newVal)}
+          />
+          {record.available !== undefined && record.available < val && (
+            <div className="text-xs text-red-500 font-semibold mt-1">
+              Only {record.available} left in stock
+            </div>
+          )}
+        </div>
       ),
     },
     {

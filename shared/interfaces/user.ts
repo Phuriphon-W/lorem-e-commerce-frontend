@@ -15,6 +15,7 @@ export interface UserProfile {
   email: string;
   telephone: string;
   address: UserAddress;
+  isAdmin?: boolean;
 }
 
 export interface UpdateProfilePayload {

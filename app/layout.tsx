@@ -24,37 +24,39 @@ export default async function RootLayout({
 }>) {
   const cookie = (await cookies()).get("authToken")?.value
   const authToken = await decryptJwt(cookie)
-
+  const userId = authToken?.id ? (authToken.id as string) : ""
+  const isAdmin = authToken?.isAdmin ? (authToken.isAdmin as boolean) : false
+  
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col h-screen overflow-hidden`}
       >
-        <div className="shrink-0 w-full z-10">
-          <TopNav />
-        </div>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: MAIN_THEME.primary,
+            },
+          }}
+        >
+          <AuthProvider userId={userId} isAdmin={isAdmin}>
+            <WebSocketProvider userId={userId}>
+              <div className="shrink-0 w-full z-10">
+                <TopNav />
+              </div>
 
-        <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
-          <PageWrapper>
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: MAIN_THEME.primary,
-                },
-              }}
-            >
-            <AuthProvider userId={authToken?.id === null ? "" : authToken?.id as string}>
-              <WebSocketProvider userId={authToken?.id === null ? "" : authToken?.id as string}>
-                {children}
-              </WebSocketProvider>
-            </AuthProvider>
-            </ConfigProvider>
-          </PageWrapper>
+              <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
+                <PageWrapper>
+                  {children}
+                </PageWrapper>
 
-          <div className="w-full shrink-0 mt-8">
-            <Footer />
-          </div>
-        </main>
+                <div className="w-full shrink-0 mt-8">
+                  <Footer />
+                </div>
+              </main>
+            </WebSocketProvider>
+          </AuthProvider>
+        </ConfigProvider>
       </body>
     </html>
   );

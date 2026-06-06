@@ -24,9 +24,12 @@ import useMediaQuery from "@/shared/hooks/useMediaQuery";
 import { useMemo } from "react";
 import Link from "next/link";
 
+import { useAuthContext } from "@/shared/hooks/useAuthContext";
+
 export default function MenuDropdown() {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const { isAdmin } = useAuthContext();
 
   // useMemo caches the resulting array so it isn't recalculated on every render
   const items: MenuProps["items"] = useMemo(() => {
@@ -57,29 +60,36 @@ export default function MenuDropdown() {
         label: "Cart",
         icon: faCartShopping,
         key: 4,
-        visible: isMobile,
+        visible: isMobile && !isAdmin,
         href: "/cart",
       },
       {
         label: "My Profile",
         icon: faCircleUser,
         key: 5,
-        visible: true,
+        visible: !isAdmin,
         href: "/profile",
       },
       {
         label: "My Order",
         icon: faBoxOpen,
         key: 6,
-        visible: true,
+        visible: !isAdmin,
         href: "/order",
       },
       {
         label: "My Purchase",
         icon: faFileInvoiceDollar,
         key: 7,
-        visible: true,
+        visible: !isAdmin,
         href: "/purchase",
+      },
+      {
+        label: "Back Office",
+        icon: faStore,
+        key: 9,
+        visible: !!isAdmin,
+        href: "/backoffice",
       },
     ];
 
@@ -127,7 +137,7 @@ export default function MenuDropdown() {
 
     return generatedItems;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile]); // <-- Only rebuild this array if isMobile changes
+  }, [isMobile, isAdmin]); // <-- Only rebuild this array if isMobile or isAdmin changes
 
   return (
     <Dropdown menu={{ items }} trigger={["click"]}>

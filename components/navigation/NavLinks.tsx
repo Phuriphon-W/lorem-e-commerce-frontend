@@ -8,10 +8,12 @@ import {
 import { 
     faStore, 
     faCartShopping,
-    faShirt
+    faShirt,
+    faGauge
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link'
+import { useAuthContext } from '@/shared/hooks/useAuthContext';
 
 // Map of links to display in the side navigation.
 const links = [
@@ -23,9 +25,22 @@ const links = [
 ];
 
 export default function NavLinks() {
+  const { isAdmin } = useAuthContext();
+
+  const displayLinks = [...links];
+  if (isAdmin) {
+    // Remove Cart
+    const cartIdx = displayLinks.findIndex(l => l.name === 'Cart');
+    if (cartIdx !== -1) {
+      displayLinks.splice(cartIdx, 1);
+    }
+    // Add Back Office link
+    displayLinks.push({ name: 'Back Office', href: '/backoffice', icon: faGauge });
+  }
+
   return (
     <>
-      {links.map((link) => {
+      {displayLinks.map((link) => {
         const LinkIcon = link.icon;
         return (
           <Link

@@ -18,3 +18,10 @@ export async function getUserIdByToken():Promise<string> {
   const jwt = await decryptJwt(authCookie?.value);
   return jwt?.id as string;
 }
+
+export async function getIsAdminByToken(): Promise<boolean> {
+  const cookieStore = await cookies();
+  const authCookie = cookieStore.get("authToken");
+  const jwt = await decryptJwt(authCookie?.value);
+  return !!jwt?.isAdmin;
+}
