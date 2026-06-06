@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Table, Card, Typography, message, Drawer, Descriptions, Tag, Space, Button, Select, Input } from "antd";
+import { Table, Card, Typography, message, Drawer, Descriptions, Tag, Space, Button, Select } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faEnvelope, faPhone, faMapMarkerAlt, faFolderOpen, faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faEnvelope, faPhone, faMapMarkerAlt, faFolderOpen, faFilter } from "@fortawesome/free-solid-svg-icons";
 import { UserProfile } from "@/shared/interfaces/user";
 import { getAllUsers } from "@/apis/admin";
+import SearchBar from "@/components/backoffice/SearchBar";
 import { getUserOrders, updateOrderStatus } from "@/apis/order";
 import { OrderResponse } from "@/shared/types/order";
 
@@ -43,9 +44,10 @@ export default function UsersPage() {
     fetchUsers(currentPage, pageSize, search, orderBy);
   }, [currentPage, pageSize, orderBy]);
 
-  const handleSearch = () => {
+  const handleSearch = (value: string) => {
+    setSearch(value);
     setCurrentPage(1);
-    fetchUsers(1, pageSize, search, orderBy);
+    fetchUsers(1, pageSize, value, orderBy);
   };
 
   const handleUserClick = async (user: UserProfile) => {
@@ -127,23 +129,15 @@ export default function UsersPage() {
         <div className="text-gray-400 text-sm mt-1">Check registered profiles and user order histories</div>
       </div>
 
-      <Card bordered={false} className="shadow-sm shadow-gray-100/50">
+      <Card className="shadow-sm shadow-gray-100/50">
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-1 flex gap-2">
-            <Input
+            <SearchBar
               placeholder="Search users by username, name, email..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              onPressEnter={handleSearch}
-              prefix={<FontAwesomeIcon icon={faSearch} className="text-gray-400" />}
-              className="h-10 rounded-lg border-gray-200"
+              onChange={setSearch}
+              onSearch={handleSearch}
             />
-            <Button
-              onClick={handleSearch}
-              className="h-10 rounded-lg border-amber-600 text-amber-600 hover:text-amber-500 hover:border-amber-500"
-            >
-              Search
-            </Button>
           </div>
           <div className="flex items-center gap-2 min-w-[240px]">
             <FontAwesomeIcon icon={faFilter} className="text-gray-400" />
@@ -187,10 +181,10 @@ export default function UsersPage() {
       <Drawer
         title="User Profile & History"
         placement="right"
-        width={720}
+        size={720}
         onClose={() => setDrawerVisible(false)}
         open={drawerVisible}
-        destroyOnClose
+        destroyOnHidden
       >
         {selectedUser && (
           <div className="space-y-6">

@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Table, Card, Typography, message, Input, Button, Space, Select, Tag, Descriptions, Divider } from "antd";
+import { Table, Card, Typography, message, Button, Space, Select, Tag, Descriptions, Divider } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faReceipt, faSearch, faFolderOpen, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faReceipt, faFolderOpen, faUser } from "@fortawesome/free-solid-svg-icons";
 import { UserProfile } from "@/shared/interfaces/user";
 import { getAllUsers } from "@/apis/admin";
 import { getUserOrders, getOrderById, updateOrderStatus } from "@/apis/order";
 import { OrderResponse, GetOrderByIdResponse } from "@/shared/types/order";
+import SearchBar from "@/components/backoffice/SearchBar";
 
 const { Title } = Typography;
 
@@ -45,21 +46,24 @@ export default function OrdersPage() {
     fetchUsers(userPage, userPageSize, userSearch);
   }, [userPage, userPageSize]);
 
-  const handleUserSearch = () => {
+  const handleUserSearch = (value: string) => {
+    setUserSearch(value);
     setUserPage(1);
-    fetchUsers(1, userPageSize, userSearch);
+    fetchUsers(1, userPageSize, value);
   };
 
-  const handleSearchOrder = async () => {
-    if (!searchOrderId.trim()) {
-      message.warning("Please enter a valid Order ID");
+  const handleSearchOrder = async (value: string) => {
+    setSearchOrderId(value);
+    const orderId = value.trim();
+    if (!orderId) {
+      setSingleOrder(null);
       return;
     }
     setSingleOrderLoading(true);
     setSingleOrder(null);
     setSelectedUser(null);
     try {
-      const res = await getOrderById(searchOrderId.trim());
+      const res = await getOrderById(orderId);
       setSingleOrder(res);
     } catch (err: any) {
       message.error(err.response?.data?.message || "Order not found");
@@ -146,42 +150,25 @@ export default function OrdersPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 space-y-6">
           <Card title="Search Order" bordered={false} className="shadow-sm shadow-gray-100/50">
-            <Space direction="vertical" className="w-full">
-              <Input
-                placeholder="Enter Order UUID..."
-                value={searchOrderId}
-                onChange={(e) => setSearchOrderId(e.target.value)}
-                prefix={<FontAwesomeIcon icon={faSearch} className="text-gray-400" />}
-                className="h-10 rounded-lg"
-              />
-              <Button
-                type="primary"
-                onClick={handleSearchOrder}
-                className="w-full bg-amber-600 hover:bg-amber-500 border-none rounded-lg h-10 shadow-sm shadow-amber-500/20"
-              >
-                Search Order
-              </Button>
-            </Space>
+            <SearchBar
+              placeholder="Enter Order UUID..."
+              value={searchOrderId}
+              onChange={setSearchOrderId}
+              onSearch={handleSearchOrder}
+              className="w-full h-10 rounded-lg"
+            />
           </Card>
 
           <Card title="Browse by Customer" bordered={false} className="shadow-sm shadow-gray-100/50">
-            <div className="flex gap-2 mb-4">
-              <Input
+            <div className="mb-4">
+              <SearchBar
                 placeholder="Search customers..."
                 value={userSearch}
-                onChange={(e) => setUserSearch(e.target.value)}
-                onPressEnter={handleUserSearch}
-                prefix={<FontAwesomeIcon icon={faSearch} className="text-gray-400" />}
+                onChange={setUserSearch}
+                onSearch={handleUserSearch}
                 size="small"
-                className="rounded-lg"
+                className="w-full rounded-lg"
               />
-              <Button
-                size="small"
-                onClick={handleUserSearch}
-                className="border-amber-600 text-amber-600 hover:text-amber-500 hover:border-amber-500 rounded-lg"
-              >
-                Search
-              </Button>
             </div>
             <Table
               columns={userColumns}

@@ -63,7 +63,7 @@ export default function CreateProductPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="space-y-6 full mx-auto">
       <div className="flex items-center gap-3">
         <Button
           type="text"
@@ -79,7 +79,7 @@ export default function CreateProductPage() {
         </div>
       </div>
 
-      <Card bordered={false} className="shadow-sm shadow-gray-100/50">
+      <Card className="shadow-sm shadow-gray-100/50">
         <Form
           form={form}
           layout="vertical"

@@ -62,7 +62,7 @@ export default function BackOfficeDashboard() {
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card bordered={false} className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
+          <Card className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
             <Statistic
               title={<span className="text-gray-400 font-medium">Categories</span>}
               value={stats.categoriesCount}
@@ -74,7 +74,7 @@ export default function BackOfficeDashboard() {
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card bordered={false} className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
+          <Card className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
             <Statistic
               title={<span className="text-gray-400 font-medium">Orders</span>}
               value={stats.ordersCount}
@@ -86,7 +86,7 @@ export default function BackOfficeDashboard() {
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card bordered={false} className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
+          <Card className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
             <Statistic
               title={<span className="text-gray-400 font-medium">Users</span>}
               value={stats.usersCount}
