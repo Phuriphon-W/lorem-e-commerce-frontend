@@ -8,5 +8,6 @@ export type AuthRequest = {
 
 export type AuthResponse = {
     id: string,
-    username: string
+    username: string,
+    isAdmin?: boolean
 }

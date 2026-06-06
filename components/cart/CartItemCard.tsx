@@ -59,8 +59,8 @@ export default function CartItemCard({
       {/* Image Section */}
       <div className="relative w-1/3 aspect-square rounded-2xl overflow-hidden">
         <Image 
-          src={item.image_url} 
-          alt={`${item.name}-image`} 
+          src={item.image_url || "https://placehold.co/200x200?text=No+Image"} 
+          alt={`${item.name || "unavailable"}-image`} 
           fill 
           sizes="(max-width: 768px) 33vw, 20vw" 
         />
@@ -69,23 +69,36 @@ export default function CartItemCard({
       {/* Text Section */}
       <div className="flex flex-col md:flex-row w-2/3 md:items-center text-[14px] md:text-[16px] gap-1">
         {/* Name */}
-        <div>{item.name}</div>
+        <div>
+          <div>{item.name || "Product unavailable"}</div>
+          {(!item.name || item.available === undefined) && (
+            <div className="text-xs text-red-500 font-semibold">
+              This product is no longer available. Please remove it from your cart.
+            </div>
+          )}
+        </div>
 
         <div className="md:hidden">
         {/* Unit Price */}
-        <div>{`$${formatNumber(item.price)}`}</div>
+        <div>{`$${formatNumber(item.price || 0)}`}</div>
 
         {/* In Cart and Delete Button */}
         <div className="w-full flex items-center gap-4">
-          <div className="w-[115px]">
+          <div className="w-[115px] flex flex-col">
             <InputNumber
               mode="spinner"
               defaultValue={item.quantity}
               size="small"
               min={1}
-              max={item.available}
+              max={item.available || 1}
+              disabled={!item.name}
               onChange={(newVal) => onQuantityChange(item.productId, newVal)}
             />
+            {item.available !== undefined && item.available < item.quantity && (
+              <div className="text-xs text-red-500 font-semibold mt-1">
+                Only {item.available} left in stock
+              </div>
+            )}
           </div>
           <Button
             type="text"
@@ -97,7 +110,7 @@ export default function CartItemCard({
 
         {/* Total For This Item */}
         <div>
-          Tota Price: {`$${formatNumber(item.quantity * item.price)}`}
+          {`Total Price: $${formatNumber(item.quantity * (item.price || 0))}`}
         </div>
         </div>
       </div>

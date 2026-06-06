@@ -14,6 +14,19 @@ export default async function proxy(request: NextRequest) {
         return NextResponse.redirect(new URL('/signin', request.nextUrl))
     }
 
+    if (authToken?.id) {
+        const isAdmin = !!authToken.isAdmin
+        const isBackofficeRoutes = path.startsWith('/backoffice')
+
+        if (isAdmin && !isBackofficeRoutes) {
+            return NextResponse.redirect(new URL('/backoffice', request.nextUrl))
+        }
+
+        if (!isAdmin && isBackofficeRoutes) {
+            return NextResponse.redirect(new URL('/', request.nextUrl))
+        }
+    }
+
     return NextResponse.next()
 }
 

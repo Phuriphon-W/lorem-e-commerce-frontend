@@ -306,10 +306,10 @@ export default function PurchaseContent() {
                       >
                         <div className="col-span-12 md:col-span-7 flex items-center gap-4">
                           <div className="relative w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0 border border-gray-100">
-                            {item.product.image_url ? (
+                            {item.product?.image_url ? (
                               <Image
                                 src={item.product.image_url}
-                                alt={item.product.name}
+                                alt={item.product.name || "Product"}
                                 fill
                                 className="object-cover"
                                 sizes="80px"
@@ -322,10 +322,10 @@ export default function PurchaseContent() {
                           </div>
                           <div className="flex flex-col min-w-0">
                             <Text className="font-semibold text-sm truncate">
-                              {item.product.name}
+                              {item.product?.name || "Unavailable Product"}
                             </Text>
                             <Text className="text-gray-400 text-xs truncate">
-                              {item.product.description}
+                              {item.product?.description || "This product is no longer available."}
                             </Text>
                           </div>
                         </div>

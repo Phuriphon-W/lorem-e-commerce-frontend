@@ -274,10 +274,10 @@ export default function OrderContent() {
                   <div className="flex items-center w-full gap-4">
                     {/* Image Placeholder */}
                     <div className="relative w-16 h-16 bg-gray-100 rounded-md shrink-0 flex items-center justify-center overflow-hidden">
-                      {item.product.image_url ? (
+                      {item.product?.image_url ? (
                         <Image
                           src={item.product.image_url}
-                          alt={item.product.name}
+                          alt={item.product.name || "Product"}
                           fill
                           priority
                           className="object-cover"
@@ -293,10 +293,10 @@ export default function OrderContent() {
                     {/* Product Details */}
                     <div className="flex flex-col grow min-w-0">
                       <Text className="font-medium truncate text-sm md:text-base">
-                        {item.product.name}
+                        {item.product?.name || "Unavailable Product"}
                       </Text>
                       <Text className="text-gray-400 text-xs md:text-sm truncate">
-                        {item.product.description}
+                        {item.product?.description || "This product is no longer available."}
                       </Text>
                     </div>
 
