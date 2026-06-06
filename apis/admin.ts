@@ -165,3 +165,43 @@ export const getAllUsers = async (
     total: data.total || 0,
   };
 };
+
+export interface DashboardStats {
+  productsCount: number;
+  categoriesCount: number;
+  ordersCount: number;
+  usersCount: number;
+}
+
+export const getDashboardStats = async (): Promise<DashboardStats> => {
+  const [productsRes, categoriesRes, ordersRes, usersRes] = await Promise.all([
+    axios.request<{ count: number }>({
+      url: `${serverAddr}/api/product/count`,
+      method: "GET",
+      withCredentials: true,
+    }),
+    axios.request<{ count: number }>({
+      url: `${serverAddr}/api/category/count`,
+      method: "GET",
+      withCredentials: true,
+    }),
+    axios.request<{ count: number }>({
+      url: `${serverAddr}/api/order/count`,
+      method: "GET",
+      withCredentials: true,
+    }),
+    axios.request<{ count: number }>({
+      url: `${serverAddr}/api/user/count`,
+      method: "GET",
+      withCredentials: true,
+    }),
+  ]);
+
+  return {
+    productsCount: productsRes.data.count,
+    categoriesCount: categoriesRes.data.count,
+    ordersCount: ordersRes.data.count,
+    usersCount: usersRes.data.count,
+  };
+};
+

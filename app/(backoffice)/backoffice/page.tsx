@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Row, Col, Statistic, Typography } from "antd";
+import { Card, Row, Col, Statistic, Typography, message } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBox,
@@ -9,14 +9,33 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { COLORS } from "@/shared/colors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getDashboardStats, DashboardStats } from "@/apis/admin";
 
 const { Title, Paragraph } = Typography;
 
 export default function BackOfficeDashboard() {
+  const [stats, setStats] = useState<DashboardStats>({
+    productsCount: 0,
+    categoriesCount: 0,
+    ordersCount: 0,
+    usersCount: 0,
+  });
+  const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
-    
-  }, [])
+    const fetchStats = async () => {
+      try {
+        const data = await getDashboardStats();
+        setStats(data);
+      } catch (err) {
+        message.error("Failed to load dashboard statistics");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStats();
+  }, []);
 
   return (
     <div className="space-y-6 h-full">
@@ -34,8 +53,9 @@ export default function BackOfficeDashboard() {
           <Card className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
             <Statistic
               title={<span className="text-gray-400 font-medium">Products</span>}
-              value={120}
+              value={stats.productsCount}
               precision={0}
+              loading={loading}
               styles={{ content: { color: COLORS["main-primary-dark"], fontWeight: "bold" } }}
               prefix={<FontAwesomeIcon icon={faBox} className="mr-2 opacity-80" />}
             />
@@ -45,8 +65,9 @@ export default function BackOfficeDashboard() {
           <Card bordered={false} className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
             <Statistic
               title={<span className="text-gray-400 font-medium">Categories</span>}
-              value={12}
+              value={stats.categoriesCount}
               precision={0}
+              loading={loading}
               styles={{ content: { color: COLORS["main-primary-dark"], fontWeight: "bold" } }}
               prefix={<FontAwesomeIcon icon={faTags} className="mr-2 opacity-80" />}
             />
@@ -56,8 +77,9 @@ export default function BackOfficeDashboard() {
           <Card bordered={false} className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
             <Statistic
               title={<span className="text-gray-400 font-medium">Orders</span>}
-              value={85}
+              value={stats.ordersCount}
               precision={0}
+              loading={loading}
               styles={{ content: { color: COLORS["main-primary-dark"], fontWeight: "bold" } }}
               prefix={<FontAwesomeIcon icon={faReceipt} className="mr-2 opacity-80" />}
             />
@@ -67,8 +89,9 @@ export default function BackOfficeDashboard() {
           <Card bordered={false} className="shadow-sm shadow-gray-100/50 hover:shadow-md transition-shadow duration-300">
             <Statistic
               title={<span className="text-gray-400 font-medium">Users</span>}
-              value={320}
+              value={stats.usersCount}
               precision={0}
+              loading={loading}
               styles={{ content: { color: COLORS["main-primary-dark"], fontWeight: "bold" } }}
               prefix={<FontAwesomeIcon icon={faUsers} className="mr-2 opacity-80" />}
             />
