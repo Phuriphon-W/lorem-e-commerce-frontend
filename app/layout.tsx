@@ -22,11 +22,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookie = (await cookies()).get("authToken")?.value
-  const authToken = await decryptJwt(cookie)
-  const userId = authToken?.id ? (authToken.id as string) : ""
-  const isAdmin = authToken?.isAdmin ? (authToken.isAdmin as boolean) : false
-  
+  const cookie = (await cookies()).get("authToken")?.value;
+  const authToken = await decryptJwt(cookie);
+  const userId = authToken?.id ? (authToken.id as string) : "";
+  const isAdmin = authToken?.isAdmin ? (authToken.isAdmin as boolean) : false;
+
   return (
     <html lang="en">
       <body
@@ -42,13 +42,11 @@ export default async function RootLayout({
           <AuthProvider userId={userId} isAdmin={isAdmin}>
             <WebSocketProvider userId={userId}>
               <div className="shrink-0 w-full z-10">
-                <TopNav />
+                {userId && !isAdmin && <TopNav />}
               </div>
 
               <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
-                <PageWrapper>
-                  {children}
-                </PageWrapper>
+                <PageWrapper>{children}</PageWrapper>
 
                 <div className="w-full shrink-0 mt-8">
                   <Footer />

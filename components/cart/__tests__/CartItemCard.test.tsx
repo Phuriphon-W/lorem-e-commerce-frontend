@@ -70,7 +70,7 @@ describe('CartItemCard', () => {
     expect(screen.getByAltText('Fancy Shoes-image')).toBeInTheDocument();
     expect(screen.getByAltText('Fancy Shoes-image')).toHaveAttribute('src', 'http://example.com/shoes.jpg');
     expect(screen.getByText('$49.90')).toBeInTheDocument();
-    expect(screen.getByText('Tota Price: $99.80')).toBeInTheDocument();
+    expect(screen.getByText('Total Price: $99.80')).toBeInTheDocument();
   });
 
   it('calls editCartItem and onRefresh on quantity change', async () => {

@@ -87,12 +87,9 @@ export default function BackOfficeSidebar({ onClose }: BackOfficeSidebarProps) {
 
   return (
     <div className="flex flex-col h-full bg-white border-r border-gray-100">
-      <div className="flex items-center gap-3 px-6 py-6 border-b border-gray-50 bg-amber-50/50">
-        <div className="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-white font-bold text-lg shadow-sm shadow-amber-500/30">
-          L
-        </div>
+      <div className="flex h-[74px] md:h-16 justify-center gap-3 px-6 py-6 border-b border-gray-50">
         <span className="font-bold text-lg text-gray-800 tracking-tight">
-          Lorem Admin
+          Menu
         </span>
       </div>
       <div className="flex-1 py-4">

@@ -10,6 +10,8 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
   const isPublicRoute = publicRoutes.includes(pathname);
   const borderProperies = isPublicRoute ? "border-none shadow-none" : "shadow-sm border border-gray-100"
 
+  const isBackoffice = pathname.startsWith("/backoffice");
+
   // HOME PAGE LAYOUT
   // Full width, no margin top, touches the navbar
   if (isFullWidth) {
@@ -18,6 +20,14 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
         {children}
       </div>
     );
+  }
+
+  if (isBackoffice) {
+    return (
+      <div className="h-screen w-full">
+        {children}
+      </div>
+    )
   }
 
   // ALL OTHER PAGES LAYOUT

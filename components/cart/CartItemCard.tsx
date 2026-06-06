@@ -110,7 +110,7 @@ export default function CartItemCard({
 
         {/* Total For This Item */}
         <div>
-          Total Price: {`$${formatNumber(item.quantity * (item.price || 0))}`}
+          {`Total Price: $${formatNumber(item.quantity * (item.price || 0))}`}
         </div>
         </div>
       </div>
