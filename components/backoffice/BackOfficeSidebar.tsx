@@ -74,15 +74,6 @@ export default function BackOfficeSidebar({ onClose }: BackOfficeSidebarProps) {
       icon: <FontAwesomeIcon icon={faUsers} />,
       onClick: () => handleNavigation("/backoffice/users"),
     },
-    {
-      type: "divider",
-    },
-    {
-      key: "storefront",
-      label: "Storefront",
-      icon: <FontAwesomeIcon icon={faArrowLeft} />,
-      onClick: () => handleNavigation("/"),
-    },
   ];
 
   return (
