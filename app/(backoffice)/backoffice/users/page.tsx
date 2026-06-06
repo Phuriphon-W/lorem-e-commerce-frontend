@@ -143,7 +143,7 @@ export default function UsersPage() {
             <FontAwesomeIcon icon={faFilter} className="text-gray-400" />
             <Select
               value={orderBy}
-              className="w-full h-10"
+              className="w-full h-8"
               onChange={(val) => {
                 setOrderBy(val);
                 setCurrentPage(1);
@@ -167,7 +167,6 @@ export default function UsersPage() {
             current: currentPage,
             pageSize: pageSize,
             total: total,
-            showSizeChanger: true,
             pageSizeOptions: ["10", "20", "50", "100"],
             onChange: (page, size) => {
               setCurrentPage(page);
@@ -187,8 +186,8 @@ export default function UsersPage() {
         destroyOnHidden
       >
         {selectedUser && (
-          <div className="space-y-6">
-            <Descriptions title="Profile Info" bordered column={1}>
+          <div>
+            <Descriptions title="Profile Info" bordered column={1} className="mb-5!">
               <Descriptions.Item label="User ID">{selectedUser.id}</Descriptions.Item>
               <Descriptions.Item label="Username">{selectedUser.username}</Descriptions.Item>
               <Descriptions.Item label="Full Name">{`${selectedUser.firstName} ${selectedUser.lastName}`}</Descriptions.Item>
@@ -205,8 +204,7 @@ export default function UsersPage() {
                 </Space>
               </Descriptions.Item>
             </Descriptions>
-
-            <Descriptions title="Delivery Address" bordered column={1}>
+            <Descriptions title="Delivery Address" bordered column={1} className="mb-5!">
               <Descriptions.Item label="House Number">
                 {selectedUser.address?.houseNumber || "N/A"}
               </Descriptions.Item>
@@ -229,7 +227,7 @@ export default function UsersPage() {
             </Descriptions>
 
             <div>
-              <Title level={4} className="text-gray-700 font-bold mb-3">
+              <Title level={4} className="text-gray-700 font-bold mb-5!">
                 User Orders
               </Title>
               <Table

@@ -406,7 +406,6 @@ export default function OrdersPage() {
           current: userPage,
           pageSize: userPageSize,
           total: userTotal,
-          showSizeChanger: true,
           pageSizeOptions: ["10", "20", "50"],
           onChange: (page, size) => {
             setUserPage(page);
