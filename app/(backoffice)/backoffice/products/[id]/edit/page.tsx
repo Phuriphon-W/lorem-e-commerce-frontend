@@ -65,7 +65,7 @@ export default function EditProductPage() {
         description: values.description || "",
         price: values.price,
         available: values.available,
-        imageFile: imageFile || undefined,
+        imageFile: imageFile || "",
         categoryId: values.categoryId,
       });
 

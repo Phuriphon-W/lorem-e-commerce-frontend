@@ -21,7 +21,7 @@ export interface UpdateProductPayload {
   description: string;
   price: number;
   available: number;
-  imageFile?: File;
+  imageFile?: File | string;
   categoryId: string;
 }
 
@@ -65,6 +65,8 @@ export const updateProduct = async (id: string, payload: UpdateProductPayload): 
   formData.append("available", payload.available.toString());
   if (payload.imageFile) {
     formData.append("image_file", payload.imageFile);
+  } else {
+    formData.append("image_file", "");
   }
   formData.append("categoryId", payload.categoryId);
 
