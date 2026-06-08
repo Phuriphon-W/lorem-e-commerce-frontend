@@ -1,0 +1,20 @@
+services:
+  frontend:
+    build:
+      context: .
+      target: dev
+    container_name: lorem-frontend-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    env_file:
+      - .env
+    environment:
+      - NEXT_PUBLIC_BACKEND_SERVER_ADDRESS=${NEXT_PUBLIC_BACKEND_SERVER_ADDRESS:-http://localhost:5000}
+      - BACKEND_INTERNAL_ADDRESS=http://host.docker.internal:5000
+      - JWT_SECRET=${JWT_SECRET}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

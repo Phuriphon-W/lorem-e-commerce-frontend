@@ -3,6 +3,34 @@
 build:
 	npm run build
 
+dev-up:
+	docker compose -f docker-compose.dev.yml up -d
+
+dev-down:
+	docker compose -f docker-compose.dev.yml down
+
+dev-restart: dev-down dev-up
+
+dev-logs:
+	docker logs -f $(shell docker ps -q -f "name=lorem-frontend")
+
+dev-clean:
+	docker compose -f docker-compose.dev.yml down --rmi all -v --remove-orphans
+
+prod-up:
+	docker compose -f docker-compose.prod.yml up -d --build
+
+prod-down:
+	docker compose -f docker-compose.prod.yml down
+
+prod-restart: prod-down prod-up
+
+prod-logs:
+	docker logs -f $(shell docker ps -q -f "name=lorem-frontend")
+
+prod-clean:
+	docker compose -f docker-compose.prod.yml down --rmi all -v --remove-orphans
+
 # E2E Tests (Playwright)
 test-e2e:
 	npx playwright test

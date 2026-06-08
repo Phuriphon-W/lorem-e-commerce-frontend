@@ -1,0 +1,16 @@
+services:
+  frontend:
+    build:
+      context: .
+      target: runner
+      args:
+        - NEXT_PUBLIC_BACKEND_SERVER_ADDRESS=${NEXT_PUBLIC_BACKEND_SERVER_ADDRESS:-http://localhost:5000}
+    container_name: lorem-frontend-prod
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NEXT_PUBLIC_BACKEND_SERVER_ADDRESS=${NEXT_PUBLIC_BACKEND_SERVER_ADDRESS:-http://localhost:5000}
+      - JWT_SECRET=${JWT_SECRET}
+    restart: unless-stopped
