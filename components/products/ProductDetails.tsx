@@ -67,8 +67,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           alt={`${product.name}-image`}
           src={product.image_url}
           fill
+          priority
           className="object-cover hover:scale-105 duration-500 transition-transform"
           sizes="(max-width: 768px) 100vw, 500px"
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHZpZXdCb3g9IjAgMCAxIDEiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4="
         />
       </div>
 

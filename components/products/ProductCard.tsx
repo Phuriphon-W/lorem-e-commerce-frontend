@@ -7,11 +7,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 type ProductCardProps = {
-    product: Product
+    product: Product;
+    priority?: boolean;
 }
 
 // For display in grid. The width will grows proportionally to grid size
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, priority = false }: ProductCardProps) {
     const router = useRouter();
 
     return (
@@ -26,8 +27,11 @@ export default function ProductCard({ product }: ProductCardProps) {
                     alt={`${product.name}-image`}
                     src={product.image_url}
                     fill
+                    priority={priority}
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Recommended for performance
+                    placeholder="blur"
+                    blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHZpZXdCb3g9IjAgMCAxIDEiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4="
                 />
             </div>
 

@@ -17,8 +17,8 @@ export default function ProductCardContainer({ columns, products }: ProductCardC
 
     return (
         <div className={`grid grid-cols-1 ${gridCols} gap-x-4 gap-y-5 my-8 w-[75%] md:w-[90%]`}>
-            {products.map((product) => (
-                <ProductCard product={product} key={product.id}/>
+            {products.map((product, index) => (
+                <ProductCard product={product} key={product.id} priority={index < 6}/>
             ))}
         </div>
     )

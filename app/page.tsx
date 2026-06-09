@@ -1,4 +1,3 @@
-import Image from "next/image";
 import ProductCard from "@/components/products/ProductCard";
 import Link from "next/link";
 import { getProducts } from "@/apis/product";
@@ -22,25 +21,17 @@ export default async function Page() {
     <main className="bg-white rounded-b-2xl">
       {/* Hero Image */}
       <div className="relative h-[420px] md:min-h-screen ">
-        {/* MOBILE IMAGE: Shows by default, hides on 'md' (768px) and up */}
-        <Image
-          src="/static/hero-sm.jpg"
-          alt="hero image mobile"
-          fill
-          className="md:hidden object-cover"
-          priority
-          sizes="100vw"
-        />
-
-        {/* DESKTOP IMAGE: Hidden by default, shows on 'md' (768px) and up */}
-        <Image
-          src="/static/hero.jpg"
-          alt="hero image desktop"
-          fill
-          className="hidden md:block object-cover"
-          priority
-          sizes="100vw"
-        />
+        <picture>
+          <source media="(max-width: 767px)" srcSet="/static/hero-sm.jpg" />
+          <source media="(min-width: 768px)" srcSet="/static/hero.jpg" />
+          <img
+            src="/static/hero.jpg"
+            alt="hero image"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+          />
+        </picture>
 
         {/* Centered text */}
         <div
