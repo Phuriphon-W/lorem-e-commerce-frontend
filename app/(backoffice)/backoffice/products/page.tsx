@@ -9,8 +9,26 @@ import { Product } from "@/shared/interfaces/product";
 import { Category } from "@/shared/types/category";
 import { getAllProducts, deleteProduct, getAllCategories } from "@/apis/admin";
 import SearchBar from "@/components/backoffice/SearchBar";
+import Image from "next/image";
 
 const { Title } = Typography;
+
+function ProductTableImage({ url }: { url: string }) {
+  const [imgSrc, setImgSrc] = useState(url || "https://placehold.co/100x100?text=No+Image");
+
+  return (
+    <Image
+      src={imgSrc}
+      alt="product"
+      width={48}
+      height={48}
+      className="object-cover rounded-lg border border-gray-100 w-12 h-12"
+      onError={() => {
+        setImgSrc("https://placehold.co/100x100?text=No+Image");
+      }}
+    />
+  );
+}
 
 export default function ProductsPage() {
   const router = useRouter();
@@ -90,16 +108,7 @@ export default function ProductsPage() {
       dataIndex: "image_url",
       key: "image_url",
       width: 80,
-      render: (url: string) => (
-        <img
-          src={url || "/placeholder-product.png"}
-          alt="product"
-          className="w-12 h-12 object-cover rounded-lg border border-gray-100"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "https://placehold.co/100x100?text=No+Image";
-          }}
-        />
-      ),
+      render: (url: string) => <ProductTableImage url={url} />,
     },
     {
       title: "Name",

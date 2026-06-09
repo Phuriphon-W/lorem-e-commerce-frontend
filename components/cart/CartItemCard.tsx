@@ -1,3 +1,5 @@
+"use client";
+
 import { CartItem } from "@/shared/interfaces/cart";
 import { formatNumber } from "@/shared/utils/number";
 import { InputNumber, message, Button } from "antd";

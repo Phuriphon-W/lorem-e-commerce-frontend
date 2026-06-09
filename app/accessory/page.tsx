@@ -12,6 +12,8 @@ import {
 import { Pagination } from "antd";
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import ProductGridSkeleton from "@/components/skeleton/ProductGridSkeleton";
+import { Skeleton } from "antd";
 import { PAGE_SIZE } from "@/shared/constants";
 
 function AccessoryContent() {
@@ -97,7 +99,18 @@ function AccessoryContent() {
 
 export default function ProductPage() {
   return (
-    <Suspense fallback={<div className="flex justify-center py-20 text-xl"></div>}>
+    <Suspense
+      fallback={
+        <div className="flex flex-col items-center py-10 w-full">
+          <Skeleton.Input active size="large" style={{ width: 200, height: 40, marginBottom: 16 }} />
+          <div className="w-[90%] flex flex-col md:flex-row gap-2 mb-8">
+            <Skeleton.Input active size="default" block style={{ height: 32 }} className="flex-1" />
+            <Skeleton.Input active size="default" style={{ width: 150, height: 32 }} className="w-full md:w-[18%]" />
+          </div>
+          <ProductGridSkeleton count={6} />
+        </div>
+      }
+    >
       <AccessoryContent />
     </Suspense>
   );
