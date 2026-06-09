@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: phuriphon47/lorem-e-commerce-frontend:latest
+    # image: phuriphon47/lorem-e-commerce-frontend:latest
     build:
       context: .
       target: runner

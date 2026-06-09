@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
+
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import TopNav from "@/components/navigation/TopNav";
 import Footer from "@/components/auth/Footer";
 import { geistMono, geistSans } from "@/shared/fonts/font";
@@ -32,29 +37,31 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col h-screen overflow-hidden`}
       >
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: MAIN_THEME.primary,
-            },
-          }}
-        >
-          <AuthProvider userId={userId} isAdmin={isAdmin}>
-            <WebSocketProvider userId={userId}>
-              <div className="shrink-0 w-full z-10">
-                {userId && !isAdmin && <TopNav />}
-              </div>
-
-              <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
-                <PageWrapper>{children}</PageWrapper>
-
-                <div className="w-full shrink-0 mt-8">
-                  <Footer />
+        <AntdRegistry>
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: MAIN_THEME.primary,
+              },
+            }}
+          >
+            <AuthProvider userId={userId} isAdmin={isAdmin}>
+              <WebSocketProvider userId={userId}>
+                <div className="shrink-0 w-full z-10">
+                  {userId && !isAdmin && <TopNav />}
                 </div>
-              </main>
-            </WebSocketProvider>
-          </AuthProvider>
-        </ConfigProvider>
+
+                <main className="bg-amber-50 w-full flex-1 flex flex-col items-center overflow-y-auto">
+                  <PageWrapper>{children}</PageWrapper>
+
+                  <div className="w-full shrink-0 mt-8">
+                    <Footer />
+                  </div>
+                </main>
+              </WebSocketProvider>
+            </AuthProvider>
+          </ConfigProvider>
+        </AntdRegistry>
       </body>
     </html>
   );
