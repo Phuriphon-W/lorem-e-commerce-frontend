@@ -1,11 +1,6 @@
 services:
   frontend:
-    # image: phuriphon47/lorem-e-commerce-frontend:latest
-    build:
-      context: .
-      target: runner
-      args:
-        - NEXT_PUBLIC_BACKEND_SERVER_ADDRESS=${NEXT_PUBLIC_BACKEND_SERVER_ADDRESS:-http://localhost:5000}
+    image: phuriphon47/lorem-e-commerce-frontend:latest
     container_name: lorem-frontend-prod
     ports:
       - "3000:3000"

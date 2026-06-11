@@ -16,6 +16,7 @@ services:
       - NEXT_PUBLIC_BACKEND_SERVER_ADDRESS=${NEXT_PUBLIC_BACKEND_SERVER_ADDRESS:-http://localhost:5000}
       - BACKEND_INTERNAL_ADDRESS=http://host.docker.internal:5000
       - JWT_SECRET=${JWT_SECRET}
+      - NODE_ENV=development
       - WATCHPACK_POLLING=true
     extra_hosts:
       - "host.docker.internal:host-gateway"
