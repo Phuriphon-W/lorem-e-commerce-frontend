@@ -13,7 +13,7 @@ test.describe('Primary User Journey', () => {
 
     // Wait for navigation back to home page after login
     await page.waitForURL('**/');
-    await page.waitForLoadState('networkidle');
+    await page.locator('text=Check out our catalog').waitFor({ state: 'visible' });
     await page.waitForTimeout(1000);
 
     // Scroll to bottom and click on Apparels section
@@ -25,7 +25,6 @@ test.describe('Primary User Journey', () => {
     // Click on Home to go back and click on Accessories section
     await page.locator('a[href="/"]').filter({ hasText: 'Home' }).first().click();
     await page.waitForURL('**/');
-    await page.waitForLoadState('networkidle');
     await page.locator('text=Check out our catalog').waitFor({ state: 'visible' });
     await page.waitForTimeout(1000);
     
@@ -37,7 +36,6 @@ test.describe('Primary User Journey', () => {
     // Click on Lorem on the most left side of the navigation bar
     await page.locator('text=Lorem').first().click();
     await page.waitForURL('**/');
-    await page.waitForLoadState('networkidle');
     await page.locator('text=Check out our catalog').waitFor({ state: 'visible' });
     await page.waitForTimeout(1000);
 
@@ -49,7 +47,7 @@ test.describe('Primary User Journey', () => {
     // Click on Products section on the navigation bar
     await page.locator('a[href="/product"]').filter({ hasText: 'Products' }).first().click();
     await page.waitForURL('**/product');
-    await page.waitForLoadState('networkidle');
+    await page.locator('input[placeholder="Enter Product Name"]').waitFor({ state: 'visible' });
     await expect(page).toHaveURL(/.*\/product/);
 
     // 2. Search Product
@@ -74,7 +72,7 @@ test.describe('Primary User Journey', () => {
     // Go to cart by clicking the Cart link in the header
     await page.locator('a[href="/cart"]').filter({ hasText: 'Cart' }).first().click();
     await page.waitForURL('**/cart');
-    await page.waitForLoadState('networkidle');
+    await page.locator('button:has-text("Checkout")').waitFor({ state: 'visible' });
     
     // Proceed to checkout
     const checkoutBtn = page.locator('button:has-text("Checkout")');
