@@ -1,10 +1,19 @@
 "use client";
 
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { publicRoutes, fullWidthRoutes } from "@/shared/routeList";
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
+  useEffect(() => {
+    const mainElements = document.querySelectorAll("main");
+    mainElements.forEach((el) => {
+      el.scrollTop = 0;
+    });
+  }, [pathname]);
+
   const isFullWidth = fullWidthRoutes.includes(pathname)
   
   const isPublicRoute = publicRoutes.includes(pathname);

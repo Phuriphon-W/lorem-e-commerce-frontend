@@ -18,6 +18,7 @@ dev-clean:
 	docker compose -f docker-compose.dev.yml down --rmi all -v --remove-orphans
 
 prod-up:
+	docker pull phuriphon47/lorem-e-commerce-frontend:latest
 	docker compose -f docker-compose.prod.yml up -d
 
 prod-down:
