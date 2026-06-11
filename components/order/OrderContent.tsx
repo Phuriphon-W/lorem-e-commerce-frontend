@@ -90,19 +90,21 @@ export default function OrderContent() {
   const { expiredOrderIds } = useWebSocketContext();
 
   useEffect(() => {
-    if (expiredOrderIds.length > 0) {
-      setOrders((prev) =>
-        prev.map((o) =>
-          expiredOrderIds.includes(o.id) && o.orderStatus === OrderStatus.PENDING
-            ? { ...o, orderStatus: OrderStatus.FAILED }
-            : o
-        )
-      );
-      if (selectedOrder && expiredOrderIds.includes(selectedOrder.id)) {
-        setSelectedOrder((prev) => prev ? { ...prev, orderStatus: OrderStatus.FAILED } : prev);
-      }
-    }
-  }, [expiredOrderIds, selectedOrder]);
+    if (expiredOrderIds.length === 0) return;
+
+    setOrders((prev) =>
+      prev.map((o) =>
+        expiredOrderIds.includes(o.id) && o.orderStatus === OrderStatus.PENDING
+          ? { ...o, orderStatus: OrderStatus.FAILED }
+          : o
+      )
+    );
+    setSelectedOrder((prev) =>
+      prev && expiredOrderIds.includes(prev.id) && prev.orderStatus === OrderStatus.PENDING
+        ? { ...prev, orderStatus: OrderStatus.FAILED }
+        : prev
+    );
+  }, [expiredOrderIds]);
 
   // Modal Handlers
   const handleOpenModal = (order: OrderResponse) => {

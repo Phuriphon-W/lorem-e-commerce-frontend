@@ -13,7 +13,7 @@ test.describe('Primary User Journey', () => {
 
     // Wait for navigation back to home page after login
     await page.waitForURL('**/');
-    await page.waitForLoadState('networkidle');
+    await page.locator('text=Check out our catalog').waitFor({ state: 'visible' });
     await page.waitForTimeout(1000);
 
     // Scroll to bottom and click on Apparels section
@@ -23,9 +23,8 @@ test.describe('Primary User Journey', () => {
     await expect(page).toHaveURL(/.*\/apparel/);
 
     // Click on Home to go back and click on Accessories section
-    await page.locator('a[href="/"]').filter({ hasText: 'Home' }).first().evaluate(node => (node as HTMLElement).click());
+    await page.locator('a[href="/"]').filter({ hasText: 'Home' }).first().click();
     await page.waitForURL('**/');
-    await page.waitForLoadState('networkidle');
     await page.locator('text=Check out our catalog').waitFor({ state: 'visible' });
     await page.waitForTimeout(1000);
     
@@ -35,21 +34,20 @@ test.describe('Primary User Journey', () => {
     await expect(page).toHaveURL(/.*\/accessory/);
 
     // Click on Lorem on the most left side of the navigation bar
-    await page.locator('text=Lorem').first().evaluate(node => (node as HTMLElement).click());
+    await page.locator('text=Lorem').first().click();
     await page.waitForURL('**/');
-    await page.waitForLoadState('networkidle');
     await page.locator('text=Check out our catalog').waitFor({ state: 'visible' });
     await page.waitForTimeout(1000);
 
     // Move till you see Our Latest Products section and click on Pendant Necklace
     await page.locator('text=Our Latest Products').scrollIntoViewIfNeeded();
-    await page.locator('text=Pendant Necklace').first().evaluate(node => (node as HTMLElement).click());
+    await page.locator('text=Pendant Necklace').first().click();
     await expect(page).toHaveURL(/.*\/product\/.+/);
 
     // Click on Products section on the navigation bar
-    await page.locator('a[href="/product"]').filter({ hasText: 'Products' }).first().evaluate(node => (node as HTMLElement).click());
+    await page.locator('a[href="/product"]').filter({ hasText: 'Products' }).first().click();
     await page.waitForURL('**/product');
-    await page.waitForLoadState('networkidle');
+    await page.locator('input[placeholder="Enter Product Name"]').waitFor({ state: 'visible' });
     await expect(page).toHaveURL(/.*\/product/);
 
     // 2. Search Product
@@ -61,19 +59,24 @@ test.describe('Primary User Journey', () => {
 
     // 3. Navigate to Product Details
     // Click on the first product card image
-    await page.locator('img[alt*="-image"]').first().evaluate(node => (node as HTMLElement).click());
+    await page.locator('img[alt*="-image"]').first().click();
 
     // Add to Cart
     const addToCartBtn = page.locator('button:has-text("Add to Cart")');
-    await addToCartBtn.evaluate(node => (node as HTMLElement).click());
+    await addToCartBtn.click();
+
+    // Wait for the Ant Design success message to appear (ensures API call finishes)
+    await page.waitForSelector('.ant-message-success', { timeout: 5000 });
 
     // 4. Checkout
-    // Go to cart
-    await page.goto('/cart');
+    // Go to cart by clicking the Cart link in the header
+    await page.locator('a[href="/cart"]').filter({ hasText: 'Cart' }).first().click();
+    await page.waitForURL('**/cart');
+    await page.locator('button:has-text("Checkout")').waitFor({ state: 'visible' });
     
     // Proceed to checkout
     const checkoutBtn = page.locator('button:has-text("Checkout")');
-    await checkoutBtn.evaluate(node => (node as HTMLElement).click());
+    await checkoutBtn.click();
 
     // Verify we are redirected to the order page
     // await expect(page).toHaveURL(/.*order/);
