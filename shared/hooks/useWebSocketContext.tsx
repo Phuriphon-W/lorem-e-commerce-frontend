@@ -30,7 +30,7 @@ export const WebSocketProvider = ({
     // Use ws:// for localhost, wss:// for https
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const host = serverAddr?.replace(/^https?:\/\//, "") || "localhost:5000";
-    const ws = new WebSocket(`${protocol}//${host}/ws?userId=${userId}`);
+    const ws = new WebSocket(`${protocol}//${host}/ws`);
 
     ws.onmessage = (event) => {
       try {
