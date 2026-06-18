@@ -30,6 +30,7 @@ import { getAllUsers } from "@/apis/admin";
 import { getUserOrders, getOrderById, updateOrderStatus } from "@/apis/order";
 import { OrderResponse, GetOrderByIdResponse } from "@/shared/types/order";
 import SearchBar from "@/components/backoffice/SearchBar";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 
 const { Title } = Typography;
 
@@ -124,7 +125,11 @@ export default function OrdersPage() {
       const res = await getOrderById(orderId);
       setSingleOrder(res);
     } catch (err: any) {
-      message.error(err.response?.data?.message || "Order not found");
+      if (err.response?.status === 422) {
+        message.error("Order not found.");
+      } else {
+        message.error(sanitizeErrorMessage(err));
+      }
     } finally {
       setSingleOrderLoading(false);
     }

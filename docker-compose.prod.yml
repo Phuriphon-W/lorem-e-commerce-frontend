@@ -1,5 +1,8 @@
 services:
   frontend:
+    build:
+      context: prod
+      dockerfile: .
     image: phuriphon47/lorem-e-commerce-frontend:latest
     container_name: lorem-frontend-prod
     ports:

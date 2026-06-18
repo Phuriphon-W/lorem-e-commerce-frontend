@@ -55,7 +55,7 @@ validate: lint typecheck test-unit test-e2e
 	@echo "✅ All code validation and tests passed!"
 
 # Pre-commit Hook Target (Usually omits E2E to keep commits fast, but added here for completeness)
-pre-commit: lint typecheck build test-unit test-e2e
+pre-commit: lint typecheck build dev-down prod-up test-unit test-e2e prod-down dev-up
 	@echo "✅ Pre-commit checks passed!"
 
 # Setup Git Hooks (using husky)

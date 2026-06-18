@@ -9,7 +9,7 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import { InputNumber } from "antd";
 import { addCartItem } from "@/apis/cart";
 import { useAuthContext } from "@/shared/hooks/useAuthContext";
-import axios from "axios";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 import { formatNumber } from "@/shared/utils/number";
 
 const { Title, Text } = Typography;
@@ -35,25 +35,15 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       });
       message.success(`Added ${quantity} items to your cart!`);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const serverMessage = error.response?.data?.detail;
-
-        if (serverMessage) {
-          message.error({
-            content: serverMessage,
-            style: {
-              maxWidth: "350px", 
-              marginLeft: "auto",
-              marginRight: "auto",
-            },
-          });
-        } else {
-          // Fallback if the server crashed and didn't send our formatted JSON
-          message.error("Failed to add product to cart. Please try again.");
-        }
-      } else {
-        message.error("An unexpected error occurred.");
-      }
+      const serverMessage = sanitizeErrorMessage(error);
+      message.error({
+        content: serverMessage,
+        style: {
+          maxWidth: "350px", 
+          marginLeft: "auto",
+          marginRight: "auto",
+        },
+      });
     } finally {
       setIsAdding(false);
     }
@@ -94,6 +84,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               label="Available"
               details={`${product.available} in stock`}
             />
+            {/* 
+              SECURITY NOTE: Render product description as plain text using React's default 
+              escaping to prevent XSS. Do NOT change to use dangerouslySetInnerHTML or any 
+              untrusted markdown renderer without proper sanitization.
+            */}
             <div className="mt-4 text-gray-600 leading-relaxed">
               {product.description}
             </div>

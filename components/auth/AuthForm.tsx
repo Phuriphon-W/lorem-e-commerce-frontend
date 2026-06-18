@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { AuthRequest, AuthResponse } from "@/shared/types/auth";
 import {
   Button,
@@ -10,7 +11,7 @@ import {
 } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 
 type AuthFormProps = {
   formName: "Sign In" | "Sign Up";
@@ -19,8 +20,10 @@ type AuthFormProps = {
 
 export default function AuthForm({ formName, apiAction }: AuthFormProps) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleOnFinish = async (values: AuthRequest & { confirmPassword?: string }) => {
+    setLoading(true);
     try {
       const { confirmPassword, ...submitValues } = values;
       await apiAction(submitValues);
@@ -28,16 +31,14 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
       router.push("/", { scroll: true });
       router.refresh();
     } catch (err) {
-      let errorMessage = "Something Went Wrong";
-
-      if (axios.isAxiosError(err) && err.response) {
-        errorMessage = err.response.data.detail;
-      }
+      const errorMessage = sanitizeErrorMessage(err);
 
       message.error({
         content: errorMessage,
         duration: 2,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -156,7 +157,7 @@ export default function AuthForm({ formName, apiAction }: AuthFormProps) {
 
           {/* Button */}
           <div className="flex justify-end">
-            <Button htmlType="submit" style={{ width: "100%" }}>
+            <Button htmlType="submit" style={{ width: "100%" }} loading={loading}>
               {formName}
             </Button>
           </div>

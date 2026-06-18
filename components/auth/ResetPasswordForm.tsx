@@ -3,12 +3,13 @@
 import { Button, Form, Input, message, Typography } from "antd";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useState } from "react";
 import { resetPassword } from "@/apis/auth";
-import axios from "axios";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 
 function ResetPasswordFormContent() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -21,21 +22,20 @@ function ResetPasswordFormContent() {
 
   const handleOnFinish = async (values: any) => {
     if (!token) return;
+    setLoading(true);
     try {
       await resetPassword(token, values.password);
       message.success({ content: "Password has been changed successfully", duration: 3 });
       router.push("/signin");
     } catch (err) {
-      let errorMessage = "Something Went Wrong";
-
-      if (axios.isAxiosError(err) && err.response) {
-        errorMessage = err.response.data.detail || err.response.data.message;
-      }
+      const errorMessage = sanitizeErrorMessage(err);
 
       message.error({
         content: errorMessage,
         duration: 2,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,7 +108,7 @@ function ResetPasswordFormContent() {
 
           {/* Button */}
           <div className="flex justify-end mt-4">
-            <Button htmlType="submit" style={{ width: "100%" }}>
+            <Button htmlType="submit" style={{ width: "100%" }} loading={loading}>
               Reset Password
             </Button>
           </div>

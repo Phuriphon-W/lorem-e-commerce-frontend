@@ -32,7 +32,6 @@ export default function SearchBar({
         placeholder="Enter Product Name"
         defaultValue={currentSearch}
         onSearch={onSearchChange}
-        onPressEnter={(e) => onSearchChange(e.currentTarget.value)}
         allowClear
       />
 

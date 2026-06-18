@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEdit, faTrash, faTags } from "@fortawesome/free-solid-svg-icons";
 import { Category } from "@/shared/types/category";
 import { getAllCategories, createCategory, updateCategory, deleteCategory } from "@/apis/admin";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 
 const { Title } = Typography;
 
@@ -46,7 +47,7 @@ export default function CategoriesPage() {
       setEditingCategory(null);
       fetchCategories();
     } catch (err: any) {
-      message.error(err.response?.data?.message || "Operation failed");
+      message.error(sanitizeErrorMessage(err));
     }
   };
 
@@ -64,7 +65,7 @@ export default function CategoriesPage() {
           message.success("Category deleted successfully");
           fetchCategories();
         } catch (err: any) {
-          message.error(err.response?.data?.message || "Failed to delete category");
+          message.error(sanitizeErrorMessage(err));
         }
       },
     });
@@ -161,6 +162,7 @@ export default function CategoriesPage() {
             rules={[
               { required: true, message: "Please input category name!" },
               { min: 1, message: "Name cannot be empty" },
+              { max: 50, message: "Category name cannot exceed 50 characters" },
             ]}
           >
             <Input placeholder="e.g. Footwear" className="h-10 rounded-lg" />

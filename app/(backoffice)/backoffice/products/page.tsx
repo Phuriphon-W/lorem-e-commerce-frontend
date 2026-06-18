@@ -10,6 +10,7 @@ import { Category } from "@/shared/types/category";
 import { getAllProducts, deleteProduct, getAllCategories } from "@/apis/admin";
 import SearchBar from "@/components/backoffice/SearchBar";
 import Image from "next/image";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 
 const { Title } = Typography;
 
@@ -53,7 +54,7 @@ export default function ProductsPage() {
       setProducts(res.products);
       setTotal(res.total);
     } catch (err: any) {
-      message.error(err.response?.data?.message || "Failed to load products");
+      message.error(sanitizeErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -96,7 +97,7 @@ export default function ProductsPage() {
           message.success("Product deleted successfully");
           fetchProducts();
         } catch (err: any) {
-          message.error(err.response?.data?.message || "Failed to delete product");
+          message.error(sanitizeErrorMessage(err));
         }
       },
     });

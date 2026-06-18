@@ -173,7 +173,10 @@ describe('ProductDetails', () => {
     await user.click(addButton);
 
     await waitFor(() => {
-      expect(message.error).toHaveBeenCalledWith('Failed to add product to cart. Please try again.');
+      expect(message.error).toHaveBeenCalledWith({
+        content: 'Something went wrong. Please try again.',
+        style: expect.any(Object),
+      });
     });
   });
 
@@ -188,7 +191,10 @@ describe('ProductDetails', () => {
     await user.click(addButton);
 
     await waitFor(() => {
-      expect(message.error).toHaveBeenCalledWith('An unexpected error occurred.');
+      expect(message.error).toHaveBeenCalledWith({
+        content: 'Something went wrong. Please try again.',
+        style: expect.any(Object),
+      });
     });
   });
 });

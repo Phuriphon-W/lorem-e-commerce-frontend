@@ -7,6 +7,7 @@ import { faArrowLeft, faUpload, faSave } from "@fortawesome/free-solid-svg-icons
 import { useRouter, useParams } from "next/navigation";
 import { Category } from "@/shared/types/category";
 import { updateProduct, getAllCategories } from "@/apis/admin";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 import { getProductById } from "@/apis/product";
 
 const { Title } = Typography;
@@ -72,7 +73,7 @@ export default function EditProductPage() {
       message.success("Product updated successfully");
       router.push("/backoffice/products");
     } catch (err: any) {
-      message.error(err.response?.data?.message || "Failed to update product");
+      message.error(sanitizeErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -116,6 +117,7 @@ export default function EditProductPage() {
             rules={[
               { required: true, message: "Please input product name!" },
               { min: 1, message: "Name cannot be empty" },
+              { max: 100, message: "Name cannot exceed 100 characters" },
             ]}
           >
             <Input placeholder="e.g. Vintage Denim Jacket" className="h-10 rounded-lg" />
@@ -157,7 +159,11 @@ export default function EditProductPage() {
             </Form.Item>
           </div>
 
-          <Form.Item label="Description" name="description">
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[{ max: 500, message: "Description cannot exceed 500 characters" }]}
+          >
             <TextArea
               rows={4}
               placeholder="Describe the product details, materials, fit..."

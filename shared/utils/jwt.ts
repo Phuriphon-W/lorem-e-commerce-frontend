@@ -2,7 +2,7 @@ import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 export async function decryptJwt(jwtToken: string | undefined) {
-  if (!jwtToken) return null;
+  if (!jwtToken || !process.env.JWT_SECRET) return null;
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(jwtToken, secret);
