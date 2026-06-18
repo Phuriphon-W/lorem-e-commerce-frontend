@@ -1,30 +1,31 @@
 "use client";
 
+import { useState } from "react";
 import { Button, Form, Input, message, Typography } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { forgotPassword } from "@/apis/auth";
-import axios from "axios";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 
 export default function ForgotPasswordForm() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleOnFinish = async (values: { email: string }) => {
+    setLoading(true);
     try {
       const res = await forgotPassword(values.email);
       message.success({ content: res.message || "Password reset link sent", duration: 5 });
       router.push("/signin");
     } catch (err) {
-      let errorMessage = "Something Went Wrong";
-
-      if (axios.isAxiosError(err) && err.response) {
-        errorMessage = err.response.data.detail || err.response.data.message;
-      }
+      const errorMessage = sanitizeErrorMessage(err);
 
       message.error({
         content: errorMessage,
         duration: 2,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,7 +78,7 @@ export default function ForgotPasswordForm() {
 
           {/* Button */}
           <div className="flex justify-end mt-4">
-            <Button htmlType="submit" style={{ width: "100%" }}>
+            <Button htmlType="submit" style={{ width: "100%" }} loading={loading}>
               Send Reset Link
             </Button>
           </div>

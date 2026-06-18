@@ -29,7 +29,6 @@ export default function SearchBar({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       onSearch={onSearch}
-      onPressEnter={(e) => onSearch(e.currentTarget.value)}
       allowClear
       className={`${heightClass} rounded-lg border-gray-200 ${className}`}
       size={size}

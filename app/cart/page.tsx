@@ -9,7 +9,7 @@ import { OrderItemRequest } from "@/shared/types/order";
 import { CartItem } from "@/shared/interfaces/cart";
 import { useEffect, useState, useCallback } from "react";
 import { message, Button } from "antd";
-import axios from "axios";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 import useMediaQuery from "@/shared/hooks/useMediaQuery";
 import CartMobile from "@/components/cart/CartMobile";
 import NoData from "@/components/global/NoData";
@@ -28,12 +28,11 @@ export default function CartPage() {
       const cart = await getCartByUserId(userId);
       setCartItems(cart.cartItems);
     } catch (err: any) {
-      if (axios.isAxiosError(err)) {
-        message.error({
-          content: err.response?.data.detail || "Failed to load cart",
-          duration: 2,
-        });
-      }
+      const errorMessage = sanitizeErrorMessage(err);
+      message.error({
+        content: errorMessage,
+        duration: 2,
+      });
     }
   }, [userId]);
 
@@ -98,12 +97,11 @@ export default function CartPage() {
       message.success(`Order created successfully. Your order ID is ${response.id}`);
       router.push('/order')
     } catch (err: any) {
-      if (axios.isAxiosError(err)) {
-        message.error({
-          content: err.response?.data.detail || "Failed to load cart",
-          duration: 2,
-        });
-      }
+      const errorMessage = sanitizeErrorMessage(err);
+      message.error({
+        content: errorMessage,
+        duration: 2,
+      });
     }
   };
 

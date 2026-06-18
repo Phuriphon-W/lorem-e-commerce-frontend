@@ -21,6 +21,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Category } from "@/shared/types/category";
 import { createProduct, getAllCategories } from "@/apis/admin";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -70,7 +71,7 @@ export default function CreateProductPage() {
       message.success("Product created successfully");
       router.push("/backoffice/products");
     } catch (err: any) {
-      message.error(err.response?.data?.message || "Failed to create product");
+      message.error(sanitizeErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -111,6 +112,7 @@ export default function CreateProductPage() {
             rules={[
               { required: true, message: "Please input product name!" },
               { min: 1, message: "Name cannot be empty" },
+              { max: 100, message: "Name cannot exceed 100 characters" },
             ]}
           >
             <Input
@@ -172,7 +174,10 @@ export default function CreateProductPage() {
           <Form.Item
             label="Description"
             name="description"
-            rules={[{ required: true, message: "Please input product description!" }]}
+            rules={[
+              { required: true, message: "Please input product description!" },
+              { max: 500, message: "Description cannot exceed 500 characters" }
+            ]}
           >
             <TextArea
               rows={4}

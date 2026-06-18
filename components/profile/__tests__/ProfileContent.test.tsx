@@ -158,7 +158,7 @@ describe("ProfileContent", () => {
 
     await waitFor(() => {
       expect(mockedUpdateProfile).toHaveBeenCalled();
-      expect(message.error).toHaveBeenCalledWith("Failed to update profile.");
+      expect(message.error).toHaveBeenCalledWith("Something went wrong. Please try again.");
     });
   });
 });

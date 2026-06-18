@@ -6,6 +6,7 @@ import Title from "antd/es/typography/Title";
 import Typography from "antd/es/typography/Typography";
 import { useEffect, useState } from "react";
 import { getProfile, updateProfile } from "@/apis/user";
+import { sanitizeErrorMessage } from "@/shared/utils/errorSanitizer";
 
 export default function ProfileContent() {
   const [form] = Form.useForm();
@@ -39,7 +40,7 @@ export default function ProfileContent() {
           },
         });
       } catch (error: any) {
-        message.error("Failed to load profile data.");
+        message.error(sanitizeErrorMessage(error));
       } finally {
         setLoading(false);
       }
@@ -68,7 +69,7 @@ export default function ProfileContent() {
       await updateProfile(payload);
       message.success("Profile updated successfully!");
     } catch (error: any) {
-      message.error("Failed to update profile.");
+      message.error(sanitizeErrorMessage(error));
     } finally {
       setSaving(false);
     }
@@ -144,8 +145,8 @@ export default function ProfileContent() {
               rules={[
                 { len: 10, message: "Phone number must be 10 characters" },
                 {
-                  type: "tel",
-                  message: "Phone number must contains only number",
+                  pattern: /^[0-9]+$/,
+                  message: "Phone number must contain only numbers",
                 },
               ]}
             >
@@ -160,7 +161,7 @@ export default function ProfileContent() {
 
         <Row gutter={24}>
           <Col xs={24} md={12}>
-            <Form.Item label="House Number" name={["address", "houseNumber"]} rules={[{ max: 10, message: "Exceed Maximum Length (10 characters)" }, { type: "tel", message: "Only numbers are allowed" }]}>
+            <Form.Item label="House Number" name={["address", "houseNumber"]} rules={[{ max: 10, message: "Exceed Maximum Length (10 characters)" }]}>
               <Input placeholder="e.g. 123/45" />
             </Form.Item>
           </Col>
@@ -191,7 +192,7 @@ export default function ProfileContent() {
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
-            <Form.Item label="Zip Code" name={["address", "zip"]} rules={[{ max: 6, message: "Exceed Maximum Length (6 characters)" }, { type: "tel", message: "Only numbers are allowed" }]}>
+            <Form.Item label="Zip Code" name={["address", "zip"]} rules={[{ max: 6, message: "Exceed Maximum Length (6 characters)" }, { pattern: /^[0-9]+$/, message: "Only numbers are allowed" }]}>
               <Input placeholder="Zip Code" />
             </Form.Item>
           </Col>
