@@ -1,8 +1,9 @@
 services:
   frontend:
     build:
-      context: prod
-      dockerfile: .
+      context: .
+      target: runner
+      dockerfile: Dockerfile
     image: phuriphon47/lorem-e-commerce-frontend:latest
     container_name: lorem-frontend-prod
     ports:
@@ -11,5 +12,6 @@ services:
       - .env
     environment:
       - NEXT_PUBLIC_BACKEND_SERVER_ADDRESS=${NEXT_PUBLIC_BACKEND_SERVER_ADDRESS:-http://localhost:5000}
+      - BACKEND_INTERNAL_ADDRESS=http://host.docker.internal:5000
       - JWT_SECRET=${JWT_SECRET}
     restart: unless-stopped

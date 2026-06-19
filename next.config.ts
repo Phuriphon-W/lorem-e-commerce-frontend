@@ -37,7 +37,7 @@ const nextConfig: NextConfig = {
     const wsBackendUrl = backendUrl.replace(/^http/, "ws");
     const cspHeader = `
       default-src 'self';
-      script-src 'self'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval' 'unsafe-inline'" : ""};
+      script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ""};
       style-src 'self' 'unsafe-inline';
       img-src 'self' https://lorem-e-commerce-575490177692-ap-southeast-1-an.s3.ap-southeast-1.amazonaws.com https://placehold.co data:;
       connect-src 'self' ${backendUrl} ${wsBackendUrl} ws: wss:;

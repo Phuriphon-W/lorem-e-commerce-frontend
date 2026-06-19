@@ -6,7 +6,7 @@ test.describe('Primary User Journey', () => {
     page.on('pageerror', exception => console.log('BROWSER EXCEPTION:', exception));
 
     // 1. Sign In
-    await page.goto('/login');
+    await page.goto('/signin');
     await page.fill('input[placeholder="Enter your e-mail"]', 'testuser@example.com');
     await page.fill('input[placeholder="Enter your password"]', 'password123');
     await page.click('button:has-text("Sign In")');
