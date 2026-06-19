@@ -12,7 +12,7 @@ export const checkoutOrder = async ({
 }: OrderCheckoutRequest): Promise<OrderCheckoutResponse> => {
   const options = {
     method: "POST",
-    url: `${serverAddr}/api/payment/checkout`,
+    url: `${serverAddr}/payment/checkout`,
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json, application/problem+json",
@@ -41,7 +41,7 @@ export const getUserPayments = async (
 ): Promise<GetPaymentsByUserIdResponse> => {
   const options = {
     method: "GET",
-    url: `${serverAddr}/api/payment/${userId}`,
+    url: `${serverAddr}/payment/${userId}`,
     params: {
       pageNumber,
       pageSize,
@@ -62,7 +62,7 @@ export const getUserPayments = async (
 export const verifySession = async (sessionId: string): Promise<{ valid: boolean }> => {
   const options = {
     method: "GET",
-    url: `${serverAddr}/api/payment/verify`,
+    url: `${serverAddr}/payment/verify`,
     params: {
       sessionId,
     },

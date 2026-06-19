@@ -4,7 +4,7 @@ import {
     DownloadFileByKeyRequest,
     DownloadFileByKeyResponse,
  } from "@/shared/types/file"
- import { serverAddr } from "@/shared/constants"
+ import { serverAddr, baseServerAddr } from "@/shared/constants"
  import axios from "axios"
 
 export const downloadStaticFile = async ({
@@ -14,7 +14,7 @@ export const downloadStaticFile = async ({
     // (such as invoice files, order details, or system config) and never bound directly to 
     // unsanitized client inputs, to mitigate path traversal or unauthorized file access risks.
     const options = {
-            url: `${serverAddr}/file/download/key/${key}`,
+            url: `${baseServerAddr}/file/download/key/${key}`,
             method: "get",
             headers: {Accept: 'application/json'},
             withCredentials: true,

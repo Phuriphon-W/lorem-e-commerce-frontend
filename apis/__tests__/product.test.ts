@@ -21,7 +21,7 @@ describe('Product APIs', () => {
       const result = await getProducts(params);
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/product`,
+        url: `${serverAddr}/product`,
         method: 'GET',
         params: params
       }));
@@ -37,7 +37,7 @@ describe('Product APIs', () => {
       const result = await getProductById({ id: '1' });
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/product/1`,
+        url: `${serverAddr}/product/1`,
         method: 'GET'
       }));
       expect(result).toEqual({ id: '1', name: 'Product 1' });

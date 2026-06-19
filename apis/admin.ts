@@ -3,7 +3,6 @@ import axios from "axios";
 import { Product } from "@/shared/interfaces/product";
 import { Category } from "@/shared/types/category";
 import { UserProfile } from "@/shared/interfaces/user";
-import { formatUserProfile } from "./user";
 import { getProducts } from "./product";
 
 // Product DTOs
@@ -46,7 +45,7 @@ export const createProduct = async (payload: CreateProductPayload): Promise<{ id
   formData.append("categoryId", payload.categoryId);
 
   const options = {
-    url: `${serverAddr}/api/product`,
+    url: `${serverAddr}/product`,
     method: "POST",
     headers: { "Content-Type": "multipart/form-data" },
     withCredentials: true,
@@ -71,7 +70,7 @@ export const updateProduct = async (id: string, payload: UpdateProductPayload): 
   formData.append("categoryId", payload.categoryId);
 
   const options = {
-    url: `${serverAddr}/api/product/${id}`,
+    url: `${serverAddr}/product/${id}`,
     method: "PUT",
     headers: { "Content-Type": "multipart/form-data" },
     withCredentials: true,
@@ -84,7 +83,7 @@ export const updateProduct = async (id: string, payload: UpdateProductPayload): 
 
 export const deleteProduct = async (id: string): Promise<{ message: string }> => {
   const options = {
-    url: `${serverAddr}/api/product/${id}`,
+    url: `${serverAddr}/product/${id}`,
     method: "DELETE",
     withCredentials: true,
   };
@@ -95,7 +94,7 @@ export const deleteProduct = async (id: string): Promise<{ message: string }> =>
 
 export const createCategory = async (payload: CreateCategoryPayload): Promise<{ id: string }> => {
   const options = {
-    url: `${serverAddr}/api/category`,
+    url: `${serverAddr}/category`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
@@ -108,7 +107,7 @@ export const createCategory = async (payload: CreateCategoryPayload): Promise<{ 
 
 export const updateCategory = async (id: string, payload: UpdateCategoryPayload): Promise<{ name: string }> => {
   const options = {
-    url: `${serverAddr}/api/category/${id}`,
+    url: `${serverAddr}/category/${id}`,
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
@@ -121,7 +120,7 @@ export const updateCategory = async (id: string, payload: UpdateCategoryPayload)
 
 export const deleteCategory = async (id: string): Promise<{ message: string }> => {
   const options = {
-    url: `${serverAddr}/api/category/${id}`,
+    url: `${serverAddr}/category/${id}`,
     method: "DELETE",
     withCredentials: true,
   };
@@ -132,7 +131,7 @@ export const deleteCategory = async (id: string): Promise<{ message: string }> =
 
 export const getAllCategories = async (): Promise<Category[]> => {
   const options = {
-    url: `${serverAddr}/api/category`,
+    url: `${serverAddr}/category`,
     method: "GET",
     withCredentials: true,
   };
@@ -148,7 +147,7 @@ export const getAllUsers = async (
   orderBy?: string
 ): Promise<{ users: UserProfile[]; total: number }> => {
   const options = {
-    url: `${serverAddr}/api/user`,
+    url: `${serverAddr}/user`,
     method: "GET",
     params: {
       pageNumber,
@@ -161,7 +160,7 @@ export const getAllUsers = async (
 
   const response = await axios.request(options);
   const data = response.data || {};
-  const users = (data.users || []).map((user: any) => formatUserProfile(user));
+  const users = data.users || [];
   return {
     users,
     total: data.total || 0,
@@ -178,22 +177,22 @@ export interface DashboardStats {
 export const getDashboardStats = async (): Promise<DashboardStats> => {
   const [productsRes, categoriesRes, ordersRes, usersRes] = await Promise.all([
     axios.request<{ count: number }>({
-      url: `${serverAddr}/api/product/count`,
+      url: `${serverAddr}/product/count`,
       method: "GET",
       withCredentials: true,
     }),
     axios.request<{ count: number }>({
-      url: `${serverAddr}/api/category/count`,
+      url: `${serverAddr}/category/count`,
       method: "GET",
       withCredentials: true,
     }),
     axios.request<{ count: number }>({
-      url: `${serverAddr}/api/order/count`,
+      url: `${serverAddr}/order/count`,
       method: "GET",
       withCredentials: true,
     }),
     axios.request<{ count: number }>({
-      url: `${serverAddr}/api/user/count`,
+      url: `${serverAddr}/user/count`,
       method: "GET",
       withCredentials: true,
     }),

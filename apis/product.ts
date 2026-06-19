@@ -21,7 +21,7 @@ export const getProducts = async (
 
   const options = {
     method: "GET",
-    url: `${serverAddr}/api/product`,
+    url: `${serverAddr}/product`,
     params: {
       pageNumber: pageNumber,
       pageSize: pageSize,
@@ -59,7 +59,7 @@ export const getProductById = async (
 
   const options = {
     method: "GET",
-    url: `${serverAddr}/api/product/${id}`,
+    url: `${serverAddr}/product/${id}`,
     headers: headers,
     withCredentials: true,
   };

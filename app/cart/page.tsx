@@ -65,7 +65,7 @@ export default function CartPage() {
       const profile = await getProfile();
       const addr = profile.address;
       
-      const isInvalidField = (val: string | undefined | null) => !val || val === "null";
+      const isInvalidField = (val: string | undefined | null) => !val;
       
       if (!addr || isInvalidField(addr.houseNumber) || isInvalidField(addr.district) || isInvalidField(addr.subDistrict) || isInvalidField(addr.province) || isInvalidField(addr.zip)) {
         message.warning("Please add your address details in your profile before checking out.");

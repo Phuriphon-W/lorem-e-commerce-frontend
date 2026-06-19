@@ -208,11 +208,11 @@ describe('CartPage', () => {
       });
     });
 
-    it('blocks checkout and shows warning if any address field is the literal string "null"', async () => {
+    it('blocks checkout and shows warning if any address field is null', async () => {
       const user = userEvent.setup();
       mockedGetCartByUserId.mockResolvedValue(mockCart as any);
       const invalidProfile = {
-        address: { ...mockValidProfile.address, district: 'null' },
+        address: { ...mockValidProfile.address, district: null },
       };
       mockedGetProfile.mockResolvedValue(invalidProfile as any);
 
