@@ -26,7 +26,7 @@ export const createOrder = async (
 
   const options = {
     method: "POST",
-    url: `${serverAddr}/api/order`,
+    url: `${serverAddr}/order`,
     data: data,
     headers: headers,
     withCredentials: true,
@@ -54,7 +54,7 @@ export const getUserOrders = async (
 
   const options = {
     method: "GET",
-    url: `${serverAddr}/api/user/${userId}/orders`,
+    url: `${serverAddr}/user/${userId}/orders`,
     params: {
       pageNumber,
       pageSize,
@@ -87,7 +87,7 @@ export const getOrderById = async (
 
   const options = {
     method: "GET",
-    url: `${serverAddr}/api/order/${orderId}`,
+    url: `${serverAddr}/order/${orderId}`,
     headers: headers,
     withCredentials: true,
   };
@@ -115,7 +115,7 @@ export const updateOrderStatus = async (
 
   const options = {
     method: "PATCH",
-    url: `${serverAddr}/api/order/${orderId}/status`,
+    url: `${serverAddr}/order/${orderId}/status`,
     data: {
       status: status,
     },

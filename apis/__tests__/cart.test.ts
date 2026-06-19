@@ -19,7 +19,7 @@ describe('Cart APIs', () => {
       const result = await getCartByUserId('user1');
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/user/user1/cart`,
+        url: `${serverAddr}/user/user1/cart`,
         method: 'GET'
       }));
       expect(result).toEqual({ id: 'cart1', items: [] });
@@ -34,7 +34,7 @@ describe('Cart APIs', () => {
       const result = await addCartItem({ userId: 'user1', productId: 'prod1', quantity: 2 });
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/user/user1/cart`,
+        url: `${serverAddr}/user/user1/cart`,
         method: 'POST',
         data: { productId: 'prod1', quantity: 2 }
       }));
@@ -50,7 +50,7 @@ describe('Cart APIs', () => {
       const result = await editCartItem({ userId: 'user1', productId: 'prod1', quantity: 5 });
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/user/user1/cart`,
+        url: `${serverAddr}/user/user1/cart`,
         method: 'PUT',
         data: { productId: 'prod1', quantity: 5 }
       }));
@@ -66,7 +66,7 @@ describe('Cart APIs', () => {
       const result = await deleteCartItems({ userId: 'user1', productIds: ['prod1', 'prod2'] });
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/user/user1/cart/remove-items`,
+        url: `${serverAddr}/user/user1/cart/remove-items`,
         method: 'POST',
         data: { productIds: ['prod1', 'prod2'] }
       }));

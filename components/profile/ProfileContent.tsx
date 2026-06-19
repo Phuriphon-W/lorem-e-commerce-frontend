@@ -21,7 +21,7 @@ export default function ProfileContent() {
         const data = await getProfile();
 
         const cleanNulls = (val: string | null) =>
-          val === "null" || val === null ? "" : val;
+          val === null ? "" : val;
 
         // Set the state, which we will pass to the Form once it renders
         setInitialData({

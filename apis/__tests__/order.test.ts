@@ -20,7 +20,7 @@ describe('Order APIs', () => {
       const result = await createOrder(payload);
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/order`,
+        url: `${serverAddr}/order`,
         method: 'POST',
         data: payload
       }));
@@ -36,7 +36,7 @@ describe('Order APIs', () => {
       const result = await getUserOrders({ userId: 'user1' });
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/user/user1/orders`,
+        url: `${serverAddr}/user/user1/orders`,
         method: 'GET'
       }));
       expect(result).toEqual({ orders: [], total: 0 });
@@ -51,7 +51,7 @@ describe('Order APIs', () => {
       const result = await getOrderById('order1');
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/order/order1`,
+        url: `${serverAddr}/order/order1`,
         method: 'GET'
       }));
       expect(result).toEqual({ id: 'order1' });
@@ -66,7 +66,7 @@ describe('Order APIs', () => {
       const result = await updateOrderStatus({ orderId: 'order1', status: 'shipped' as any });
       
       expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-        url: `${serverAddr}/api/order/order1/status`,
+        url: `${serverAddr}/order/order1/status`,
         method: 'PATCH',
         data: { status: 'shipped' }
       }));

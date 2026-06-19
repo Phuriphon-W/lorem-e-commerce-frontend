@@ -41,14 +41,14 @@ describe("ProfileContent", () => {
     email: "null@example.com",
     firstName: "Jane",
     lastName: "Smith",
-    telephone: "null",
+    telephone: null,
     address: {
-      houseNumber: "null",
-      road: "null",
+      houseNumber: null,
+      road: null,
       district: null,
-      subDistrict: "null",
+      subDistrict: null,
       province: null,
-      zip: "null",
+      zip: null,
     },
   };
 
@@ -86,7 +86,7 @@ describe("ProfileContent", () => {
     expect(screen.getByLabelText("Zip Code")).toHaveValue("12345");
   });
 
-  it("handles 'null' address and telephone fields by converting them to empty strings", async () => {
+  it("handles null address and telephone fields by converting them to empty strings", async () => {
     mockedGetProfile.mockResolvedValue(mockNullUserProfile);
     render(<ProfileContent />);
 

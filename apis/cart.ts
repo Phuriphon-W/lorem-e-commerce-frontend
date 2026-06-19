@@ -22,7 +22,7 @@ export const getCartByUserId = async (
 
   const options = {
     method: "GET",
-    url: `${serverAddr}/api/user/${userId}/cart`,
+    url: `${serverAddr}/user/${userId}/cart`,
     headers: headers,
     withCredentials: true,
   };
@@ -50,7 +50,7 @@ export const addCartItem = async (
 
   const options = {
     method: "POST",
-    url: `${serverAddr}/api/user/${userId}/cart`,
+    url: `${serverAddr}/user/${userId}/cart`,
     data: {
       productId: productId,
       quantity: quantity,
@@ -82,7 +82,7 @@ export const editCartItem = async (
 
   const options = {
     method: "PUT",
-    url: `${serverAddr}/api/user/${userId}/cart`,
+    url: `${serverAddr}/user/${userId}/cart`,
     data: {
       productId: productId,
       quantity: quantity,
@@ -114,7 +114,7 @@ export const deleteCartItems = async (
 
   const options = {
     method: "POST",
-    url: `${serverAddr}/api/user/${userId}/cart/remove-items`,
+    url: `${serverAddr}/user/${userId}/cart/remove-items`,
     data: {
       productIds: productIds,
     },
